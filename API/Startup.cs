@@ -32,6 +32,7 @@ namespace API
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // จะใช้อ้างถึง dependency injection container
+    // A. ที่ inject class
         // คือถ้าคุณอยากจะสร้าง service หรือ class ที่สามารถใช้ใน พื้นที่อื่นได้ เราต้อง add เข้ามาในนี้
         public void ConfigureServices(IServiceCollection services)
         { // เพื่อ add พวก class หรือ method ที่จะใช้ในหลายๆที่ลงตรงนี้
@@ -47,6 +48,7 @@ namespace API
                 options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
             services.AddControllers();
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -68,6 +70,9 @@ namespace API
             app.UseHttpsRedirection(); //เมื่อเราใช้ http address เราก็จะ redirect to http endpoint
 
             app.UseRouting(); // เช่น WeatherForecast // ทำให้เราสามารถใส่เร้าที่ browser แล้วเข้าไปที่ controller ได้
+
+        // #5. adding cors support in the API
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200")); // ควรอยู่ระหว่าง UseRouting กับ UseEndpoints และก่อน UseAuthorization
 
             app.UseAuthorization(); // ตอนนี้เราอาจไม่ได้ใช้มันมากเพราะว่าเราไม่ได้ตั้งค่าเกี่ยวกับ authorization
 
