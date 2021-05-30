@@ -21,5 +21,9 @@ namespace API.Entities
         // protected คือ property นี้สามารถเข้าถึงได้จาก class นี้ และจากclass อื่นที่inherit class นี้
         // private คือ สามารถ เข้าถึงแก้ไข จากclassนี้เท่านั้น
         // ใช้ public เพราะว่า เราต้องการให้ entity framework ทำการ get, set property นี้ด้วย ดังนั้นเราจึงใช้ public
+
+    // #6.1
+        public byte[] PasswordHash { get; set; } // จะถูก return เมื่อเราคำนวณ hash แล้ว
+        public byte[] PasswordSalt { get; set; }
     }
 }

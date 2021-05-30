@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc; // "Mvc" ซึ่ง API controller ที่เราเขียนอยู่ ก็คือ "c"
 using Microsoft.EntityFrameworkCore;
 // "v" จะมาจากข้างนอก (angular)
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Controllers
 {
     // #1 ใส่ attributes ให้ controller
-    [ApiController] // ApiController
-    [Route("api/[controller]")] // root // [controller] เรียกว่าเป็น placeholder แทนชื่อนำหน้าของ controllder class นี้
-    public class UsersController : ControllerBase
+    // [ApiController] // ApiController
+    // [Route("api/[controller]")] // root // [controller] เรียกว่าเป็น placeholder แทนชื่อนำหน้าของ controllder class นี้
+    // #7.2 ลบ attribute นี้ออกไปเลยเพราะเขียนที่ BaseApiController แล้ว
+    public class UsersController : BaseApiController // #7.1 เปลี่ยนมารับ BaseApiController แทน ControllerBase
     // สิ่งที่ controllder ต้องทำคือ get data จาก database
     {
         // #2. สร้าง construtor
@@ -31,6 +33,9 @@ namespace API.Controllers
             // 1. เพิ่ม async
             // 2. หุ้ม type return ด้วย Task
         // แต่ไม่แก้เป็น async ก็จะไม่ค่อยเห็นความเปลี่ยนแปลงอะไรเนื่องจาก app เรามันเล็กอยู่แล้ว เลยไม่ดห็นว่าความรวดเร็วมันเพิ่มขึ้น
+    // #15. Adding the authentication middleware
+    // #15.1 เติม attribute ป้องกันเร้า
+        [AllowAnonymous] // [AllowAnonymous] 
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         // type ของสิ่งที่จะ return <IEnumerable<AppUser>>
         // IEnumerable ของ AppUser
@@ -50,8 +55,8 @@ namespace API.Controllers
             return await _context.Users.ToListAsync(); // เนื่องจาก ToList() ไม่ใช่ async method ดังนั้นจึงใช้versionที่เป็นasyncนั้นคือ ToListAsync()
             // return _context.Users.ToListAsync().Result; // ใช้ .Result แทน await
         }
-        
-
+    
+        [Authorize] // #15 // ถ้าไม่ใส่ middleware จะ error
         // secord endpoint
         // ต้องการข้อมูล user แค่คนเดียว (GET BY ID)
         [HttpGet("{id}")]

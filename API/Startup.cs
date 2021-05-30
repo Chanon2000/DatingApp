@@ -1,8 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using API.Data;
+using API.Extensions;
+using API.Interfaces;
+using API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace API
@@ -36,19 +42,20 @@ namespace API
         // คือถ้าคุณอยากจะสร้าง service หรือ class ที่สามารถใช้ใน พื้นที่อื่นได้ เราต้อง add เข้ามาในนี้
         public void ConfigureServices(IServiceCollection services)
         { // เพื่อ add พวก class หรือ method ที่จะใช้ในหลายๆที่ลงตรงนี้
-            // #4.1 สร้าง connection string ไปที่ database
-            services.AddDbContext<DataContext>(options =>
-            // DataContext ชื่อของ class ที่เราสร้าง
-            // options
-            {
-                // #4.3 ใส่ _config ลง UseSqlite
-                // ทำการ passing string เพื่อเชื่อมต่อกับ database
-                // ทำ _config มาใช้ (ที่ไฟล์ appsettings.Development.json )
-                // GetConnectionString(name) เป็น shorthandของ GetSection("ConnectionStrings")[name]
-                options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
-            });
+
+    // #16.2 cut service ใน นี้ ไปไว้ที่ extension
+            // .......
+    // #16.4 เรียก applicationservice ที่ stratup
+            services.AddApplicationServices(_config);
+
+
             services.AddControllers();
             services.AddCors();
+    
+    // #16.6 cut service ใน นี้ ไปไว้ที่ extension
+            // .......
+            services.AddIdentityServices(_config);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -73,6 +80,9 @@ namespace API
 
         // #5. adding cors support in the API
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200")); // ควรอยู่ระหว่าง UseRouting กับ UseEndpoints และก่อน UseAuthorization
+
+        // #15.3 เพิ่ม middlewareที่ Configure //(อย่าลืมลำดับสำคัญมากต้องใส่ก่อน UseAuthorization)
+            app.UseAuthentication();
 
             app.UseAuthorization(); // ตอนนี้เราอาจไม่ได้ใช้มันมากเพราะว่าเราไม่ได้ตั้งค่าเกี่ยวกับ authorization
 
