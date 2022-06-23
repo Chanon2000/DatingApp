@@ -25,26 +25,19 @@ namespace API
     public class Startup
     {
         // #4.2 inject IConfiguration
-        //เปลี่ยน configuration เป็น config เพื่อให้ง่ายในการเขียน
-        private readonly IConfiguration _config; // ใส่ _ เพื่อเพิ่มความแตกต่างกับตัวแปรอื่น
-        public Startup(IConfiguration config) // configuration ถูก inject ลง Startup 
-        // IConfiguration ถูก inject ลง Startup ทำให้เราเข้าถึง IConfiguration ได้โดยตัวแปร _config
+        private readonly IConfiguration _config;
+        public Startup(IConfiguration config)
         {
-            _config = config; // เมื่อเติม _ ทำให้ไม่ต้องเติม this ( this.config => _config ) 
+            _config = config;
         }
-
-        // ไม่ชอบแบบนี้
-        // public IConfiguration Configuration { get; } 
-
         // This method gets called by the runtime. Use this method to add services to the container.
         // จะใช้อ้างถึง dependency injection container
     // A. ที่ inject class
-        // คือถ้าคุณอยากจะสร้าง service หรือ class ที่สามารถใช้ใน พื้นที่อื่นได้ เราต้อง add เข้ามาในนี้
         public void ConfigureServices(IServiceCollection services)
-        { // เพื่อ add พวก class หรือ method ที่จะใช้ในหลายๆที่ลงตรงนี้
-
+        {
     // #16.2 cut service ใน นี้ ไปไว้ที่ extension
             // .......
+
     // #16.4 เรียก applicationservice ที่ stratup
             services.AddApplicationServices(_config);
 
@@ -63,7 +56,6 @@ namespace API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        // ใช้ในการตั้งค่า HTTP request pipeline (คล้ายกับ middleware ที่ req หรือ res จะผ่านก่อน)
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // เริ่มแรกก็ check ก่อนว่าอยู่ใน mode Devหรือป่าว
@@ -89,8 +81,7 @@ namespace API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers(); // คือเก็บ endpoint แล้วมา map กับ controller ตรงนี้
-                                            // ซึ่งตรงนี้จะดูใรน controller ว่า controller ไหนที่ตรงกับ endpoint
+                endpoints.MapControllers();
             });
         }
     }

@@ -28,15 +28,11 @@ namespace API.Controllers
         // #8.1 สร้าง register
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
-        // [FromBody] ใน พารามิเตอร์ คุณสามารถใส่ attribute เพื่อบอกได้ว่าจะเอาข้อมูลจากไหนมาใส่ parameter
-        // แต่เราไม่จำเป็นต้องใส่ให้ apiController ก็ได้ เพราะว่ามันฉลาดพอที่จะรู้ว่าข้อมูลอยู่ตรงไหน
-        // # 9. สร้าง DTOs และ สร้าง UserExists
-        // string username, string password เปลี่ยนเป็น
+        // #9. สร้าง DTOs และ สร้าง UserExists
         {
             if (await UserExists(registerDto.Username)) return BadRequest("Username is taken"); //ทำแค่ return ไม่ต้อง {} ก็ได้
             // เราใช้ ActionResult เราถึง return http status ได้
             // BadRequest คือ 400 status 
-
             using var hmac = new HMACSHA512(); // hmac เพื่อเอาไว้สร้าง password hash
                                                // เมื่อเราเรียก HMACSHA512() class ภายใน using statement มันจะเรียก dispose method เพื่อทำการกำจัด
             var user = new AppUser
