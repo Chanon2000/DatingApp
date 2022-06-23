@@ -1,0 +1,79 @@
+[Creating the .Net API Project using the dotnet CLI]
+    ls
+    mkdir DatingApp
+    cd DatingApp
+    dotnet --info               => ให้ข้อมูลเกี่ยวกับ SDKหรือruntime ที่คุณ install มา
+
+    dotnet -h                   => help จะบอกรายละเอียด command ต่างๆ
+    dotnet new -l               => แสดง list ของ template
+    dotnet new sln              => สร้าง solution file ของ project นั้น (solution file จะชื่อเดียวกับ project นั้น)
+    dotnet new webapi -o API    => สร้าง project ชื่อ API (-o คือ output directory (คือสร้างโปรเจคลง directory นี้เลย))
+
+
+[Setting up VS code to work with c#]
+    - Extension: C#, C# Extenstions, Material
+    - ถ้ามี popup บอกว่า "Required assets to build and debug are debug are missing from 'DatingApp':Add them?" ให้กด Yes  ถ้าพลาด popup นี้ให้ -> shift + command + P -> แล้วพิมพ์ asset... -> เลือกอันแรกแล้วกด Enter
+    - ในส่วน setting => ไปที่ Preferences -> Settings [command + ,] -> ในช่องค้นหา (พิมพ์ font ก็จะจัดการเช่น font size ได้) (พิมพ์ exclude -> add Pattern -> พิมพ์ foler ที่คุณต้องการ (ซ้อน foler ที่ไม่ค่อยได้ dev)) (พิมพ์ folder -> ไปที่ compact folders -> ถ้าติ๊กออกจะทำให้ folders ไหลลงมาเป็น Dropdown)
+    - shift + control + `       => เพื่อเปิด terminal
+    - shift + command + P       => พิมพ์ 'path' -> เลือก install 'code' command in path  => จะทำให้คุณเปิด vsCode บน terminal โดยพิมพ์ code . ที่โฟล์เดอร์นั้นได้
+
+
+[Adding Entity Framework to our project]
+    extension: nuget Gallery => ช่วยให้เรา install packages ได้ง่ายขึ้น
+        -> เปิด show commands -> พิมพ์ Nuget -> ให้ install 1. Microsoft.EntityFrameworkCore 2. Microsoft.EntityFrameworkCore.Sqlite
+        => เมื่อ install มันจะไปขึ้นที่ API.csproj ให้เราเห็น
+        (หรือจะใช้ sql server ก็ได้ซึ่งจะไม่มีผลต่อ code ที่เราเขียนเลยเพราะ Entity Framework มันอำนวณให้เราออกห่างจาก db อยู่แล้ว ไม่ว่าเราจะใช้ db server อะไร (SQLite, SQL server, Postgre SQL, MySQL เขียน code เหมือนเดิมหมด))
+
+
+[Getting to know the API project files]
+    - dotnet run => run app .net  -> จะไป run ที่ 5000 ใน http และ 5001 ใน https
+    - dotnet dev-certs https --trust => ทำให้ browser ไว้วางใจ certificate จาก dotnet
+    - dotnet watch run => เมื่อมีการ save file ใหม่ มันจะ rebuild, restrat Auto เลย
+    - กด control + C เพื่อ shut down
+
+
+[Technique]
+    - ไปที่ file อื่น => command + P -> พิมพ์ชื่อ file ที่ต้องการ => จะทำการเปิด file นั้น
+    - จากตัวแปร -config เนื่องจากไม่อยากพิมพ์ "_" ตลอดเวลา -> ไปที่ setting -> "private"
+    - อยากลบ "this" keyword ด้วย -> ไปที่ setting -> "this" -> ติ๊ก Csharpextensions ออก (เพื่อให้ไม่จำเป็นต้อง prefix ด้วย this.)
+    - extension: SQLite -> เปิด command -> พิมพ์ "SQlite" -> open database -> เลือก database ที่เราจะเปิด
+    - เมื่อกด F12 + cursor อยู่ที่class ใหน มันจะแสดง code ภายใน class นั้น
+    - ถ้าเพิ่ม controller ให้คุณ control + C แล้ว dotnet watch run ใหม่
+    - keyword สร้าง property คือ "prop"
+    - เขียน property แบบเต็ม (keyword ในการสร้างคือ "propfull")
+
+
+[เมื่อ bebug]
+    - ต้อง dotnet watch run ก่อนถึงจะขึ้น dotnet API.dll
+    - ApiController มันไม่ฉลาดพอที่จะดึงข้อมูลจาก obj มาใส่ พารามิเตอร์ที่เป็น string 2 ตัว
+    - ส่งผ่าน body ดีกว่า Param (user, pass)
+[angular]
+    - สร้าง _service => ใส่ "_" เพื่อให้มันอยู่บนๆ
+    - การ copy element จาก เว็ปอื่น -> copy -> copy element
+    
+    ng g -h
+    cd src/app
+    ng g c nav --skip -tests => ทำให้สร้าง component nav โดยไม่สร้าง file .spac.ts
+
+[Creating the database using Entity Framework Code First migrations]
+   - install dotnet-ef
+        ไปที่ nuget.org -> พิมพ์ "dotnet-ef" -> Click -> copy command -> run terminal
+   - create migration -> สร้าง database จาก code ที่เราเขียน
+        1. install Microsoft.EntityFrameworkCore.Design ที่ Nuget Gallery
+        2. dotnet ef migrations add InitialCreate -o Data/Migrations => จะได้ folder "Migrations" มา
+        !> *จะerror ถ้าเราไม่ install Microsoft.EntityFrameworkCore.Design
+                -o => output
+                /Migrations => ถ้าไม่ "Migrations" จะเกิด error
+   - dotnet ef database update -> 1. ทำการ build application
+                                 2. อ่าน  Migrations
+                                 3. จัดการ DB (ทำ Migrations เช่น create table, update attribute)
+                            * มันสร้าง _EFMigrationsHistory ก่อนซึ่งจะติดตาม Migration ที่ถูกใช้กับ database เรา จากนั้นก็ create table ชื่อ "user" เป็นต้น จากนั้นก็ insert ลง EFMigrationsHistory 1 record โดยใส่ name ของ migrations และ runtime ที่ใช้
+   - ทำ dotnet ef database drop แล้ว dotnet ef database update ใหม่ => เพื่อล้างข้อมูลในตาราง
+
+
+[Saving our code into Sourse control]
+    - dotnet new -l
+    - dotnet new gitignore
+    - เติม appsettings.json เข้าไปใน .gitignore -> เพื่อไม่ให้มันถูกติดตามโดย sourse control และถูก push
+        เพราะเราจะ save key ไว้ในนี้
+    - สามารถดู staged Changes ที่ sourse control ของ vsCode ได้

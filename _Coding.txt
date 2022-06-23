@@ -1,0 +1,151 @@
+Coding
+
+[เพิ่ม DbContext class]
+    1. สร้าง folder "data" (class ที่เกี่ยวข้องกับข้อมูลจะอยู่ใน folder นี้)
+    2. สร้าง "DataContext" file
+        #1 อ้างถึง DbContext
+            // จะใช้ DbContext ต้องอ้างถึง namespace ของมันด้วย
+        #2 สร้าง construtor
+            // เมื่อ class ถูกเรียก construtor จะทำงาน
+        #3. สร้าง Dbset 
+            // Dbset คือ type
+            // ซึ่งเอา class AppUser มา สร้าง database
+        #4. add ไปที่ startup class (add configura นี้ไปที่ startup class) ซึ่งจะทำให้เรา inject DataContext ไปที่ ส่วนอื่นของ application ได้
+            #4.1 สร้าง connection string ไปที่ database
+            #4.2 inject IConfiguration
+            #4.3 ใส่ _config ลง UseSqlite
+
+
+[เพิ่ม API Controller ใหม่]
+    1. สร้าง ๊UsersController.cs
+        #1 ใส่ attributes ให้ controller =>  [ApiController]
+        #2 สร้าง construtor
+        #3 add endpoint
+        #4.เปลี่ยน code เป็น async
+
+
+
+[Angular part1]
+    [Adding bootstrap and font-awesome]
+        bootstrap => เนื่องจาก js ของ bootstrap สร้างโดย jQuery ซึ่งคือตัวจัดการ DOM เหมือนที่ angular ทำได้ ดังนั้นถ้าใช้ jQuery จะทำให้ตัวจัดการ DOM ของ angular ไม่ทำงาน
+            |
+            | => เราเลยต้องใช้สิ่งที่เป็น angular มากกว่านั้นคือ ngx-bootstrap
+            V 
+        ng add bootstrap -> ใช้คำสั่งนี้มันจะทำการ update ที่ package.json และ angular.json ให้เองด้วย
+        เติม module นี้ที่ app.module
+        npm i font-awesome
+    
+        *นั้นคือครั้งนี้เราจะใช้ css จาก bootstrap แล้วใช้ js (function ต่างๆ) จาก angular
+
+
+    [Using HTTPS in angular -MAC]
+        1. สร้าง folder "ssl" แล้ว copy file (server.crt, server.key)ใส่เข้าไป
+        2. แก้ที่ "serve" ใน angular.json ในส่วน "options"
+            "sslCert" : "./ssl/server.crt",
+            "sslKey" : "./ssl/server.key",
+            "ssl" : true        => หมายความว่าให้ app ของเราออกจาก http
+        3. แก้ใน startup.cs ใน cors ให้ origin เป็น  "https" -> ก็จะทำให้ทุกทำงานได้ตามปกติ
+        4. ทำการเพิ่ม ssl ลง .gitignore
+
+        *ทำให้เรา run app บน https ทำให้่ทุกอย่างปลอดภัย อย่างน้อยก็บนเครื่องของเรา
+
+[เพิ่ม CORS support ลง API]
+ใน startup.cs
+    #5. adding cors support in the API
+    - ไปใส่ services.AddCors(); ที่ Configure 
+    - ไปสั่งใช้ที่ใช้ที่ Configure => app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+
+    cross origin resourse sharing (เป็น security mechanism ที่มีในทุก modern web browsers)
+        จะทำการสกัดกั้นทุก Http req จาก front end ของเราไปที่ไม่ว่า api ใหนที่ไม่ใช่ origin เดียวกัน
+        เช่น front-end run ที่ localhost:4200 api run ที่ localhost:5001 นี้คือไม่ใช่ origin เดียวกัน
+
+[Updating the user entity]
+    # 6.1 => ประกาศ PasswordHash, PasswordSalt ใน Entities
+    dotnet ef migrations add UserPasswordAdded => จะได้ migration ใหม่
+    dotnet ef database update => ทำการ update ที่ database
+[Creating a base API controller]
+    #7 สร้าง BaseApiController ที่รับ ControllerBase มา
+    #7.1 เปลี่ยนมารับ BaseApiController แทน ControllerBase
+    #7.2 ลบ attribute นี้ออกไปเลยเพราะเขียนที่ BaseApiController แล้ว
+[สร้าง Account Controller และ endpoint ต่างๆ]
+    #8 สร้าง AccountController
+        #8.1 สร้าง register
+    1. สร้าง register
+        - [FromBody]
+            - ใน พารามิเตอร์ คุณสามารถใส่ attribute เพื่อบอกได้ว่าจะเอาข้อมูลจากไหนมาใส่ parameter แต่เราไม่จำเป็นต้องใส่ให้ apiController ก็ได้ เพราะว่ามันฉลาดพอที่จะรู้ว่าข้อมูลอยู่ตรงไหน
+        - string username, string password เปลี่ยนเป็น เปลี่ยนเป็น RegisterDto registerDto แทน
+        - UserExists เอาไว้ check username ว่า ซำ้กันมั้ย
+        - ActionResult => เราใช้ ActionResult เราถึง return http status ได้ (เช่น BadRequest คือ 400 status )
+        - HMACSHA512()
+        - _context.Users.Add(user);
+        - await _context.SaveChangesAsync();
+
+    2. Using DTOs และ สร้าง UserExists
+        { เหตุผลที่ต้องใช้่เช่น => ตอนที่เรามี Entity คือ  AppUser ซึ่งมีprop คือ password ด้วย แต่ว่าในการส่งข้อมูล user ไปที่ front เราไม่ส่ง password อยู่แล้ว เราจึงสร้าง Entity ประเภท DTO ขึ้นมา }
+        #9 สร้าง DTOs และ สร้าง UserExists
+
+        2.1. Adding validation]
+            { จะใส่ validation ที่ใหนก็ได้แต่ที่ที่ดีที่สุดคือ DTO }
+            { เรา validation ที่ Entity ไม่ได้ เพราะ password }
+            #10 Adding validation
+                =>  สามารถใช้ได้แม้กระทั้ง regular expression
+
+    3. สร้าง login endpoint
+        #11 Adding a login endpoint
+            - Find vs SingleOrDefaultAsync
+
+[Adding a token service]
+    #12 Adding a token service
+        # 12.1 สร้าง interface ของ TokenService
+        # 12.2 สร้าง class ของ TokenService
+    [JSON web tokens] => JSON web Token (JWT)
+        ประกอบด้วย 3 ส่วน
+            1. Header : algorithm & Token type
+            2. Payload : data
+            3. verify signature
+        - token เหมาะที่จะใช้ เพราะมันเล็ก
+        - เราไม่สามารถ แก้ไขอะไรมันได้
+        [/Applications/CODE/net_core/DatingApp/_noteImage/jwtStructure.png]
+        [/Applications/CODE/net_core/DatingApp/_noteImage/jwttran.png]
+
+[Adding the create token logic]
+    - ไปที่ NuGet Gallery -> install "System.IdentityModel.Tokens.jwt"
+    #13 Adding the create token logic
+        1.  inject ลง construtor
+        2.  เติม claims
+        3.  สร้าง Credentials
+        4.  อธิบายว่า Token เราจะหน้าตาเป็นยังไง
+        5.  ทำการสร้าง token
+        6.  ทำการ return token ที่ถูกเขียนแล้ว
+
+
+[Creating a User DTO and returning the token]
+    1. #14 Creating a User DTO and returning the token ที่ AccountController
+        #14.1 1.ใส่ITokenServiceลงพารามิเตอร์ (inject ลง construter) 2.สร้างfiled  _tokenService เพื่อรับค่าจะพารามิเตอร์
+        #14.2 แก้ให้เป็น UserDto
+        #14.3 ไปเติม tokenKey ที่ appsetting -> "TokenKey" : "Super secret unguessable key"
+    2. ไปที่ jwt.io
+        [/Applications/CODE/net_core/DatingApp/_noteImage/jwtWeb.png]
+
+
+[Adding the authentication middleware]
+    1. #15 Adding the authentication middleware
+        [AllowAnonymous]
+        [Authorize] ถ้าไม่ใส่ middleware จะ error
+        #15.1 เติม attribute ป้องกันเร้า
+        - ไปที่ NuGet Gellery -> install "Microsoft.AspNetCore.Authentication.JwtBearer"
+        #15.2 เพื่ม middlewareที่ ConfigureServices (AddAuthentication)
+        #15.3 เพิ่ม middlewareที่ Configure //(อย่าลืมลำดับสำคัญมากต้องใส่ก่อน UseAuthorization)
+    2. ไปยิงเร้าที่ postman ทดสอบ
+        [/Applications/CODE/net_core/DatingApp/_noteImage/jwtInPostman.png]
+    *ทั้งหมดนี้ก็ถือว่าทำ authentication setup เสร็จเรียบร้อยแล้ว
+
+[Adding extension methods] 
+    {ทำให้ code ดูสะอาด}
+    #16 สร้าง folder "Extensions", สร้าง class "Appli...", "Identity..."
+        #16.1 สร้าง construtor
+        #16.2 cut service ใน นี้ ไปไว้ที่ extension
+        #16.3 return services
+        #16.4 เรียก applicationservice ที่ stratup
+        #16.5 ทำกับ Identity เหมือนขั้นตอนทั้งหมดก่อนหน้า (16.1, 16.2, 16.3, 16.4)
+        #16.6 cut service ใน นี้ ไปไว้ที่ extension
