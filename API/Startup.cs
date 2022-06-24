@@ -42,7 +42,7 @@ namespace API
             {
                 // #4.3 ใส่ _config ลง UseSqlite
                 // ทำการ passing string เพื่อเชื่อมต่อกับ database
-                // ทำ _config มาใช้ (ที่ไฟล์ appsettings.Development.json )
+                // นำ _config มาใช้ (ที่ไฟล์ appsettings.Development.json )
                 // GetConnectionString(name) เป็น shorthandของ GetSection("ConnectionStrings")[name]
                 options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
