@@ -4,7 +4,6 @@ namespace API.DTOs
 {
     public class RegisterDto
     {
-        // #10. Adding validation
         [Required]
         public string Username { get; set; }
 

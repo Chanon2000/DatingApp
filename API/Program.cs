@@ -11,15 +11,15 @@ namespace API
 {
     public class Program
     {
-        public static void Main(string[] args) // main // ที่แรกที่ dotnet จะเข้ามาดู
+        public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
         }
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args) 
                 .ConfigureWebHostDefaults(webBuilder =>
-                { // ในนี้คือ อะไรที่จะใช้อีกเมื่อ เริ่มต้น run application
-                    webBuilder.UseStartup<Startup>(); // มีการใช้ Startup class
+                {
+                    webBuilder.UseStartup<Startup>();
                 });
     }
 }

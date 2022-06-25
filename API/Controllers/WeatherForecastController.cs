@@ -4,14 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-// เป็น controller ที่สร้างมาพร้อมกับ project
+
 namespace API.Controllers
 {
-    [ApiController] // หมายถึงว่า class นี้เป็น API controller
-    [Route("[controller]")] // เป็น root ของ API controller
-    // controller เป็น placeholder ซึ่งถูกแทนที่ด้วยส่วนแรกของชื่อcontroller (WeatherForecast)
+    [ApiController]
+    [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
-    // และ controller ต้องรับมาจาก ControllerBase ด้วย
     {
         private static readonly string[] Summaries = new[]
         {
@@ -25,8 +23,7 @@ namespace API.Controllers
             _logger = logger;
         }
 
-        
-        [HttpGet]  // คือ controller endpoint
+        [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
