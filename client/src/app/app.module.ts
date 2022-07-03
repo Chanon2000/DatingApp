@@ -12,7 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component'
 
 @NgModule({
-  declarations: [ // component ที่จะใช้ใน project
+  declarations: [
     AppComponent, NavComponent, HomeComponent, RegisterComponent
   ],
   imports: [
@@ -22,10 +22,8 @@ import { RegisterComponent } from './register/register.component'
     BrowserAnimationsModule,
     FormsModule,
     BsDropdownModule.forRoot()
-    // forRoot() เพื่อให้มั้นใจว่ามันจะ load ทุก service ที่ module เราต้องการ
-    // แสดงว่าไม่ใส่ก็ได้?
   ],
-  providers: [], // angular version เก่าจะต้องใส่ service ลงตรงนี้ แต่ตอนนี้ใช้ providedIn ที่เป็น metadata แทน
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

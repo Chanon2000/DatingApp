@@ -8,7 +8,7 @@ import { AccountService } from './_services/account.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {  //เพื่อใช้ life cycle
+export class AppComponent implements OnInit {
   title = 'The Dating app';
   users: any;
 
@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {  //เพื่อใช้ life c
   }
 
   setCurrentUser() {
-    // JSON.parse() คือแปลงจาก stringify form ให้เป็น obj js
     const user: User = JSON.parse(localStorage.getItem('user') as any);
     this.accountService.setCurrentUser(user);
   }

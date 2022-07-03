@@ -10,8 +10,6 @@ import { AccountService } from '../_services/account.service';
 })
 export class NavComponent implements OnInit {
   model: any = {};
-  // currentUser$: Observable<User>; // ไม่ใช้ currentUser$ เพี่อทำให้ code ดูดีขึ้น
-  // เปลี่ยนจาก private เป็น public เพื่อให้ใช้บน template ได้
   constructor(public accountService: AccountService) { }
 
   ngOnInit(): void {

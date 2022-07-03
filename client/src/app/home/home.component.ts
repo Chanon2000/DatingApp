@@ -20,9 +20,6 @@ export class HomeComponent implements OnInit {
     this.registerMode = !this.registerMode;
   }
 
-
-  // #. สิ่งที่เราจะทำคือส่ง ค่า users จาก home ไป register component (โดยใช้ Input decorator)
-
   cancelRegisterMode(event: boolean) {
     this.registerMode = event;
   }

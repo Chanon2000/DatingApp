@@ -7,7 +7,7 @@ import { AccountService } from '../_services/account.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  @Output() cancelRegister = new EventEmitter(); // EventEmitter เป็น class เราเลยต้องใส่ ()
+  @Output() cancelRegister = new EventEmitter();
   model: any = {};
 
   constructor(private accountService: AccountService) { }
