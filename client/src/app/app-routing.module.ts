@@ -10,10 +10,18 @@ import { AuthGuard } from './_guards/auth.guard';
 
 const routes: Routes = [ // จะใช้ array นี้ในการบอก route ต่างๆ ให้ angular
   {path: '', component: HomeComponent},
-  {path: 'members', component: MemberListComponent, canActivate: [AuthGuard]}, 
-  {path: 'members/:id', component: MemberDetailComponent},
-  {path: 'lists', component: ListsComponent},
-  {path: 'messages', component: MessagesComponent},
+  {
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard], // หมายความว่า children จะถูกดูแลโดย AuthGuard ด้วย
+    children: [
+      {path: 'members', component: MemberListComponent, canActivate: [AuthGuard]}, 
+      {path: 'members/:id', component: MemberDetailComponent},
+      {path: 'lists', component: ListsComponent},
+      {path: 'messages', component: MessagesComponent},
+    ]
+  },
+  
   {path: '**', component: HomeComponent, pathMatch: 'full'}, // ถ้าไม่ match กับอะไรจะเข้าที่ **
   // ** เรียก wild card route
 ];

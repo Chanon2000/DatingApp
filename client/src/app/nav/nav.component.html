@@ -2,17 +2,22 @@
   <div class="container">
     <a class="navbar-brand" routerLink='/' routerLinkActive="active">Dating App</a>
       <ul class="navbar-nav mr-auto">
-        <!--  *ngIf="accountService.currentUser$ | async" -->
-        <li class="nav-item">
-          <a class="nav-link active" routerLink='/members' routerLinkActive="active">Matchs</a>
-          <!-- routerLinkActive="active" เมื่อ click ก็จะ apply class ชื่อ active นี้ลง class ให้เราเลย  -->
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink='/lists' routerLinkActive="active">Lists</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " routerLink='/messages' routerLinkActive="active">Messages</a>
-        </li>
+        <!-- ng-container จะไม่ generate html (ซึ่งทำให้เหมาะต่อการใส่พวก ng-if, ng-for ต่างๆ เพราะมันไม่ยุ่งกับ styling เพราะ ng-container ไม่ generate html) -->
+        <ng-container *ngIf="accountService.currentUser$ | async">
+          <li class="nav-item">
+            <a class="nav-link" routerLink='/members' routerLinkActive="active">Matchs</a>
+            <!-- routerLinkActive="active" เมื่อ click ก็จะ apply class ชื่อ active นี้ลง class ให้เราเลย  -->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink='/lists' routerLinkActive="active">Lists</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " routerLink='/messages' routerLinkActive="active">Messages</a>
+          </li>
+        </ng-container>
+        
+
+        
       </ul>
       <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
         <a class="dropdown-toggle text-light" dropdownToggle>Welcome user</a>
