@@ -47,3 +47,6 @@ getMembers() {
 
 [Adding a home page]
   ng g c home --skip-tests
+
+[Adding a register form]
+  ng g c register --skip-tests
