@@ -4,7 +4,8 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Dating App</a>
     <!-- #. Using the async pipe (instand of subscribe()) -->
-      <ul class="navbar-nav me-auto" *ngIf="currentUser$ | async">
+      <ul class="navbar-nav me-auto" *ngIf="accountService.currentUser$ | async">
+        <!--  | async => มันจะ automatically unsubscribe ให้เราด้วย เมื่อ nav component ไม่แสดงแล้ว -->
         <li class="nav-item">
           <a class="nav-link " href="#">Matchs</a>
         </li>
@@ -20,7 +21,7 @@
       </ul>
       <!-- snippets: a-ngif => *ngIf="expression" -->
       <!-- "dropdown" ที่คุณเห็นใน div ใน angular เรียกว่า directive -->
-      <div class="dropdown" *ngIf="currentUser$ | async" dropdown>
+      <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
         <a class="dropdown-toggle text-light" dropdownToggle>Welcome user</a>
         <!-- *dropdownMenu => structural directive (มี *) -->
         <div class="dropdown-menu mt-3" *dropdownMenu>
@@ -33,7 +34,7 @@
       <!-- #loginForm="ngForm" จะทำให้ form นี้เป็น angular form ซึ่งนั้นจะทำให้คุณใช้ (ngSubmit)=".." ได้ -->
       <!-- (ngSubmit) จะถูกเรียกเมื่อ button type submit ถูกคลิก -->
       <!-- สามารถใช้ [hidden] แทน *ngIf="!loggedIn" แต่มันจะแค่ไม่ show ซึ่งมันจะสร้าง dom อยู่  -->
-      <form *ngIf="(currentUser$ | async) === null" #loginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="login()" autocomplete="off">
+      <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="login()" autocomplete="off">
         <!-- ใช้ ! operator ไม่ได้เลยทำแบบ  === null แทน -->
         <!-- snippets: a-ngm = [(ngModel)]="binding" -->
         <!-- [] มักใช้ในการรับค่าจาก component -->
