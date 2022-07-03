@@ -1,0 +1,47 @@
+
+[Introduction to Observables]
+
+What are Observables?
+  คือ New standard for managing async data (included in ES7 (ES2016))
+                                          ES7 => "Ekman Script 2016"
+
+  Introduced in Angular v2
+  (ถ้า augular 1 จะเป็นแค่ JavaScript เลย แต่ angular v2 ขึ้นไปจะเป็น TypeScript)
+
+  Observables are lazy collections of multiple values over time
+
+  You can think of observables like a newsletter
+    - Only subscribers of the newsletter receive the newsletter
+    - If no-one subscribes to the newsletter it probably will not be printed
+
+
+  JavaSript version เก่า ยังนิยมใช้ concept of promises เพื่อจัดการ asynchronous code
+
+
+Promises vs Observables
+  Promise
+  - Provides a single future value (โดย value จะอยู่ใน promise)
+  - Not lazy
+  - Can not cancel
+
+  Observable
+  - Emits multiple values over time
+  - Lazy => เพราะมันจะไม่ทำอะไร ถ้าไม่มีคนไม่ subscribe มัน (เลยเรียกว่ามันขี้เกียจ)
+  - Able to cancel
+  - Can use with map, filter, reduce and other operators (มีหลาย method ให้ใช้)
+
+
+Observable and RxJS (พวก pipe(), map() เป็นต้น)
+เพื่อจัดการ data ก่อนที่มันจะไปถึง subscriber
+
+`
+getMembers() {
+  return this.http.get("api/users").pipe(
+    map(members => {
+      console.log(member.id)
+      return member.id
+    })
+  )
+}
+`
+
