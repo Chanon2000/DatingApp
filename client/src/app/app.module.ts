@@ -27,7 +27,7 @@ import { SharedModule } from './_modules/shared.module';
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
-    SharedModule // ทุกอย่างที่อยู่ใน app modules ก็จะใช้งานได้ใน app module ของเรา
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -8,12 +8,12 @@ import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
 
 
-const routes: Routes = [ // จะใช้ array นี้ในการบอก route ต่างๆ ให้ angular
+const routes: Routes = [
   {path: '', component: HomeComponent},
   {
     path: '',
     runGuardsAndResolvers: 'always',
-    canActivate: [AuthGuard], // หมายความว่า children จะถูกดูแลโดย AuthGuard ด้วย
+    canActivate: [AuthGuard],
     children: [
       {path: 'members', component: MemberListComponent, canActivate: [AuthGuard]}, 
       {path: 'members/:id', component: MemberDetailComponent},
@@ -21,9 +21,7 @@ const routes: Routes = [ // จะใช้ array นี้ในการบอ
       {path: 'messages', component: MessagesComponent},
     ]
   },
-  
-  {path: '**', component: HomeComponent, pathMatch: 'full'}, // ถ้าไม่ match กับอะไรจะเข้าที่ **
-  // ** เรียก wild card route
+  {path: '**', component: HomeComponent, pathMatch: 'full'},
 ];
 
 @NgModule({

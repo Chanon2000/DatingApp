@@ -2,11 +2,9 @@
   <div class="container">
     <a class="navbar-brand" routerLink='/' routerLinkActive="active">Dating App</a>
       <ul class="navbar-nav mr-auto">
-        <!-- ng-container จะไม่ generate html (ซึ่งทำให้เหมาะต่อการใส่พวก ng-if, ng-for ต่างๆ เพราะมันไม่ยุ่งกับ styling เพราะ ng-container ไม่ generate html) -->
         <ng-container *ngIf="accountService.currentUser$ | async">
           <li class="nav-item">
             <a class="nav-link" routerLink='/members' routerLinkActive="active">Matchs</a>
-            <!-- routerLinkActive="active" เมื่อ click ก็จะ apply class ชื่อ active นี้ลง class ให้เราเลย  -->
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink='/lists' routerLinkActive="active">Lists</a>
@@ -20,9 +18,7 @@
         
       </ul>
       <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
-        <!--  as user ทำให้เรียกใช้ค่าจาก (accountService.currentUser$ | async) เป็น user แทนได้ -->
         <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{user.username | titlecase}}</a>
-        <!--  | titlecase ทำให้เป็นตัวพิมพ์ใหญ่ -->
         <div class="dropdown-menu mt-3" *dropdownMenu>
           <a class="dropdown-item">Edit Profile</a>
           <div class="dropdown-divider"></div>
