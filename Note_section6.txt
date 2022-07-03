@@ -24,3 +24,9 @@
   npm install bootswatch
 
   * "./node_modules/bootswatch/dist/united/bootstrap.css", ต้องอยู่ใต้ ...bootstrap/dist/css/bootstrap.min.css (style ลำดับมีความสำคัญ)
+
+[Tidying up the app module by using a shared module]
+  cd src/app
+  mkdir _modules
+  cd _modules
+  ng g m shared --flat (--flat เพื่อไม่ให้มันสร้าง folder แล้วเอา module อยู่ด้านใน)
