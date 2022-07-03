@@ -50,3 +50,12 @@ getMembers() {
 
 [Adding a register form]
   ng g c register --skip-tests
+
+[Section 5 summary]
+  1. Creating components using the Angular CLI
+  2. Using Angular Template forms
+  3. Using Angular services
+  4. Understanding Observables
+  5. Using Angular structural directives to conditionally display elements on a page
+  6. Component communication from parent to child
+  7. Component communication fron child to parent
