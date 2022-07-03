@@ -11,8 +11,7 @@
   <div *ngIf="registerMode" class="container">
     <div class="row justify-content-center">
       <div class="col-4">
-        <app-register [usersFromHomeComponent]="users" (cancelRegister)="cancelRegisterMode($event)"></app-register>
-        <!-- ให้อ่านว่า usersFromHomeComponent (child) จาก register จะได้รับค่าจาก users จาก home (parent)  -->
+        <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
         <!-- ถ้า data ส่งมาจาก child ให้ใช้ () parentheses -->
       </div>
     </div>
