@@ -14,3 +14,8 @@
 
   * ถ้าสร้าง change ที่ angular.json ต้อง restart app ใหม่
   * คุณใช้ angular 12 เลยต้องเปลี่ยน version ของ toastr เป็น "ngx-toastr": "14.3.0",
+
+[Adding an Angular route guard]
+  cd src/app/_guards/
+  ng g guard auth --skip-tests
+  เลือก CanActivate แค่นั้น
