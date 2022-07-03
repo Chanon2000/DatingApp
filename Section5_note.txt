@@ -45,3 +45,5 @@ getMembers() {
 }
 `
 
+[Adding a home page]
+  ng g c home --skip-tests

@@ -7,11 +7,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component'
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { HomeComponent } from './home/home.component'
 
 @NgModule({
   declarations: [ // component ที่จะใช้ใน project
-    AppComponent, NavComponent
+    AppComponent, NavComponent, HomeComponent
   ],
   imports: [
     BrowserModule,
