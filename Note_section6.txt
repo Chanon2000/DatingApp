@@ -30,3 +30,10 @@
   mkdir _modules
   cd _modules
   ng g m shared --flat (--flat เพื่อไม่ให้มันสร้าง folder แล้วเอา module อยู่ด้านใน)
+
+
+[Section 6 summary]
+  1. Angular routing
+  2. Adding a bootstrap theme
+  3. Using Angular route guards
+  4. Using a Shared Module
