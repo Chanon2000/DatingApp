@@ -12,12 +12,11 @@ export class AppComponent implements OnInit {  //เพื่อใช้ life c
   title = 'The Dating app';
   users: any;
 
-  constructor(private http: HttpClient, private accountService: AccountService) {
+  constructor(private accountService: AccountService) {
     
   }
 
   ngOnInit() {
-    this.getUser();
     this.setCurrentUser();
   }
 
@@ -27,12 +26,5 @@ export class AppComponent implements OnInit {  //เพื่อใช้ life c
     this.accountService.setCurrentUser(user);
   }
 
-  getUser() {
-    this.http.get('https://localhost:5001/api/users').subscribe(response => {
-      this.users = response;
-      // console.log(this.users)
-    }, error => {
-      console.log(error);
-    })
-  }
+
 }

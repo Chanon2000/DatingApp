@@ -11,7 +11,8 @@
   <div *ngIf="registerMode" class="container">
     <div class="row justify-content-center">
       <div class="col-4">
-        <app-register></app-register>
+        <app-register [usersFromHomeComponent]="users"></app-register>
+        <!-- ให้อ่านว่า usersFromHomeComponent (child) จาก register จะได้รับค่าจาก users จาก home (parent)  -->
       </div>
     </div>
   </div>
