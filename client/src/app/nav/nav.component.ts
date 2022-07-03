@@ -10,20 +10,17 @@ import { AccountService } from '../_services/account.service';
 })
 export class NavComponent implements OnInit {
   model: any = {};
-  loggedIn: boolean = false;
-
+  currentUser$: Observable<User>;
 
   constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
-    this.getCurrentUser(); // เปลี่ยนไปใช้วิธี currentUser$ แทน ()
-
+    this.currentUser$ = this.accountService.currentUser$;
   }
 
   login() {
     this.accountService.login(this.model).subscribe(response => {
       console.log(response);
-      // this.loggedIn = true;
     }, error => {
       console.log(error);
     })
@@ -31,19 +28,5 @@ export class NavComponent implements OnInit {
 
   logout() {
     this.accountService.logout();
-    // this.loggedIn = false;
   }
-
-  getCurrentUser() {
-    
-    this.accountService.currentUser$.subscribe(user => {
-      // การ subscribe นี้ไม่ใช้ http request (method ที่ใช้มัน auto complete ให้เรา) ซึ่งคุณก็ไม่ได้สั่ง complete เอาไว้ นั้นทำให้มันไม่มีวัน complete ซึ่งอาจทำให้เราเจอปัญหา memory leaks ได้
-      this.loggedIn = !!user; // !! เพื่อบอกว่าถ้า user เป็น null มันจะเป็น false ไม่ถ้าไม่ใช่ null ก็จะเป็น true
-    }, error => {
-      console.log(error);
-    })
-  }
-
-  // #. Using the async pipe (instand of subscribe())
-  
 }
