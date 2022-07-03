@@ -19,3 +19,8 @@
   cd src/app/_guards/
   ng g guard auth --skip-tests
   เลือก CanActivate แค่นั้น
+
+[Adding a new theme]
+  npm install bootswatch
+
+  * "./node_modules/bootswatch/dist/united/bootstrap.css", ต้องอยู่ใต้ ...bootstrap/dist/css/bootstrap.min.css (style ลำดับมีความสำคัญ)
