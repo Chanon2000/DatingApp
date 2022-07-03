@@ -1,8 +1,16 @@
 [Creating some more components]
-mkdir members
-cd members
-ng g c member-list --skip-tests
-ng g c member-detail --skip-tests
-cd ..
-ng g c lists --skip-tests
-ng g c messages --skip-tests
+  mkdir members
+  cd members
+  ng g c member-list --skip-tests
+  ng g c member-detail --skip-tests
+  cd ..
+  ng g c lists --skip-tests
+  ng g c messages --skip-tests
+
+[Adding a toast service for notifications]
+  cd ..
+  cd .. (client)
+  npm install ngx-toastr
+
+  * ถ้าสร้าง change ที่ angular.json ต้อง restart app ใหม่
+  * คุณใช้ angular 12 เลยต้องเปลี่ยน version ของ toastr เป็น "ngx-toastr": "14.3.0",
