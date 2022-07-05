@@ -27,21 +27,29 @@ namespace API.Controllers
     [HttpGet("not-found")]
     public ActionResult<string> GetNotFound()
     { 
-        var thing = _context.Users.Find(-1); // หา member ที่มี ID = -1 (ซึ่งเราตั้งใจให้มันหาไม่เจอ)
+            var thing = _context.Users.Find(-1); // หา member ที่มี ID = -1 (ซึ่งเราตั้งใจให้มันหาไม่เจอ)
 
-        if (thing == null) return NotFound();
+            if (thing == null) return NotFound();
 
-        return Ok(thing);
+            return Ok(thing);
     }
 
     [HttpGet("server-error")]
     public ActionResult<string> GetServerError()
     { 
-        var thing = _context.Users.Find(-1);
+        // ถ้าเราไม่ใส่ exception middleware เราสามารถใส่ try catch ครอบ code เอาไว้ เพื่อดูข้อมูล exception ได้ถ้ามี bug เกิดขึ้น
+        try
+        {
+            var thing = _context.Users.Find(-1);
 
-        var thingToReturn = thing.ToString();
+            var thingToReturn = thing.ToString();
 
-        return thingToReturn;
+            return thingToReturn;
+        }
+        catch (Exception ex) // ก็ได้ข้อมูล exception ในตัวแปร ex
+        {
+            return StatusCode(500, "Computer says no!");
+        }
     }
 
     [HttpGet("bad-request")]
