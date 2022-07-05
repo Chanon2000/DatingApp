@@ -37,19 +37,11 @@ namespace API.Controllers
     [HttpGet("server-error")]
     public ActionResult<string> GetServerError()
     { 
-        // ถ้าเราไม่ใส่ exception middleware เราสามารถใส่ try catch ครอบ code เอาไว้ เพื่อดูข้อมูล exception ได้ถ้ามี bug เกิดขึ้น
-        try
-        {
-            var thing = _context.Users.Find(-1);
+        var thing = _context.Users.Find(-1);
 
-            var thingToReturn = thing.ToString();
+        var thingToReturn = thing.ToString();
 
-            return thingToReturn;
-        }
-        catch (Exception ex) // ก็ได้ข้อมูล exception ในตัวแปร ex
-        {
-            return StatusCode(500, "Computer says no!");
-        }
+        return thingToReturn;
     }
 
     [HttpGet("bad-request")]
