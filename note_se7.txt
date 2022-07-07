@@ -1,15 +1,17 @@
 
 [Testing errors in the client]
-ng g c test-errors --skip-tests
+  ng g c test-errors --skip-tests
 
 [Adding an error interceptor]
-mkdir _interceptors
-cd _interceptors
-ng g interceptor error --skip-tests
-
+  mkdir _interceptors
+  cd _interceptors
+  ng g interceptor error --skip-tests
 
 - configure ทุกอย่างของ typescript อยู่ใน tsconfig.json
 
 [Handling not found]
-cd errors
-ng g c not-found --skip-tests
+  cd errors
+  ng g c not-found --skip-tests
+
+[Adding a server error page]
+  ng g c server-error --skip-tests
