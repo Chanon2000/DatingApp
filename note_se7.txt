@@ -9,3 +9,7 @@ ng g interceptor error --skip-tests
 
 
 - configure ทุกอย่างของ typescript อยู่ใน tsconfig.json
+
+[Handling not found]
+cd errors
+ng g c not-found --skip-tests
