@@ -6,3 +6,6 @@ ng g c test-errors --skip-tests
 mkdir _interceptors
 cd _interceptors
 ng g interceptor error --skip-tests
+
+
+- configure ทุกอย่างของ typescript อยู่ใน tsconfig.json
