@@ -15,3 +15,8 @@
 
 [Adding a server error page]
   ng g c server-error --skip-tests
+
+[Section 7 summary]
+  1. API Middleware
+  2. Angular Interceptors
+  3. Troubleshooting exceptions
