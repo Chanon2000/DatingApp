@@ -1,3 +1,8 @@
 
 [Testing errors in the client]
 ng g c test-errors --skip-tests
+
+[Adding an error interceptor]
+mkdir _interceptors
+cd _interceptors
+ng g interceptor error --skip-tests
