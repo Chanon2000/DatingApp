@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace API.Errors
 {
-    public class ApiException // คลิดที่เหลืองๆ แล้วก็เลือก Generate constructor... ก็จะได้ constructor มา
+    public class ApiException 
     {
-        public ApiException(int statusCode, string message = null, string details = null) // ถ้าไม่ได้ใส่ค่าให้ใน message, details มันก็จะใส่เป็น null เป็นค่าเริ่มต้น
+        public ApiException(int statusCode, string message = null, string details = null)
         {
             StatusCode = statusCode;
             Message = message;

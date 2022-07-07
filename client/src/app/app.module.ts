@@ -34,8 +34,6 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
     SharedModule
   ],
   providers: [
-    //provide => บอกว่าทำอะไร , useClass => ใช้อะไรทำ
-    // multi: true เพื่อบอกว่าเป็นการเพิ่ม interceptor ไม่ใช่การแทนที่ default ของ angular (ซึ่งก็ทำให้คุณมีหลาย interceptor ได้ด้วย)
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]

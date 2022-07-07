@@ -51,15 +51,7 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // if (env.IsDevelopment())
-            // {
-                // app.UseDeveloperExceptionPage(); //UseDeveloperExceptionPage  middleware นี้จะต้องอยู่บนสุดของ middleware container นี้เสมอ 
-                // ถ้าไม่มี middleware exception นี้ เวลาเกิด error มันจะไม่ return ข้อมูลมาให้เรา
-                // เพราะว่า ถ้ามันเกิด exception ที่ใหนใน middleware ด้านล่างนี้ มันจะโยนมาที่บนสุดนี้
-                // app.UseSwagger();
-                // app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
-            // }
-
+            
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();

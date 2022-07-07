@@ -17,9 +17,9 @@ namespace API.Controllers
       _context = context;
     }
 
-    [Authorize] // คือต้องการให้ user authenticated ก่อนยิงเข้า เส้นนี้
+    [Authorize]
     [HttpGet("auth")]
-    public ActionResult<string> GetSecret() // ทำเส้นนี้ขึ้นมาเพื่อทดสอบ 401 unauthorized responses
+    public ActionResult<string> GetSecret()
     { 
         return "secret text";
     }
@@ -27,7 +27,7 @@ namespace API.Controllers
     [HttpGet("not-found")]
     public ActionResult<string> GetNotFound()
     { 
-            var thing = _context.Users.Find(-1); // หา member ที่มี ID = -1 (ซึ่งเราตั้งใจให้มันหาไม่เจอ)
+            var thing = _context.Users.Find(-1);
 
             if (thing == null) return NotFound();
 

@@ -14,15 +14,11 @@ import { catchError } from 'rxjs/operators';
 export class ErrorInterceptor implements HttpInterceptor {
 
   constructor(private router: Router, private toastr: ToastrService) {}
-  // ทำให้เราสามารถ "intercept" request ที่ออกไป หรือ response ที่เข้ามาได้
 
-  // request => request ที่ออกไป
-  // next => response ที่เข้ามาได้
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    // จะเห็ฯว่ามัน return เป็น Observable เลยคิดได้ว่าสามารถใช้ pipe ในการจัดการได้
     return next.handle(request).pipe(
       catchError(error => {
-        if (error) { // ถ้ามี error ก็จับมันที่ switch ถ้าไม่มี error ก็ return ออกไปเลย
+        if (error) {
           switch (error.status) {
             case 400:
               if (error.error.errors) {
@@ -32,7 +28,6 @@ export class ErrorInterceptor implements HttpInterceptor {
                     modalStateErrors.push(error.error.errors[key])
                   }
                 }
-                // flat() method มีใน "es2019" = JavaScript 2019
                 throw modalStateErrors.flat();
               } else {
                 this.toastr.error(error.statusText, error.status);
