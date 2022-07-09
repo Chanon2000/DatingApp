@@ -16,3 +16,6 @@
 
   จากนั้นเมื่อ configure database ตามต้องการแล้วให้ run command นี้เพื่อไป update ที่ database
   "dotnet ef database update"
+
+[Generating seed data]
+  https://json-generator.com/#
