@@ -6,8 +6,13 @@
   5. Using AutoMapper
 
 [Entity Framework relationships]
-  dotnet ef migrations add ExtendedUserEntity
+  "dotnet ef migrations add ExtendedUserEntity"
 
-  มี 2 option
-  เราสามารถ manually configure 
-  เราสามารถใช้ entity framework conventions ได้
+  มี 2 option ให้การเปลี่ยนแปลงหรือลบ configure ที่เราไม่ต้องการ
+    - เราสามารถ manually configure 
+    - เราสามารถใช้ entity framework conventions ได้
+      นั้นก็คือ run คำสั่งนี้
+      "dotnet ef migrations remove" => มันจะไปลบ migration ล่าสุด
+
+  จากนั้นเมื่อ configure database ตามต้องการแล้วให้ run command นี้เพื่อไป update ที่ database
+  "dotnet ef database update"

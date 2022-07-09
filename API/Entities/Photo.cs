@@ -10,5 +10,8 @@ namespace API.Entities
     public string Url { get; set; }
     public bool IsMain { get; set; }
     public string PublicId { get; set; }
+    // fully defining the relationship. เพื่อบอกสิ่งต่างๆเกี่ยวกับ AppUser class (ที่สัมพันกับ Photos)
+    public AppUser AppUser { get; set; }
+    public int AppUserId { get; set; }
   }
 }

@@ -79,19 +79,19 @@ namespace API.Data.Migrations
                     Url = table.Column<string>(type: "TEXT", nullable: true),
                     IsMain = table.Column<bool>(type: "INTEGER", nullable: false),
                     PublicId = table.Column<string>(type: "TEXT", nullable: true),
-                    AppUserId = table.Column<int>(type: "INTEGER", nullable: true) // entity framework มันเพิ่ม column นี้มาให้เรา เพื่อเป็น FK ไปที่ User table
-                    // nullable: true ที่ AppUserId นั้นคือ บาง user สามารถไม่มีรูปเลยก็ได้
+                    AppUserId = table.Column<int>(type: "INTEGER", nullable: false)
+                    //  nullable: false นั้นคือเราจะไม่มี photo ที่ไม่สัมพันธ์กับ user
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Photos", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Photos_Users_AppUserId",
-                        column: x => x.AppUserId, // นี้คือ FK column
+                        column: x => x.AppUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    //  onDelete: ReferentialAction.Restrict คือถ้าเราลบ user มันจะไม่ลบ photo ให้เราด้วย
+                        onDelete: ReferentialAction.Cascade);
+                        // onDelete: ReferentialAction.Cascade คือ ถ้า delete user ก็จะ delete ทุก Photo ด้วย
                 });
 
             migrationBuilder.CreateIndex(
