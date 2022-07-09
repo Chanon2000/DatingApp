@@ -4,7 +4,7 @@
   3. Seeding Data into the Database
   4. The repository pattern
   5. Using AutoMapper
-
+ 
 [Entity Framework relationships]
   "dotnet ef migrations add ExtendedUserEntity"
 
@@ -28,3 +28,33 @@
 จะเห็นทั้ง table และ data ที่ Sqlite explorer
 
 => แล้วก็ลองยิงทดสอบ api ที่ postman
+
+[The repository pattern]
+Martin Fowler (Patterns of Enterprise Architecture book)
+A Repository as something that mediates between the domain and the data mapping layers, acting like an in-memory domain object collection.
+
+แทนที่ Controller จะตรงไปหา DBContext เราจะใช้ Controller ตรงไปหา Repository แล้วทำการ execute method ที่อยู่ในนั้น (ก่อนไปหา DbContext)
+
+สิ่งที่เราจะทำคือเพิ่ม layer of abstraction จาก DbContext ขึ้นมาอีกหนึ่งอันคือ Repository ซึ่งดูเหมือนจะไม่จำเป็น
+
+ทำไมเราจึงต้องมี repository pattern (มีหลายเหตุผลที่คุณต้องใช้ แต่ก็ไม่จำเป็นต้องใช้มัน)
+- Encapsulates the logic => ทำ method เก็บเอาไว้ แล้วใช้แค่นั้น
+  (DBset ทำให้คุณสามารถใช้คำสั่งต่างๆได้เช่น Users.First(), Users.FirstOrDefault(), Users.Include(x => x.Thing).FirstOrDefault() (DBcontext มี DBset ที่ทำให้เราสามารถใช้หลาย method ได้))
+- Reduces Duplicate query logic => สามารถสร้าง method ที่ repository ได้ แล้วใช้มันในทุก controllers ได้
+- Promotes testability => ทดสอบบน repository นั้นง่ายกว่า บน DB context
+
+
+Advantages of Repository Pattern
+- Minimizes duplicate query logic
+- Decouples application from persistence framework
+- All Database queries are centralised and not scattered throughout the app.
+สิ่งนึงที่ entity framework ไม่ได้ทำให้เราคือ decentralize (กระจายอำนาจ) our queries
+- Allows us to change ORM (object relational mapper) easily*
+interface ใช้เพื่อสื่อสารระหว่าง interface กับ implementation (implementation ต้องทำให้สิ่งที่ interface บอก เช่น interface บอกให้ get users และ return enumerable ของ user ซึ่ง implementation ก็ต้องทำแบบนั้น)
+- Promotes testability
+  We can easily Mock a Repository interface, testing against the DbContext is more diffcult
+
+Disadvantages of Repository Pattern (หรือเหตุผลว่าทำไมคนอื่นบอกว่าไม่จำเป็นต้องทำแบบนั้น)
+- abstraction of an abstraction => Entity framework มันก็เป็น abstraction ของ database อยู่แล้ว ส่วน repository คือ abstraction จาก entity framework อีกที
+- Eash root entity should have it's own repository which means more code => ทำให้ code เยอะขึ้น
+- Also need to implement the UnitOfWork pattern to control transactions (UnitOfWork คือ pattern to control the transactions)
