@@ -4,3 +4,10 @@
   3. Seeding Data into the Database
   4. The repository pattern
   5. Using AutoMapper
+
+[Entity Framework relationships]
+  dotnet ef migrations add ExtendedUserEntity
+
+  มี 2 option
+  เราสามารถ manually configure 
+  เราสามารถใช้ entity framework conventions ได้
