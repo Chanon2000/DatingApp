@@ -19,3 +19,12 @@
 
 [Generating seed data]
   https://json-generator.com/#
+
+
+[Seeding data part two]
+=> ทำการทดลอง Seed method ทำงานได้มั้ย
+"dotnet ef database drop"
+จากนั้นทำการ "dotnet watch run" ใหม่
+จะเห็นทั้ง table และ data ที่ Sqlite explorer
+
+=> แล้วก็ลองยิงทดสอบ api ที่ postman

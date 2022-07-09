@@ -28,6 +28,7 @@ namespace API.Data
 
                 user.UserName = user.UserName.ToLower();
                 user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$$w0rd")); // hard code password ไปเลย
+                user.PasswordSalt = hmac.Key; // ลืมใส่จาก ม้วนที่แล้ว
 
                 context.Users.Add(user); // ไม่ต้อง await ตรงนี้เพราะว่า เราแค่ tracking (ติดตาม) โดยใช้ entity framework (เรายังไม่ได้ทำอะไรกับ database)
             }
