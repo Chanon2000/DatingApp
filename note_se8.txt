@@ -1,0 +1,6 @@
+[Introduction]
+  1. Entity Framework Relationships
+  2. Entity Framework Conventions
+  3. Seeding Data into the Database
+  4. The repository pattern
+  5. Using AutoMapper
