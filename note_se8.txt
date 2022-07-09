@@ -63,3 +63,6 @@ Disadvantages of Repository Pattern (หรือเหตุผลว่าท�
 command + P
 พิมพ์: >nug
 หา: Automapper -> เลือก AutoMapper.Extensions.Microsoft.De...
+
+[Using AutoMapper queryable extensions]
+optimizations คือ ปีศาจของทุกอย่าง และมันชอบมาหลังสุด

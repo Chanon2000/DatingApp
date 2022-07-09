@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -11,9 +14,38 @@ namespace API.Data
     public class UserRepository : IUserRepository
     {
         private readonly DataContext _context;
-        public UserRepository(DataContext context)
+        private readonly IMapper _mapper;
+        public UserRepository(DataContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
+        }
+
+        public async Task<MemberDto> GetMemberAsync(string username)
+        {
+            // *** ทำเพื่อ Select เฉพาะ property ที่เราต้องการเท่านั้น จาก database
+
+            // เราจะทำการ optimizations โดยการให้มัน query เฉพาะ column ที่จะใช้ นั้นคือตัด PasswordHash, PasswordSalt ไม่ให้ทำการ query
+            // แบบใช้ Select ทำแบบ manual
+            // .Select(user => new MemberDto // แล้วทำการ map ด้วยตัวเองเลย
+                // {
+                //     Id = user.Id,
+                //     Username = user.UserName,
+                     
+                // }).SingleOrDefaultAsync(); // SingleOrDefaultAsync มันทำการ execute query ด้วย
+
+            // ใช้ ProjectTo
+            return await _context.Users
+                .Where(x => x.UserName == username)
+                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider) // _mapper.ConfigurationProvider เข้าไปเอา Configuration ใน AutoMapperProfiles ให้เรา
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+        {
+            return await _context.Users
+                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)
