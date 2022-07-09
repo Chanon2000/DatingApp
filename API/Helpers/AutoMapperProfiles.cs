@@ -14,7 +14,15 @@ namespace API.Helpers
         public AutoMapperProfiles()
         {
             // สร้าง map function
-            CreateMap<AppUser, MemberDto>(); // เพื่อ map AppUser เป็น MemberDto
+            CreateMap<AppUser, MemberDto>() // เพื่อ map AppUser เป็น MemberDto
+            // เพื่อจะเอาค่า Url จาก Photo ไปใส่ให้กับ photoUrl จาก MemberDto
+                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => 
+                    src.Photos.FirstOrDefault(x => x.IsMain).Url));
+                    // ไปที่ Photos collection แล้วเอา FirstOrDefault ที่เป็น IsMain และเอาแค่ค่า Url มา
+                // ForMember หมายถึง property ใหนที่คุณอยากจะจัดการ
+                // dest = destination เอาค่าที่จัดการไปใส่ที่ไหน
+                // opt = option 
+                // src คือ บอกว่าจะ MapFrom จากอะไร
             CreateMap<Photo, PhotoDto>();
             // เราต้อง add ไปที่ application service extensions
         }
