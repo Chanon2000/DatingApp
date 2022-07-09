@@ -10,7 +10,8 @@ namespace API.DTOs
     {
         // เราจะใช้ Dto เข้ามาแก้ปัญหาการวนลูปดึงข้อมูล
         public int Id { get; set; } 
-        public string UserName { get; set; }
+        public string Username { get; set; }
+        public string PhotoUrl { get; set; }
         public int Age { get; set; } // return อายุไปแทน
         public string KnownAs { get; set; }
         public DateTime Created { get; set; } //  = DateTime.Now; ไม่ต้องกำหนดค่าอะไร

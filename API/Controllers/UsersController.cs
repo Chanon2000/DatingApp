@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,23 +16,31 @@ namespace API.Controllers
     public class UsersController : BaseApiController
     {
         private readonly IUserRepository _userRepository;
-        public UsersController(IUserRepository userRepository) // เราจะใช้ repository ที่เรา
+        private readonly IMapper _mapper;
+        public UsersController(IUserRepository userRepository, IMapper mapper) // เราจะใช้ repository ที่เรา
         {
+            _mapper = mapper;
             _userRepository = userRepository;
         }
 
         [HttpGet]
         // [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
         {
-            return Ok(await _userRepository.GetUsersAsync());
+            var users = await _userRepository.GetUsersAsync();
+
+            var usersToReturn = _mapper.Map<IEnumerable<MemberDto>>(users);
+
+            return Ok(usersToReturn);
         }
     
         // [Authorize] // เอาออกเพราะว่าเราจะ authenticate ทุกเส้นใน UsersController
         [HttpGet("{username}")]
-        public async Task<ActionResult<AppUser>> GetUser(string username)
+        public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
-            return await _userRepository.GetUserByUsernameAsync(username); // ไม่ต้อง warp ด้วย Ok()
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+
+            return _mapper.Map<MemberDto>(user);
         }
     }
 }

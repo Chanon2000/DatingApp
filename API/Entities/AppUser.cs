@@ -22,7 +22,7 @@ namespace API.Entities
         public string Country { get; set; }
         public ICollection<Photo> Photos { get; set; } // คือ User class มีความสัมพันธ์กับ Photo class (1 user มีหลาย photo คือได้ความสัมพันธ์แบบ 1-to-many)
         // สร้าง method ใน entity class
-        public int GetAge()
+        public int GetAge() // หลังจาก Get คือ Age แล้ว return int ตัว AutoMapper จะทำการ run code ใน GetAge แล้วเอาค่ามาใส่ Age (ใน MemberDto เลย)
         {
             return DateOfBirth.CalculateAge();
         }
