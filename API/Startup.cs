@@ -31,7 +31,6 @@ namespace API
             _config = config;
         }
         // This method gets called by the runtime. Use this method to add services to the container.
-    // A. ที่ inject class
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationServices(_config);

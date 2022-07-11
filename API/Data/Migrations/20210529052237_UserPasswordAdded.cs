@@ -10,7 +10,7 @@ namespace API.Data.Migrations
             migrationBuilder.AddColumn<byte[]>(
                 name: "PasswordHash",
                 table: "Users",
-                type: "BLOB", // แปลงเป็น binary large object (นี้คือเหตุผลที่เราเก็บpasswordเป็น byte array)
+                type: "BLOB",
                 nullable: true);
 
             migrationBuilder.AddColumn<byte[]>(

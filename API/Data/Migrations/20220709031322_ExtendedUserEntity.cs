@@ -80,7 +80,6 @@ namespace API.Data.Migrations
                     IsMain = table.Column<bool>(type: "INTEGER", nullable: false),
                     PublicId = table.Column<string>(type: "TEXT", nullable: true),
                     AppUserId = table.Column<int>(type: "INTEGER", nullable: false)
-                    //  nullable: false นั้นคือเราจะไม่มี photo ที่ไม่สัมพันธ์กับ user
                 },
                 constraints: table =>
                 {
@@ -91,7 +90,6 @@ namespace API.Data.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                        // onDelete: ReferentialAction.Cascade คือ ถ้า delete user ก็จะ delete ทุก Photo ด้วย
                 });
 
             migrationBuilder.CreateIndex(
