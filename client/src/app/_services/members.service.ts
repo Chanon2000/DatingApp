@@ -7,7 +7,7 @@ import { Member } from '../_models/member';
 // เพราะเรามีการ authentication ด้วย
 const httpOptions = {
   headers: new HttpHeaders({
-    Authorization: "Bearer " + JSON.parse(localStorage.getItem("user")).token
+    Authorization: "Bearer " + JSON.parse(localStorage.getItem("user"))?.token // ใส่ ? เพราะการันทีไม่ได้ว่า จะได้ token มาทุกครั้ง
   })
 }
 
