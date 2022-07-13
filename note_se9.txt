@@ -9,3 +9,7 @@ ng g c member-card --skip-tests
 
 [109. Using an interceptor to send the token]
 ng g interceptor jwt --skip-tests
+
+[113. Adding a photo gallery]
+    npm i @kolkov/ngx-gallery
+    --save ไม่จำเป็นเพราะมันแค่จะทำให้ save ลง package.json ซึ่งถึงไม่มีมันก็ทำอยู่แล้ว
