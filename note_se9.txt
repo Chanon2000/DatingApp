@@ -6,3 +6,6 @@ ng g s members --skip-tests
 
 [106. Creating member cards]
 ng g c member-card --skip-tests
+
+[109. Using an interceptor to send the token]
+ng g interceptor jwt --skip-tests
