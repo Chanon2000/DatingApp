@@ -13,3 +13,11 @@ ng g interceptor jwt --skip-tests
 [113. Adding a photo gallery]
     npm i @kolkov/ngx-gallery
     --save ไม่จำเป็นเพราะมันแค่จะทำให้ save ลง package.json ซึ่งถึงไม่มีมันก็ทำอยู่แล้ว
+
+[114. Section 9 summary]
+    1. Using Typescript types
+    2. Using the Interceptor to send JWT tokens
+    3. Using bootstrap for styling
+    4. Basic css tricks to enhance the look
+    5. Using a 3rd party photo gallery
+    6. Using Route params
