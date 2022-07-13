@@ -3,3 +3,6 @@
 
 [104. Adding a member service]
 ng g s members --skip-tests
+
+[106. Creating member cards]
+ng g c member-card --skip-tests
