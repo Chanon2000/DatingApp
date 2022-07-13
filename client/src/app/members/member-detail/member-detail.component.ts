@@ -18,8 +18,6 @@ export class MemberDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadMember();
-    // knownAs ของ member ขึ้นที่ template แต่ มันเกิด error ว่า ...undefined (reading 'knownAs')
-    // เพราะว่า เมื่อ angular create template เสร็จ ข้อมูล user มันยังไม่มา ดังนั้นจึงแก้ด้วยการใส่ *ngIf="member" ที่ template
 
     this.galleryOptions = [
       {
@@ -31,8 +29,6 @@ export class MemberDetailComponent implements OnInit {
         preview: false
       }
     ]
-
-    // this.galleryImages = this.getImages(); // ใน ngOnInit จะเกิดขึ้นแบบ sync นั้นคือพอสั่ง loadMember มันจะมาทำอย่างอื่นต่อเลย ซึ่งพอมาถึง getImages() ข้อมูลรูปของ user มันยังไม่มา
   }
 
   getImages(): NgxGalleryImage[] {
