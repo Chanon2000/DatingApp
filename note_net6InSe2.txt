@@ -1,0 +1,8 @@
+[8. .Net 6 update - switching to the classic hosting model]
+- new hosting Template
+- hosting แบบเก่าก็สามารถใช้ได้ใน .net6 ได้
+- ตอนสร้าง .net6 มันจะเป็น generate port number แบบสุ่มๆ ให้คุณไปเปลี่ยนเป็น 5001 ... ตามที่คุณจะใช้
+- <ImplicitUsings>enable</ImplicitUsings> ทำให้คุณไม่ต้องใส่ using statement ซำ้ได้
+- <Nullable>enable</Nullable> เพื่อป้องกัน exceptions ???
+
+Nullarbor reference type เช่น string
