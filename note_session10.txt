@@ -1,0 +1,7 @@
+[Introduction]
+    1. Angular Template forms
+    2. The CanDeactivate Route Guard
+    3. The @ViewChild decorator => เอาไว้ใช้เข้าถึง template จากที่ component
+    4. Persisting changes to the API
+    5. Adding loading indicators to the client app
+    6. Caching data in Angular services
