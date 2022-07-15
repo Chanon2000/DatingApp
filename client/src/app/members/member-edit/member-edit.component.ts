@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Member } from 'src/app/_models/member';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
@@ -17,6 +17,13 @@ export class MemberEditComponent implements OnInit {
   // 'editForm' คือชื่อที่ template, editForm คือชื่อที่ component
   member: Member;
   user: User;
+  // @ = decorator
+  // HostListener จะเข้าถึง event ของ browser ที่ระบุ (window:beforeunload)
+  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
+    if (this.editForm.dirty) {
+      $event.returnValue = true; // ทำให้มี popup ขึ้นมาก่อนว่าคุณยังไม่ได้ save form ของคุณ เมื่อคุณ edit form ไปบางส่วนแล้ว
+    }
+  }
 
   constructor(
     private accountService: AccountService, 

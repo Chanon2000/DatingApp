@@ -8,3 +8,8 @@
 
 [Creating a member edit component]
     ng g c member-edit --skip-tests
+
+
+[Adding a Can Deactivate route guard]
+    ng g guard prevent-unsaved-changes --skip-tests
+    เลือก CanDeactivate
