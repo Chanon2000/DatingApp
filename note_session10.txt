@@ -23,3 +23,11 @@ ng add ngx-spinner
 ng g s busy --skip-tests
 
 ng g interceptor loading --skip-tests
+
+[Section 10 summary]
+    1. Angular Template forms
+    2. The CanDeactivate Route Guard
+    3. The @ViewChild decorator
+    4. Persisting changes to the API
+    5. Adding loading indicators to the client app
+    6. Caching data in Angular services
