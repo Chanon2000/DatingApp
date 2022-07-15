@@ -37,19 +37,16 @@ namespace API.Controllers
         {
             return await _userRepository.GetMemberAsync(username);
         }
-        // Put ใช่เพื่อ update resource 
+
         [HttpPut]
         public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
         {
-            // เราไม่ใว่ใจ user ที่ยิง request มา เพื่อเอาค่า username แต่เราต้องการ username จาก token ที่ authenticate มา
-            // ClaimTypes.NameIdentifier คือ claim ที่เราให้แต่ละ user ใส่ token
-            // User ตรงนี้จะเก็บข้อมูล claim, identity ต่างๆ
-            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; // เอา username จาก token มาใส่
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = await _userRepository.GetUserByUsernameAsync(username);
 
-            _mapper.Map(memberUpdateDto, user); // map ไปที่ user
+            _mapper.Map(memberUpdateDto, user);
 
-            _userRepository.Update(user); // update โดย entity framework
+            _userRepository.Update(user);
 
             if (await _userRepository.SaveAllAsync()) return NoContent();
 

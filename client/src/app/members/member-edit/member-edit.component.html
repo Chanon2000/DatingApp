@@ -4,7 +4,6 @@
     </div>
     <div class="col-8">
         <div class="alert alert-info" *ngIf="editForm.dirty">
-            <!-- ถ้า form มัน dirty ต้องให้แสดง alert -->
             <strong>Information: </strong> You have made changes.  Any unsaved changes will be lost
         </div>
     </div>
@@ -31,9 +30,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <!-- ถ้า form ไม่ dirty ให้แสดง -->
                 <button [disabled]="!editForm.dirty" form="editForm" type="submit" class="btn btn-success btn-block">Save Changes</button>
-                <!-- form="editForm" เริ่มจากใส่ id ให้ form แล้วใส่ form ลง button เพื่อให้ปุ่มรู้ว่ามันทำงานกับ form ใหน -->
             </div>
         </div>
     </div>
@@ -46,7 +43,6 @@
                     <textarea class="form-control" [(ngModel)]="member.introduction" name="introduction"rows="6"></textarea>
                     <h4 class="mt-2">Looking for</h4>
                     <textarea class="form-control" [(ngModel)]="member.lookingFor" name="lookingFor" rows="6"></textarea>
-                    <!-- ngModel จะทำการ binding, name ทำที่เหลือ เช่นเมื่อ reset ก็จะเอาค่าจาก name นี้แหละ -->
                     <h4 class="mt-2">Interests</h4>
                     <textarea class="form-control" [(ngModel)]="member.interests" name="interests" rows="6"></textarea>
                     <h4 class="mt-2">Location Details: </h4>

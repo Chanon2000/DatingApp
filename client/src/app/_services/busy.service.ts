@@ -5,8 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   providedIn: 'root'
 })
 export class BusyService {
-  busyRequestCount = 0; // เอามานับจำนวน request
-  // ใช้ interceptor ในการจับเพื่อดู request ที่เข้าออก
+  busyRequestCount = 0;
 
   constructor(private spinnerService: NgxSpinnerService) { }
 

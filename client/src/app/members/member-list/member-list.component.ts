@@ -9,7 +9,7 @@ import { MembersService } from 'src/app/_services/members.service';
   styleUrls: ['./member-list.component.css']
 })
 export class MemberListComponent implements OnInit {
-  members$: Observable<Member[]>; // $ เพื่อบอกว่าตัวแปลนี้เป็น Observable
+  members$: Observable<Member[]>;
 
   constructor(private memberService: MembersService) { }
 

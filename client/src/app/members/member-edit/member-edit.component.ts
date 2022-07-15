@@ -14,14 +14,13 @@ import { NgForm } from '@angular/forms';
 })
 export class MemberEditComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
-  // 'editForm' คือชื่อที่ template, editForm คือชื่อที่ component
+
   member: Member;
   user: User;
-  // @ = decorator
-  // HostListener จะเข้าถึง event ของ browser ที่ระบุ (window:beforeunload)
+
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
     if (this.editForm.dirty) {
-      $event.returnValue = true; // ทำให้มี popup ขึ้นมาก่อนว่าคุณยังไม่ได้ save form ของคุณ เมื่อคุณ edit form ไปบางส่วนแล้ว
+      $event.returnValue = true;
     }
   }
 
@@ -46,7 +45,7 @@ export class MemberEditComponent implements OnInit {
   updateMember() {
     this.memberService.updateMember(this.member).subscribe(() => {
       this.toastr.success('Profile updated successfully');
-      this.editForm.reset(this.member); // จะทำให้ reset form เพื่อให้alert หรือปุ่ม กลับไปอยู่ใน state เริ่มต้น
+      this.editForm.reset(this.member);
     })
     
   }

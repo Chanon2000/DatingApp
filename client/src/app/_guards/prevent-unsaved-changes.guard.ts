@@ -11,7 +11,7 @@ export class PreventUnsavedChangesGuard implements CanDeactivate<unknown> {
     if (component.editForm.dirty) {
       return confirm('Are you sure you want to continue? Any unsaved changes will be lost.');
     }
-    return true; // ก็จะยังคงอยู่ที่ form
+    return true;
   }
   
 }
