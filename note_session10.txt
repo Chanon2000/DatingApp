@@ -13,3 +13,13 @@
 [Adding a Can Deactivate route guard]
     ng g guard prevent-unsaved-changes --skip-tests
     เลือก CanDeactivate
+
+[Adding loading indicators]
+npm install @angular/cdk (ถ้า install ngx-spinner แล้วดัน error)
+
+ng add ngx-spinner
+    - ใส่ add แบบนี้ของ angular มันจะจัดการ configure ต่างๆให้เราได้ง่ายขึ้น
+
+ng g s busy --skip-tests
+
+ng g interceptor loading --skip-tests
