@@ -44,9 +44,11 @@ export class MemberEditComponent implements OnInit {
   }
 
   updateMember() {
-    console.log(this.member);
-    this.toastr.success('Profile updated successfully');
-    this.editForm.reset(this.member); // จะทำให้ reset form เพื่อให้alert หรือปุ่ม กลับไปอยู่ใน state เริ่มต้น
+    this.memberService.updateMember(this.member).subscribe(() => {
+      this.toastr.success('Profile updated successfully');
+      this.editForm.reset(this.member); // จะทำให้ reset form เพื่อให้alert หรือปุ่ม กลับไปอยู่ใน state เริ่มต้น
+    })
+    
   }
 
 }
