@@ -41,3 +41,7 @@
 
 [Adding a photo editor component]
     ng g c photo-editor --skip-tests
+
+[Adding a photo uploader]
+    https://valor-software.com/ng2-file-upload/
+    npm install ng2-file-upload --save
