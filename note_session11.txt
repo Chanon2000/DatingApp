@@ -27,3 +27,8 @@
 [Cloudinary Account]
     https://cloudinary.com/
     - สร้าง account
+
+[Configuring cloudinary in the API]
+    ไปที่ NuGet: Open NuGet Gallery
+    หา cloudinaryDotnet 
+    แล้ว install
