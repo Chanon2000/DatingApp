@@ -96,5 +96,24 @@ namespace API.Controllers
 
             return BadRequest("Problem adding photo"); // ถ้า fail ก็จะ return ตรงนี้
         }
+
+        [HttpPut("set-main-photo/{photoId}")]
+        public async Task<ActionResult> SetMainPhoto(int photoId)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            // การที่เรา get username จาก token ทำให้เรามั้นใจได้ว่านี้คือ user คนนี้จริงๆ คนเดียวกับ user ที่ยิงมา (เรามั้นใจข้อมูลที่มาจาก token)
+
+            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId); // ไม่ใช่ async เพราะว่าเราได้ข้อมูลจาก user มาเก็บที่ memory แล้ว (เราไม่ได้กำลังจะไปดึงข้อมูลจาก database)
+
+            if (photo.IsMain) return BadRequest("This is already your main photo");
+
+            var currentMain = user.Photos.FirstOrDefault(x => x.IsMain); // เอา record ที่ IsMain == true
+            if (currentMain != null) currentMain.IsMain = false;
+            photo.IsMain = true;
+
+            if (await _userRepository.SaveAllAsync()) return NoContent(); // เมื่อเราทำการ update แต่ไม่มีอะไรต้อง response ให้ NoContent() ไม่เลย
+
+            return BadRequest("Failed to set main photo");
+        }
     }
 }
