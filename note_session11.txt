@@ -45,3 +45,5 @@
 [Adding a photo uploader]
     https://valor-software.com/ng2-file-upload/
     npm install ng2-file-upload --save
+
+[Section 11 summary]
