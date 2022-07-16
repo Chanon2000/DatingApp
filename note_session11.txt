@@ -38,3 +38,6 @@
     - ทดสอบ api ผ่าน postman แล้วก็ใช้การ debuger ที่ vscode
         (debug โดยใช้ .NET Core Attach จากนั้นก็เลือก process โดย search ตามชื่อ Project นั้นก็คือ API แล้วก็เลือกอันนั้น พอคุณยิง api มันก็จะไปติด breakpoint ทันทีเลย)
     - เมื่อเราสร้าง resources สำเร็จนั้น developer ที่ดีควรจะ return 201 status
+
+[Adding a photo editor component]
+    ng g c photo-editor --skip-tests
