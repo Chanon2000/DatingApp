@@ -45,7 +45,7 @@ namespace API.Services
                     // Crop("fill") ตัดให้เป็นสี่เหลี่ยม
                     // Gravity("face") ให้ focus ไปที่ หน้า
                 };
-                // uploadResult จะเอาตัวแปรนี้ไป upload ลง cloudinary
+                // uploadResult จะเอาตัวแปรเก็บค่าที่ได้จากการไป upload ลง cloudinary // จะมี property ชื่อ SecureUri ซึ่งคือ url ที่อยู่ของรูป
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
 
