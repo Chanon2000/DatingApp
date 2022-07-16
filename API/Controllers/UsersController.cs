@@ -36,7 +36,7 @@ namespace API.Controllers
             return Ok(users);
         }
     
-        [HttpGet("{username}")]
+        [HttpGet("{username}", Name = "GetUser")] // Name ตั้งชื่อ route name ให้ route นี้
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
             return await _userRepository.GetMemberAsync(username);
@@ -82,7 +82,17 @@ namespace API.Controllers
             user.Photos.Add(photo);
 
             if (await _userRepository.SaveAllAsync())
-                return _mapper.Map<PhotoDto>(photo); // map photo ให้เป็น PhotoDto
+            {
+                // เราจะมาใช้ created route เพื่อ generate response ที่ถูกต้อง
+                // Created(), Created อื่นๆ ถ้าคุณลองอ่านที่ popup จะเห็นว่ามันใช้ยากไป
+                // return CreatedAtRoute("GetUser", _mapper.Map<PhotoDto>(photo)); // เนื่องจาก GetUser route ต้องใส่ username ด้วย เราเลยต้องใช้ overload ใหม่ (คือ method ชื่อเดียวกันแต่ใส่ parameter ไม่เหมือนกัน) // GetUser ต้องใส่ parameter
+                // GetUser คือค่า routeName
+                return CreatedAtRoute("GetUser", new { Username = user.UserName}, _mapper.Map<PhotoDto>(photo));
+                // ใส่ new {} เพราะว่า second มันจะรับเป็น obj
+
+                // สิ่งที่คุณจะได้คือ status 201 และมีการใส่ Location ที่ header โดยเอา route ที่คุณใส่เข้าไปไปวางไว้ (ประมาณว่า เพื่อบอกว่า คุณจะเห็นข้อมูลที่สร้างใหม่นี้ได้จากการยิง api เส้นไหน)
+                // ที่นี้คือ https://localhost:5001/api/Users/lisa
+            }
 
             return BadRequest("Problem adding photo"); // ถ้า fail ก็จะ return ตรงนี้
         }
