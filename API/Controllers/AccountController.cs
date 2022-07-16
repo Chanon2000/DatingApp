@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,7 +47,9 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
+            // ตรงนี้เราไม่ได้ใช้ repository แต่เราใช้การ inject context มาใช้ ซึ่งมันไม่ได้ return Photo มาด้วย // ดังนั้นจึงเพิ่ม Include เข้ามา
             var user = await _context.Users
+                .Include(p => p.Photos)
                 .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
 
 
@@ -64,7 +67,9 @@ namespace API.Controllers
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                // เนื่องจาก user ที่ register เข้ามาแล้วไม่ได้หมายความว่า จะมีรูป เลยใส่ ? เอาไว้
             };
         }
 
