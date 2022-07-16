@@ -1,0 +1,24 @@
+[125. Introduction]
+    1. Photo storage options
+    2. Adding related entities
+    3. Using a 3rd party API
+    4. Using the Debugger (again!)
+    5. Updating anf deleting resources
+    6. What to return when creating resources in a REST based API
+
+[Photo Storage Options] 
+จะเก็บรูปที่ไหน
+    1. เก็บลง database เป็น binary large objects (แต่นี้ไม่ใช้การใช้ฐานข้อมูลที่ดี ไม่ optimized)
+        - เพราะเราต้องคำนึงถึงพื้นที่ใน database ที่เราจะใช้ด้วย (เพื่อไม่ให้เกินพื้อนที่ที่มี ถ้าเกินอาจทำให้ web server เกิดจากพังได้)
+    2. เก็บลง file system บน server => ซึ่งถือว่าเป็นวิธีที่ดี แต่ก็ต้องระวังเรื่องพื้นที่ที่ใช้จัดเก็บ file (เรามี limit ให้การเก็บ file เท่าไหร่ เพราะถ้าพื้นที่จัดเก็บ file ของคุณมีไม่พอ มันก็ไม่ใช่สิ่งที่ดี)
+    3. ใช้ cloud service สิ่งจะไม่ทำให้เกิดผมเสียที่ database หรือ web server และสามารถเก็บได้อย่างไม่จำกัดได้ และสามารมปรับรูปได้ตามที่ service เราเตรียมมาให้
+        - ซึ่ง service ที่เราจะใช้ในครั้งนี้คือ Cloud Ordinary (เก็บได้ 10 gigabytes แบบฟรีๆ)
+
+[Image Upload]
+ขั้นตอนการ Upload รูป
+    1. Client uploads photo to API with JWT
+    2. Server uploads the photo to Cloudinary
+    3. Cloudinary stores photo, sends response
+    4. API saves photo URL and Public ID to DB
+    5. Saved in DB and given auto generated ID
+    6. 201 Created Response sent to client with location header
