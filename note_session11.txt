@@ -22,3 +22,8 @@
     4. API saves photo URL and Public ID to DB
     5. Saved in DB and given auto generated ID
     6. 201 Created Response sent to client with location header
+
+
+[Cloudinary Account]
+    https://cloudinary.com/
+    - สร้าง account
