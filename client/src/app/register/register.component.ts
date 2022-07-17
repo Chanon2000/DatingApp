@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../_services/account.service';
 
@@ -10,14 +11,16 @@ import { AccountService } from '../_services/account.service';
 })
 export class RegisterComponent implements OnInit {1
   @Output() cancelRegister = new EventEmitter();
-  model: any = {};
   registerForm: FormGroup; // group ของ form control
   maxDate: Date;
+  validationErrors: string[] = [];
+
   // ใช้ form builder service เพื่อลด code เล็กน้อย (ใช้เพื่อสร้าง form)
   constructor(
     private accountService: AccountService, 
     private toastr: ToastrService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -54,14 +57,11 @@ export class RegisterComponent implements OnInit {1
   }
 
   register() {
-    console.log(this.registerForm.value);
-    // this.accountService.register(this.model).subscribe(response => {
-    //   // console.log(response);
-    //   this.cancel();
-    // }, error => {
-    //   console.log(error);
-    //   this.toastr.error(error.error);
-    // })
+    this.accountService.register(this.registerForm.value).subscribe(response => {
+      this.router.navigateByUrl('/members');
+    }, error => {
+      this.validationErrors = error;
+    })
   }
 
   cancel() {
