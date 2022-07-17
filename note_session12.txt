@@ -7,3 +7,6 @@
 
 [Creating a reusable text input]
 ng g c text-input --skip-tests
+
+[Adding a reusable date input]
+ng g c date-input --skip-tests

@@ -12,6 +12,7 @@ export class RegisterComponent implements OnInit {1
   @Output() cancelRegister = new EventEmitter();
   model: any = {};
   registerForm: FormGroup; // group ของ form control
+  maxDate: Date;
   // ใช้ form builder service เพื่อลด code เล็กน้อย (ใช้เพื่อสร้าง form)
   constructor(
     private accountService: AccountService, 
@@ -21,6 +22,8 @@ export class RegisterComponent implements OnInit {1
 
   ngOnInit(): void {
     this.initializeForm();
+    this.maxDate = new Date();
+    this.maxDate.setFullYear(this.maxDate.getFullYear() -18); // น้อยกว่า 18 ปี จะเลือกไม่ได้แล้ว
   }
 
   initializeForm() {
