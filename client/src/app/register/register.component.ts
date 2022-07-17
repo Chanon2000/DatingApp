@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {1
 
   initializeForm() {
     this.registerForm = new FormGroup({
-      username: new FormControl('Hello', Validators.required),
+      username: new FormControl('', Validators.required),
       password: new FormControl('', [Validators.required, 
         Validators.minLength(4), Validators.maxLength(8)]), // เมื่อต้องการใส่มากกว่า 1 validator ให้ใส่ []
       confirmPassword: new FormControl('', [Validators.required, this.matchValues('password')]),
@@ -36,6 +36,7 @@ export class RegisterComponent implements OnInit {1
       return control?.value === control?.parent?.controls[matchTo].value 
         ? null : {isMatching: true};
       // isMatching เป็น make up name field เพื่อเมื่อเวลามันไม่ match กัน มันจะไปเพิ่ม field isMatching ที่ error ของ control ที่แทบ validatior ตัวนี้(ซึ่งทำให้เราสามารถรู้ได้ว่ามันไม่ match)
+      // isMatching: true หมายถึง isMatching มี error เกิดขึ้นเป็นจริง
     }
   }
 
