@@ -9,8 +9,6 @@ namespace API.Interfaces
 {
     public interface IPhotoService
     {
-        // ImageUploadResult มาจาก CloudinaryDotNet
-        // IFormFile มาจาก Microsoft.AspNetCore.Http
         Task<ImageUploadResult> AddPhotoAsync(IFormFile file);
         Task<DeletionResult> DeletePhotoAsync(string PublicId);
     }

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace API.Extensions
 {
-    // เพื่อลดการเขียน การเอา username โดย token ซำ้ๆ
     public static class ClaimsPrincipleExtensions
     { 
         public static string GetUsername(this ClaimsPrincipal user)

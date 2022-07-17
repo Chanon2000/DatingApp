@@ -36,7 +36,7 @@ namespace API.Controllers
             return Ok(users);
         }
     
-        [HttpGet("{username}", Name = "GetUser")] // Name ตั้งชื่อ route name ให้ route นี้
+        [HttpGet("{username}", Name = "GetUser")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
             return await _userRepository.GetMemberAsync(username);
@@ -45,7 +45,6 @@ namespace API.Controllers
         [HttpPut]
         public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
         {
-            // var username = User.GetUsername();
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
             _mapper.Map(memberUpdateDto, user);
@@ -60,9 +59,7 @@ namespace API.Controllers
         [HttpPost("add-photo")]
         public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
         {
-            // เราต้องเอา username จาก claims principle
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-            // GetUserByUsernameAsync อย่าลืมเมื่อเราใช้ func นี้ มันเอา photos ของ user มาด้วย
 
             var result = await _photoService.AddPhotoAsync(file);
 
@@ -70,7 +67,7 @@ namespace API.Controllers
 
             var photo = new Photo
             {
-                Url = result.SecureUrl.AbsoluteUri, // .SecureUrl.AbsoluteUri คือ property ที่เราจะได้กลับมา
+                Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId
             };
 
@@ -83,35 +80,26 @@ namespace API.Controllers
 
             if (await _userRepository.SaveAllAsync())
             {
-                // เราจะมาใช้ created route เพื่อ generate response ที่ถูกต้อง
-                // Created(), Created อื่นๆ ถ้าคุณลองอ่านที่ popup จะเห็นว่ามันใช้ยากไป
-                // return CreatedAtRoute("GetUser", _mapper.Map<PhotoDto>(photo)); // เนื่องจาก GetUser route ต้องใส่ username ด้วย เราเลยต้องใช้ overload ใหม่ (คือ method ชื่อเดียวกันแต่ใส่ parameter ไม่เหมือนกัน) // GetUser ต้องใส่ parameter
-                // GetUser คือค่า routeName
                 return CreatedAtRoute("GetUser", new { Username = user.UserName}, _mapper.Map<PhotoDto>(photo));
-                // ใส่ new {} เพราะว่า second มันจะรับเป็น obj
-
-                // สิ่งที่คุณจะได้คือ status 201 และมีการใส่ Location ที่ header โดยเอา route ที่คุณใส่เข้าไปไปวางไว้ (ประมาณว่า เพื่อบอกว่า คุณจะเห็นข้อมูลที่สร้างใหม่นี้ได้จากการยิง api เส้นไหน)
-                // ที่นี้คือ https://localhost:5001/api/Users/lisa
             }
 
-            return BadRequest("Problem adding photo"); // ถ้า fail ก็จะ return ตรงนี้
+            return BadRequest("Problem adding photo");
         }
 
         [HttpPut("set-main-photo/{photoId}")]
         public async Task<ActionResult> SetMainPhoto(int photoId)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-            // การที่เรา get username จาก token ทำให้เรามั้นใจได้ว่านี้คือ user คนนี้จริงๆ คนเดียวกับ user ที่ยิงมา (เรามั้นใจข้อมูลที่มาจาก token)
 
-            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId); // ไม่ใช่ async เพราะว่าเราได้ข้อมูลจาก user มาเก็บที่ memory แล้ว (เราไม่ได้กำลังจะไปดึงข้อมูลจาก database)
+            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
 
             if (photo.IsMain) return BadRequest("This is already your main photo");
 
-            var currentMain = user.Photos.FirstOrDefault(x => x.IsMain); // เอา record ที่ IsMain == true
+            var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
             if (currentMain != null) currentMain.IsMain = false;
             photo.IsMain = true;
 
-            if (await _userRepository.SaveAllAsync()) return NoContent(); // เมื่อเราทำการ update แต่ไม่มีอะไรต้อง response ให้ NoContent() ไม่เลย
+            if (await _userRepository.SaveAllAsync()) return NoContent();
 
             return BadRequest("Failed to set main photo");
         }
@@ -129,7 +117,6 @@ namespace API.Controllers
 
             if (photo.PublicId != null)
             {
-                // สิ่งที่เราจะได้กลับคือ CloudinaryDotNet.Actions.DeletionResult
                 var result = await _photoService.DeletePhotoAsync(photo.PublicId);
                 if (result.Error != null) return BadRequest(result.Error.Message);
             }
