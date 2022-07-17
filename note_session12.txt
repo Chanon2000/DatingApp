@@ -1,0 +1,6 @@
+[Introduction]
+    1. Use Reactive Forms => สร้างขึ้นจาก observable streams (form จะได้รับค่าแบบ streams of input values จาก field ของ input)
+    2. Use Angular Validation for inputs
+    3. Implement custom validators
+    4. Implement reuseble form controls
+    5. Working with Date inputs
