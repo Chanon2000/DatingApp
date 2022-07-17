@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../_services/account.service';
 
@@ -12,19 +12,23 @@ export class RegisterComponent implements OnInit {1
   @Output() cancelRegister = new EventEmitter();
   model: any = {};
   registerForm: FormGroup; // group ของ form control
-
-  constructor(private accountService: AccountService, private toastr: ToastrService) { }
+  // ใช้ form builder service เพื่อลด code เล็กน้อย (ใช้เพื่อสร้าง form)
+  constructor(
+    private accountService: AccountService, 
+    private toastr: ToastrService,
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
     this.initializeForm();
   }
 
   initializeForm() {
-    this.registerForm = new FormGroup({
-      username: new FormControl('', Validators.required),
-      password: new FormControl('', [Validators.required, 
-        Validators.minLength(4), Validators.maxLength(8)]), // เมื่อต้องการใส่มากกว่า 1 validator ให้ใส่ []
-      confirmPassword: new FormControl('', [Validators.required, this.matchValues('password')]),
+    this.registerForm = this.fb.group({ // fb.group คือสร้าง group ของ form
+      username: ['', Validators.required],
+      password: ['', [Validators.required, 
+        Validators.minLength(4), Validators.maxLength(8)]],
+      confirmPassword: ['', [Validators.required, this.matchValues('password')]]
     })
     this.registerForm.controls.password.valueChanges.subscribe(() => {
       this.registerForm.controls.confirmPassword.updateValueAndValidity(); // เพื่อทุกครั้งเมื่อ password มีการเปลี่ยนแปลงค่า ก็ให้ไป check ตัวว่ามันตรงกับ confirmPassword มั้ย
