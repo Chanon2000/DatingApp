@@ -10,7 +10,7 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 export class DateInputComponent implements ControlValueAccessor {
   @Input() label: string;
   @Input() maxDate: Date;
-  bsConfig: Partial<BsDatepickerConfig>; // ถ้าใส่ Partial หมายความว่า property ใน BsDatepickerConfig จะเป็น optional ถ้าไม่ใส่ Partial คุณจะต้องใส่ค่าให้ทุก property
+  bsConfig: Partial<BsDatepickerConfig>;
 
   constructor(@Self() public ngControl: NgControl) {
     this.ngControl.valueAccessor = this;

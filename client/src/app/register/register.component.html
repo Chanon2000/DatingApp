@@ -1,5 +1,4 @@
 <form [formGroup]='registerForm' (ngSubmit)="registerForm.valid && register()" autocomplete="off">
-  <!-- register() จะใช้ได้เมื่อ registerForm.valid = true เท่านั้น -->
   <h2 class="text-center text-primary">Sign up</h2>
   <hr>
   <div class="form-group">
@@ -17,7 +16,6 @@
       [label]='"Known As"'></app-text-input>
   <app-date-input [formControl]='registerForm.controls["dateOfBirth"]' 
       [label]='"Date Of Birth"' [maxDate]='maxDate'></app-date-input>
-      <!-- [type]='"date"' ถ้าลองไปดูที่ safari จะเห็นว่ามันอย่าง html ตรงนี้ต่างกัน ใส่แบบนี้เป็นการใช้ html คุณต้องใช้ js ในการทำ date form -->
   <app-text-input [formControl]='registerForm.controls["city"]' 
       [label]='"City"'></app-text-input>
   <app-text-input [formControl]='registerForm.controls["country"]' 
