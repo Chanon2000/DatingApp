@@ -1,0 +1,39 @@
+[Introduction]
+    1. How to implement pagination on the API & client
+    2. Deferred Execution using IQueryable
+    3. How to implement filtering on the API & client
+    4. How to implement sorting on the API & client
+    5. Using Action Filters
+    6. Adding a TimeAgo pipe
+    7. Implement caching in the client for paginated resources
+
+[Pagination]
+    - Helps avoid performance problems
+    - Parameters are passed by query string:
+        * https://localhost:5001/api/users?pageNumber=1&pageSize=5
+    - Page size should be limited (กำหนด limit)
+    - We should always page results
+
+[Deferred Execution]
+เราสร้าง tree ของ expressions ใน entity framework สำหรับ query แล้วเราเก็บมันเป็น IQueryable ของ type อะไรก็ได้แล้วแต่เรา
+
+var query = context.Users
+    .Where(x => x.Gender == gender)
+    .OrderBy(x => x.UserName)
+    .Take(5)
+    .Skip(5)
+    .AsQueryable() 
+
+=> จะได้ IQueryable<User> แต่ยังไม่ได้ Execution นะ
+
+* Execution 
+    เพื่อสื่อสารกับ database เช่น
+
+    query.ToListAsync()
+    query.ToArrayAsync()
+    query.ToDictonary()
+
+* Singleton Query 
+    เช่น นับจำนวน records
+    
+    query.Count()
