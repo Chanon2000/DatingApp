@@ -31,7 +31,10 @@ namespace API.Data
 
         public async Task<IEnumerable<MemberDto>> GetMembersAsync()
         {
+            // เราจะไม่ทำในแต่ละ method แบบนี้ เพราะมันไม่มีประสิทธิภาพ
             return await _context.Users
+                // .Take(5) // เอาแค่ 5 record
+                // .Skip(4) // เว้น 4 อันแรก
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
