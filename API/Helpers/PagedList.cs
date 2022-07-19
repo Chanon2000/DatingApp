@@ -29,8 +29,9 @@ namespace API.Helpers
         // IQueryable<T> T อาจเป็น User หรืออะไรก็ได้
         public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
         {
-            var count = await source.CountAsync(); // ตรงนี้จะทำการสร้าง database call
+            var count = await source.CountAsync(); // คือจำนวนทุก record ใน table ที่ ทำการ query นะ
             var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(); // ToListAsync() ทำการ run query ด้วยคำสั่งนี้
+            // CountAsync(), ToListAsync() จะทำการสร้าง database call
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
     }

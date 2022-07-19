@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -29,14 +30,18 @@ namespace API.Data
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
             // เราจะไม่ทำในแต่ละ method แบบนี้ เพราะมันไม่มีประสิทธิภาพ
-            return await _context.Users
-                // .Take(5) // เอาแค่ 5 record
-                // .Skip(4) // เว้น 4 อันแรก
+            var query = _context.Users
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+                .AsNoTracking(); // เพื่อให้ efficient มากยิ่งขึ้น โดย default แล้วเมื่อเราเข้าไป get entities จาก entity framework โดย entity framework จะทำการ tracking entities เหล่านั้น 
+                // โดยในที่นี้เราแค่ต้องการอ่านเฉยๆ เราไม่ได้จะทำอะไรกับ entity ดังนั้นการใส่ .AsNoTracking() เพื่อทำการปิด tracking ใน entity framework (อ่านเฉยๆ แต่ไม่ดึงข้อมูลออกมา)
+
+                // คำอธิบายจาก comment ใน udemy
+                // Any entities received from EF will be 'tracked' by default. This means if you make a change to an entity you only need to call SaveChanges and the query will be made to the DB to update it. "AsNoTracking" means that EF will give you the entity but then immediately forget about it.
+
+            return await PagedList<MemberDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize); // สังเกตว่า ทำการ execute query ที่ CreateAsync
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)
