@@ -48,6 +48,15 @@ namespace API.Data
 
             query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
 
+            // switch expression นี้มีตั้งแต่ c# version 8 จะเห็นว่า syntax มันสวยมาก
+            query = userParams.OrderBy switch // ถ้า OrderBy มีค่าเป็น created มันก็จะเข้า case "created"
+            {
+                // แต่ละ case ขั้นด้วย comma
+                "created" => query.OrderByDescending(u => u.Created), // "created" case
+                _  => query.OrderByDescending(u => u.LastActive)
+                // _ ใช้กับกำหนด default statement
+            };
+
             // สิ่งที่เราแก้ตรงนี้แค่เพิ่มการ filter ด้านบน แต่ก็ยังส่ง query ไปที่ CreateAsync เหมือนเดิม
             return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), 
                 userParams.PageNumber, userParams.PageSize); // สังเกตว่า ทำการ execute query ที่ CreateAsync
