@@ -33,15 +33,19 @@ namespace API.Data
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
             // เราจะไม่ทำในแต่ละ method แบบนี้ เพราะมันไม่มีประสิทธิภาพ
-            var query = _context.Users
-                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .AsNoTracking(); // เพื่อให้ efficient มากยิ่งขึ้น โดย default แล้วเมื่อเราเข้าไป get entities จาก entity framework โดย entity framework จะทำการ tracking entities เหล่านั้น 
+            var query = _context.Users.AsQueryable(); // ทำให้ตัวแปร query นี้ สามารถทำการ filter หรืออื่นๆ ได้
+                // .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+                // .AsNoTracking() // เพื่อให้ efficient มากยิ่งขึ้น โดย default แล้วเมื่อเราเข้าไป get entities จาก entity framework โดย entity framework จะทำการ tracking entities เหล่านั้น 
                 // โดยในที่นี้เราแค่ต้องการอ่านเฉยๆ เราไม่ได้จะทำอะไรกับ entity ดังนั้นการใส่ .AsNoTracking() เพื่อทำการปิด tracking ใน entity framework (อ่านเฉยๆ แต่ไม่ดึงข้อมูลออกมา)
-
                 // คำอธิบายจาก comment ใน udemy
                 // Any entities received from EF will be 'tracked' by default. This means if you make a change to an entity you only need to call SaveChanges and the query will be made to the DB to update it. "AsNoTracking" means that EF will give you the entity but then immediately forget about it.
 
-            return await PagedList<MemberDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize); // สังเกตว่า ทำการ execute query ที่ CreateAsync
+            query = query.Where(u => u.UserName != userParams.CurrentUsername); // query ทุก user ยกเว้น user ที่ login อยู่
+            query = query.Where(u => u.Gender == userParams.Gender);
+
+            // สิ่งที่เราแก้ตรงนี้แค่เพิ่มการ filter ด้านบน แต่ก็ยังส่ง query ไปที่ CreateAsync เหมือนเดิม
+            return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), 
+                userParams.PageNumber, userParams.PageSize); // สังเกตว่า ทำการ execute query ที่ CreateAsync
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)
