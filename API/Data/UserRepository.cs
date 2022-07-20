@@ -42,6 +42,11 @@ namespace API.Data
 
             query = query.Where(u => u.UserName != userParams.CurrentUsername); // query ทุก user ยกเว้น user ที่ login อยู่
             query = query.Where(u => u.Gender == userParams.Gender);
+            // minDob เก็บวันเกิดที่น้อยที่สุดที่จะ query
+            var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1); // เอา userParams.MaxAge มาลบปีปัจจุบัน
+            var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
+
+            query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
 
             // สิ่งที่เราแก้ตรงนี้แค่เพิ่มการ filter ด้านบน แต่ก็ยังส่ง query ไปที่ CreateAsync เหมือนเดิม
             return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), 
