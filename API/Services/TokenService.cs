@@ -23,7 +23,17 @@ namespace API.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
+                // เพราะ Claim เป็น string คุณเลยต้องเปลี่ยน Id เป็น string
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+                // โดยเมื่อคุณนำไปแปลง token ไปแปลงที่ jwt.io จะได้ payload เป็น
+                // {
+                //     "nameid": "1",
+                //     "unique_name": "lisa",
+                //     "nbf": 1658416743,
+                //     "exp": 1659021543,
+                //     "iat": 1658416743
+                // }
             };
             
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

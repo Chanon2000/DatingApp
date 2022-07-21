@@ -23,10 +23,10 @@ namespace API.Helpers
             if (!resultContext.HttpContext.User.Identity.IsAuthenticated) return;
 
             // ถ้าทำการ IsAuthenticated แล้ว ให้ทำการให้ update ค่าของ last active property
-            var username = resultContext.HttpContext.User.GetUsername();
+            var userId = resultContext.HttpContext.User.GetUserId();
             // เราต้องการจะเข้า repository ของเรา ซึ่งจะเข้าถึงตรงนี้ได้โดยใช้ service locator pattern นี้ (เนื่องจากเราจะใช้ method นี้ที่ program.cs ด้วย)
             var repo = resultContext.HttpContext.RequestServices.GetService<IUserRepository>(); // คือเราต้องการเข้าถึง User Repository
-            var user = await repo.GetUserByUsernameAsync(username);
+            var user = await repo.GetUserByIdAsync(userId);
             user.LastActive = DateTime.Now;
             await repo.SaveAllAsync();
         }
