@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_models/member';
@@ -13,10 +13,16 @@ import { UserParams } from '../_models/userParams';
 export class MembersService {
   baseUrl = environment.apiUrl;
   members: Member[] = [];
+  memberCache = new Map(); // Map คือหรือคล้ายกับ dictonary 
 
   constructor(private http: HttpClient) { }
 
   getMembers(userParams: UserParams) {
+    var response = this.memberCache.get(Object.values(userParams).join('-')); // หา key ชื่อ Object.values(userParams).join('-') แล้วเก็บ value ลง response
+    if (response) {
+      return of(response); // ถ้ามี member ที่โหลดเก็บไว้อยู่แล้ว ก็เอามาใช้เลย
+    }
+    
     let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
 
     params = params.append('minAge', userParams.minAge.toString());
@@ -25,8 +31,14 @@ export class MembersService {
     params = params.append('orderBy', userParams.orderBy);
 
     // คลิก Refacter... จากนั้นคลิก Extract to method in class 'MembersService' (มันจะย้าย code ที่ highlight ทั้งหมดไปสร้าง method ใหม่ให้เลย)
-    return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params); // Member[] คือ T ที่กำหนดใน method
+    return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params) // Member[] คือ T ที่กำหนดใน method
+      .pipe(map(response => {
+        this.memberCache.set(Object.values(userParams).join('-'), response); // key: any, value: any
+        return response;
+      }))
   }
+  // เราจะจำ member ทุกครั้งที่ load ในแต่ละ userParams
+  // เนื่องจากแต่ละ load ที่เราจะจำแยกกันนั้น userParams จะไม่เหมือนกันซักครั้ง
 
   getMember(username: string) {
     const member = this.members.find(x => x.username === username);
