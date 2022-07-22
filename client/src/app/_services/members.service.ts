@@ -41,8 +41,13 @@ export class MembersService {
   // เนื่องจากแต่ละ load ที่เราจะจำแยกกันนั้น userParams จะไม่เหมือนกันซักครั้ง
 
   getMember(username: string) {
-    const member = this.members.find(x => x.username === username);
-    if (member !== undefined) return of(member);
+    const member = [...this.memberCache.values()]
+      .reduce((arr, elem) => arr.concat(elem.result), []) // [] คือ initial value (เป็นค่าก่อนที่จะเริ่ม concat array ต่างๆ)
+      .find((member: Member) => member.username === username);
+
+    if (member) {
+      return of(member);
+    }
     return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
 
