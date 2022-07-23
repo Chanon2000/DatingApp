@@ -7,3 +7,7 @@
 [Fluent API]
 "AppUser" Has One "SourseUser" With Mny "LikedUsers"
 "AppUser" Has One "LikedUser" With Many "LikedByUsers"
+
+
+[Adding a likes entity]
+dotnet ef migrations add LikeEntityAdded
