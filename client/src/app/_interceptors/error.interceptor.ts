@@ -29,8 +29,10 @@ export class ErrorInterceptor implements HttpInterceptor {
                   }
                 }
                 throw modalStateErrors.flat();
-              } else {
+              } else if (typeof(error.error) === 'object') { // เมื่อคุณใส่ BadRequest(); ที่ api
                 this.toastr.error(error.statusText, error.status);
+              } else { // casr นี้ error.error จะเป็น string => BadRequest("This was not a good request");
+                this.toastr.error(error.error, error.status)
               }
               break;
             case 401:
