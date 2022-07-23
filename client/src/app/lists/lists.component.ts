@@ -11,9 +11,6 @@ import { MembersService } from '../_services/members.service';
 export class ListsComponent implements OnInit {
   members: Partial<Member[]>; // ทำให้ properties inside the member เป็น optional
   predicate = 'liked';
-  // pageNumber = 1;
-  // pageSize = 5;
-  // pagination: Pagination;
 
 
   constructor(private memberService: MembersService) { }
