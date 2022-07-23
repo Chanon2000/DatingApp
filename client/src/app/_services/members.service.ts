@@ -1,11 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, pipe } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_models/member';
 import { PaginatedResult } from '../_models/pagination';
+import { User } from '../_models/user';
 import { UserParams } from '../_models/userParams';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +16,29 @@ export class MembersService {
   baseUrl = environment.apiUrl;
   members: Member[] = [];
   memberCache = new Map(); // Map คือหรือคล้ายกับ dictonary 
+  user: User;
+  userParams: UserParams;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private accountService: AccountService) {
+    // เนื่องจากเมื่อเรา ทำการ filter ที่หน้า list แล้วจากนั้นก็กดเข้ามาดูข้อมูลคนนึง จากนั้นกลับมาที่หน้า list มันไม่ทำการ fiter แบบเดิม แต่จะ reset ใหม่ ซึ่งนั้นไม่ใช่พฤติกรรมที่เราต้องการ
+    this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
+      this.user = user;
+      this.userParams = new UserParams(user);
+    })
+  }
+
+  getUserParams() {
+    return this.userParams;
+  }
+
+  setUserParams(params: UserParams) {
+    this.userParams = params;
+  }
+
+  resetUserParams() {
+    this.userParams = new UserParams(this.user);
+    return this.userParams;
+  }
 
   getMembers(userParams: UserParams) {
     var response = this.memberCache.get(Object.values(userParams).join('-')); // หา key ชื่อ Object.values(userParams).join('-') แล้วเก็บ value ลง response
