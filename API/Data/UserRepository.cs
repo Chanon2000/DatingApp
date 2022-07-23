@@ -32,34 +32,24 @@ namespace API.Data
 
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            // เราจะไม่ทำในแต่ละ method แบบนี้ เพราะมันไม่มีประสิทธิภาพ
-            var query = _context.Users.AsQueryable(); // ทำให้ตัวแปร query นี้ สามารถทำการ filter หรืออื่นๆ ได้
-                // .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                // .AsNoTracking() // เพื่อให้ efficient มากยิ่งขึ้น โดย default แล้วเมื่อเราเข้าไป get entities จาก entity framework โดย entity framework จะทำการ tracking entities เหล่านั้น 
-                // โดยในที่นี้เราแค่ต้องการอ่านเฉยๆ เราไม่ได้จะทำอะไรกับ entity ดังนั้นการใส่ .AsNoTracking() เพื่อทำการปิด tracking ใน entity framework (อ่านเฉยๆ แต่ไม่ดึงข้อมูลออกมา)
-                // คำอธิบายจาก comment ใน udemy
-                // Any entities received from EF will be 'tracked' by default. This means if you make a change to an entity you only need to call SaveChanges and the query will be made to the DB to update it. "AsNoTracking" means that EF will give you the entity but then immediately forget about it.
+            var query = _context.Users.AsQueryable();
 
-            query = query.Where(u => u.UserName != userParams.CurrentUsername); // query ทุก user ยกเว้น user ที่ login อยู่
+            query = query.Where(u => u.UserName != userParams.CurrentUsername);
             query = query.Where(u => u.Gender == userParams.Gender);
-            // minDob เก็บวันเกิดที่น้อยที่สุดที่จะ query
-            var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1); // เอา userParams.MaxAge มาลบปีปัจจุบัน
+
+            var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
             var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
 
             query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
 
-            // switch expression นี้มีตั้งแต่ c# version 8 จะเห็นว่า syntax มันสวยมาก
-            query = userParams.OrderBy switch // ถ้า OrderBy มีค่าเป็น created มันก็จะเข้า case "created"
+            query = userParams.OrderBy switch 
             {
-                // แต่ละ case ขั้นด้วย comma
-                "created" => query.OrderByDescending(u => u.Created), // "created" case
+                "created" => query.OrderByDescending(u => u.Created),
                 _  => query.OrderByDescending(u => u.LastActive)
-                // _ ใช้กับกำหนด default statement
             };
 
-            // สิ่งที่เราแก้ตรงนี้แค่เพิ่มการ filter ด้านบน แต่ก็ยังส่ง query ไปที่ CreateAsync เหมือนเดิม
             return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), 
-                userParams.PageNumber, userParams.PageSize); // สังเกตว่า ทำการ execute query ที่ CreateAsync
+                userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)

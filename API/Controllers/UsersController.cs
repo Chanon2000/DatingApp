@@ -29,18 +29,17 @@ namespace API.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet] // เนื่องจากเราใช้ api controller attribute นั้นทำให้ controller เราฉลาดพอที่จะรู้ว่าเราส่ง query string parameters แล้วมันจะทำการ match ลงใน userParams
-        // ซึ่งเราต้องใช้ attribute [FromQuery] กับ controller ที่ obj ที่จะรับค่าจาก query string เพื่อให้ map ลง obj นั้นๆ
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
             userParams.CurrentUsername = user.UserName;
 
             if (string.IsNullOrEmpty(userParams.Gender))
-                userParams.Gender = user.Gender == "male" ? "female" : "male"; // นี้เป็ย app หาคู่ นั้นหมายความว่าถ้าคนที่ login อยู่เป็นผู้ชาย ก็ต้องดึงมาแต่ผู้หญิง
+                userParams.Gender = user.Gender == "male" ? "female" : "male";
 
             var users = await _userRepository.GetMembersAsync(userParams);
-            // เราสามารถเข้าถึง Response ได้ทุกที่ใน controller
+
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
             return Ok(users);

@@ -16,13 +16,11 @@ namespace API.Extensions
 
             var options = new JsonSerializerOptions
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase // เพื่อเปลี่ยนตัวอักษรเป็นแบบ CamelCase
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
 
             response.Headers.Add("Pagination", JsonSerializer.Serialize(paginationHeader, options));
-            // อาจตั้งชื่อว่า X-Pagination แต่เราไม่ได้มี requried ให้ตั้งชื่อแบบนั้น
-            response.Headers.Add("Access-Control-Expose-Headers", "Pagination"); // add อีก 1 header เป็น core header เพื่อทำให้ Pagination header available ได้
-            // Access-Control-Expose-Headers ต้องใส่ชื่อตามนี้ให้ถูกต้อง
+            response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
         }
     }
 }

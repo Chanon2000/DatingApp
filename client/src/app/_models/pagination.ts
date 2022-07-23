@@ -5,7 +5,7 @@ export interface Pagination {
     totalPages: number;
 }
 
-export class PaginatedResult<T> { // ในที่นี้ T หลักๆหน้าจะเป็น Member[]
-    result: T; // T บนนั้นกับอันนี้จะเป็นclassเดียวกัน
+export class PaginatedResult<T> {
+    result: T;
     pagination: Pagination;
 }

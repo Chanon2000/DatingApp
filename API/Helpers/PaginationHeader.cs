@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace API.Helpers
 {
-    public class PaginationHeader // เก็บ info ที่เราต้องการจะส่งไปที่ client ผ่าน header
-    { // info จะเหมือนกับที่ PagedList แต่เราใช้อันนั้นทำอย่างอื่นไปแล้วเลยมาสร้างใหม่ตรงนี้่
+    public class PaginationHeader
+    {
         public PaginationHeader(int currentPage, int itemsPerPage, int totalItems, int totalPages)
         {
             CurrentPage = currentPage;

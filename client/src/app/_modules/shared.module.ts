@@ -22,7 +22,7 @@ import { TimeagoModule } from 'ngx-timeago';
     NgxGalleryModule,
     FileUploadModule,
     BsDatepickerModule.forRoot(),
-    PaginationModule.forRoot(), // angular bootstrap module จะต้องการ forRoot()
+    PaginationModule.forRoot(),
     ButtonsModule.forRoot(),
     TimeagoModule.forRoot()
   ],
