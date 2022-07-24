@@ -1,0 +1,4 @@
+[Introduction]
+    1. More many to many to many relationships => เพราะ user สามารถรับส่ง message หลาย message ได้ในเวลาเดียวกัน
+    2. Using query params in Angular
+    3. Using Route resolvers in Angular
