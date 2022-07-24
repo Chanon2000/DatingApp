@@ -93,10 +93,8 @@ export class MembersService {
 
   getLikes(predicate: string, pageNumber, pageSize) {
     let params = this.getPaginationHeaders(pageNumber, pageSize);
-    params = params.append('predicate', predicate); // append ลง header
+    params = params.append('predicate', predicate);
     return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params);
-    // return this.http.get<Partial<Member[]>>(this.baseUrl + 'likes?predicate=' + predicate);
-    // เพราะเราจะเอาค่าไปใส่ลง members: Partial<Member[]>; ที่ lists component
   }
 
   private getPaginatedResult<T>(url, params) {

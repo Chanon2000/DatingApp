@@ -21,8 +21,8 @@ namespace API.Entities
         public string City { get; set; }
         public string Country { get; set; }
         public ICollection<Photo> Photos { get; set; } 
-        public ICollection<UserLike> LikedByUsers { get; set; } // คือ list ของ user ที่มาชอบ current user
-        public ICollection<UserLike> LikedUsers { get; set; } // คือ list ของ user ที่ current user ชอบ
+        public ICollection<UserLike> LikedByUsers { get; set; }
+        public ICollection<UserLike> LikedUsers { get; set; }
 
     }
 }

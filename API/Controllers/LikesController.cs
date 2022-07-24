@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Authorize] // เป็น property ที่เราต้องการให้ user ทำการ login
+    [Authorize]
     public class LikesController : BaseApiController
     {
         private readonly IUserRepository _userRepository;
@@ -48,15 +48,12 @@ namespace API.Controllers
             sourceUser.LikedUsers.Add(userLike);
 
             if (await _userRepository.SaveAllAsync()) return Ok();
-            // เมื่อเราทำการ saving changes ซึ่งทุก entities ที่แตกต่างกัน ที่ถูก entity framework ทำการ tracking อยู่ในตอนนี้
-            // แต่เราจะทำแบบนี้ไปก่อน (เพราะมันไม่ได้ทำให้เกิดปัญหาอะไร) แต่ วิธีที่ดีกว่าคือใช้ unitOfWork (เนื่องจากครั้งนี้เราใช้มากกว่า 1 entities)
             
             return BadRequest("Failed to like user");
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LikeDto>>> GetUserLikes([FromQuery]LikesParams likesParams)
-        // FromQuery เพราะจะส่งเป็น query params
         {
             likesParams.UserId = User.GetUserId();
             var users = await _likesRepository.GetUserLikes(likesParams);

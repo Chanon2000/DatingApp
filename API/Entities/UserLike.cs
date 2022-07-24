@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace API.Entities
 {
-    public class UserLike // เป็น Join Table
+    public class UserLike
     {
         public AppUser SourceUser { get; set; }
         public int SourceUserId { get; set; }

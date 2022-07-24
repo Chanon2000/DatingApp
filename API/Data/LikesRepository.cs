@@ -21,29 +21,27 @@ namespace API.Data
 
         public async Task<UserLike> GetUserLike(int sourceUserId, int likeUserId)
         {
-            return await _context.Likes.FindAsync(sourceUserId, likeUserId); // เพราะ 2 key นี้รวมกันถึงจะได้ primary key (เพราะเป็น join table) 
+            return await _context.Likes.FindAsync(sourceUserId, likeUserId);
         }
 
         public async Task<PagedList<LikeDto>> GetUserLikes(LikesParams likesParams)
         {
-            var users = _context.Users.OrderBy(u => u.UserName).AsQueryable(); // เหมือนใส่ OrderBy เตรียมไว้ก่อน (ไม่จำเป็นต้อง OrderBy หลังจาก select เพราะยังไงมันก็ไป execute พร้อมกันที่ return)
+            var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
             var likes = _context.Likes.AsQueryable();
 
             if (likesParams.Predicate == "liked")
             {
                 likes = likes.Where(like => like.SourceUserId == likesParams.UserId);
-                users = likes.Select(like => like.LikedUser); // จะได้ users จาก like table (LikedUser ถ้าไปดูที่ UserLike class มันจะคือ AppUser นั้นแหละ)
-                // ใส่ลง users query
+                users = likes.Select(like => like.LikedUser);
             }
 
             if (likesParams.Predicate == "likedBy")
             {
                 likes = likes.Where(like => like.LikedUserId == likesParams.UserId);
-                users = likes.Select(like => like.SourceUser); // จะได้ list of users ที่ liked user ที่กำลัง login อยู่
+                users = likes.Select(like => like.SourceUser);
             }
             
             var likedUsers = users.Select(user => new LikeDto 
-            // เราไม่ใช่ autoMapper เราจะใช้แค่ manual select statement เพื่อ project ตรงๆลง LikeDto // เนื่องจาก prop มันไม่เยอะ เลยคิดว่าถ้าใช้ automapper ก็หน้าจะเขียน code ประมาณนี้
             {
                 Username = user.UserName,
                 KnownAs = user.KnownAs,
@@ -55,7 +53,6 @@ namespace API.Data
 
             return await PagedList<LikeDto>.CreateAsync(likedUsers, 
                 likesParams.PageNumber, likesParams.PageSize);
-            // ใช้ CreateAsync ในการ execute likedUsers query
         }
 
         public async Task<AppUser> GetUserWithLikes(int userId)

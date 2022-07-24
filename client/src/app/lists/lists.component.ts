@@ -9,7 +9,7 @@ import { MembersService } from '../_services/members.service';
   styleUrls: ['./lists.component.css']
 })
 export class ListsComponent implements OnInit {
-  members: Partial<Member[]>; // ทำให้ properties inside the member เป็น optional
+  members: Partial<Member[]>;
   predicate = 'liked';
   pageNumber = 1;
   pageSize = 5;
