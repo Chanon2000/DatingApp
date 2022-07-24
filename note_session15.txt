@@ -8,3 +8,8 @@
 
 หลังจากทำการ configura ใน DBcontext และ Entities (Message) ให้ทำการ migrations
 "dotnet ef migrations add MessageEntityAdded"
+
+
+[Setting up the Angular app for messaging]
+
+"ng g s message --skip-tests"
