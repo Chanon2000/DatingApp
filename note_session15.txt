@@ -13,3 +13,7 @@
 [Setting up the Angular app for messaging]
 
 "ng g s message --skip-tests"
+
+[Adding the message thread in the client]
+
+"ng g c member-messages --skip-tests"
