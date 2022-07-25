@@ -17,3 +17,9 @@
 [Adding the message thread in the client]
 
 "ng g c member-messages --skip-tests"
+
+
+[Using route resolvers]
+route resolvers ทำให้เราเข้าถึง data ก่อนที่ component จะสร้าง
+
+"ng g -h" จะเห็นว่าเราไม่มี command ในการสร้าง resolvers นั้นทำให้เราต้องสร้าง file แล้วตั้งชื่อ file ขึ้นมาเอง

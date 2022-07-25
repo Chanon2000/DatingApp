@@ -27,7 +27,11 @@ export class MemberDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadMember();
+    // ใน route.data จะมี resolved data ของ route นั้นๆ (จะมี member ที่คุณกำหนดที่ app-routing อยู่)
+    // subscribe route.data เพราะ มัน return เป็น Observable<Data>
+    this.route.data.subscribe(data => {
+      this.member = data.member;
+    })
     
     // สามารถ subscribe queryParams ได้
     this.route.queryParams.subscribe(params => {
@@ -35,7 +39,7 @@ export class MemberDetailComponent implements OnInit {
     })
     // มันจะ error ว่า tab undifind นั้นเป็นเพราะว่า คุณจะเห็นที่บรรทัดแรกของ template จะมีเงื่อนไขคือ *ngIf="member" นั้นหมายความว่า #memberTabs ที่ template จะไม่ถูกสร้างจนกว่า member จะมีค่า
     // การใส่ {static: true} ไปที่ ViewChild ซึ่งก็ไม่ได้ช่วงแก้ปัญหานี้เพราะมันยังเร็วไม่พอ แต่มันทำให้เราใช้ dynamic version ของ your child
-    // วิธีที่ทำให้ error นี้หายคือ เอา *ngIf="member" ออก แต่ก็ยังทำให้เกิด error ที่จุดอื่นอยู่ นั้นก็คือ member จะ undifind แทน ซึ่งคุณก็สามารถแก้ปัญหาได้ด้วยการใส่ ? ในทุกที่ แต่ก็มันทำให้ดูไม่ค่อย clean เท่าใหร่ เราเลยจะใช้ resolvers แทน
+    // วิธีที่ทำให้ error นี้หายคือ เอา *ngIf="member" ออก แต่ก็ยังทำให้เกิด error ที่จุดอื่นอยู่ นั้นก็คือ member จะ undifind แทน ซึ่งคุณก็สามารถแก้ปัญหาได้ด้วยการใส่ ? ในทุกที่ แต่ก็มันทำให้ดูไม่ค่อย clean เท่าใหร่ เราเลยจะใช้ resolvers แทนในการแก้ปัญหานี้
 
     this.galleryOptions = [
       {
@@ -47,6 +51,8 @@ export class MemberDetailComponent implements OnInit {
         preview: false
       }
     ]
+
+    this.galleryImages = this.getImages();
   }
 
   getImages(): NgxGalleryImage[] {
@@ -59,13 +65,6 @@ export class MemberDetailComponent implements OnInit {
       })
     }
     return imageUrls;
-  }
-
-  loadMember() {
-    this.memberService.getMember(this.route.snapshot.paramMap.get('username')).subscribe(member => {
-      this.member = member;
-      this.galleryImages = this.getImages();
-    })
   }
 
   loadMessages() {
