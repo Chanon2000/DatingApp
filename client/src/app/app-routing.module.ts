@@ -23,7 +23,6 @@ const routes: Routes = [
     children: [
       {path: 'members', component: MemberListComponent}, 
       {path: 'members/:username', component: MemberDetailComponent, resolve: {member: MemberDetailedResolver}},
-      // member คือ key ที่จะใช้เข้าถึง data ใน resolver นั้นๆ
       {path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
       {path: 'lists', component: ListsComponent},
       {path: 'messages', component: MessagesComponent},

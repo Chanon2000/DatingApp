@@ -51,7 +51,6 @@
             <td>{{message.messageSent | timeago}}</td>
             <td>
                 <button (click)="$event.stopPropagation()" (click)="deleteMessage(message.id)" class='btn btn-danger'>Delete</button>
-                <!-- $event.stopPropagation() เพื่อไม่ให้มัน runterLink ไป -->
             </td>
         </tr>
     </table>

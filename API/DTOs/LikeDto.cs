@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace API.DTOs
 {
-    public class LikeDto // จะ return ข้อมูลของ user ที่ like แค่นี้พอ
+    public class LikeDto
     {
         public int Id { get; set; }
         public string Username { get; set; }

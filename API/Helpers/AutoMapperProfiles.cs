@@ -25,7 +25,6 @@ namespace API.Helpers
                     src.Sender.Photos.FirstOrDefault(x => x.IsMain).Url))
                 .ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(src => 
                     src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url));
-                // ซึ่งก็ทำให้เราลดการเขียน mapping code ได้ด้วย AutoMapper นี้
         }
     }
 }

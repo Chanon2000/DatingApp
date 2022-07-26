@@ -2,8 +2,6 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { PaginatedResult } from "../_models/pagination";
 
-// แยกเป็นอีก file นึงเลยเพื่อที่จะได้ไม่ต้องไป copy วางที่ service อื่น
-
 export function getPaginatedResult<T>(url, params, http: HttpClient) {
     const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
     return http.get<T>(url, { observe: 'response', params }).pipe(

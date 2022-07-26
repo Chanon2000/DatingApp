@@ -35,7 +35,7 @@ namespace API.Data
             builder.Entity<Message>()
                 .HasOne(u => u.Recipient)
                 .WithMany(m => m.MessagesReceived)
-                .OnDelete(DeleteBehavior.Restrict); // Restrict เพราะว่าเราไม่ต้องการให้ delete message เมื่อมี user ในสนทนา delete account ตัวเอง
+                .OnDelete(DeleteBehavior.Restrict);
             
             builder.Entity<Message>()
                 .HasOne(u => u.Sender)

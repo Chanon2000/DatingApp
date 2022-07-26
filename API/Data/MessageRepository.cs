@@ -34,7 +34,6 @@ namespace API.Data
 
         public async Task<Message> GetMessage(int id)
         {
-            // เนื่องจากเราใช้ include ใน FindAsync ไม่ได้ เลยใช้ SingleOrDefaultAsync
             return await _context.Messages
                 .Include(u => u.Sender)
                 .Include(u => u.Recipient)
@@ -54,10 +53,10 @@ namespace API.Data
                 "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username
                     && u.SenderDeleted == false),
                 _ => query.Where(u => u.Recipient.UserName == 
-                    messageParams.Username && u.RecipientDeleted == false && u.DateRead == null) // default message ก็คือ message ที่ยังไม่ได้อ่าน
+                    messageParams.Username && u.RecipientDeleted == false && u.DateRead == null)
             };
 
-            var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider); // ProjectTo สามารถใช้ตอนที่มันเป็น query (IQueryable) ได้ แต่ _mapper.Map ใช้ได้แค่ตอนที่มี data แล้ว
+            var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
 
             return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
         }
@@ -65,9 +64,8 @@ namespace API.Data
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, 
             string recipientUsername)
         {
-            // ทำการ get message conversation ระหว่าง 2 users
             var messages = await _context.Messages
-                .Include(u => u.Sender).ThenInclude(p => p.Photos) // ไปที่ Sender แล้วเอา Photos ของ Sender มาด้วย
+                .Include(u => u.Sender).ThenInclude(p => p.Photos)
                 .Include(u => u.Recipient).ThenInclude(p => p.Photos)
                 .Where(m => m.Recipient.UserName == currentUsername && m.RecipientDeleted == false
                         && m.Sender.UserName == recipientUsername
@@ -77,13 +75,9 @@ namespace API.Data
                 .OrderBy(m => m.MessageSent)
                 .ToListAsync();
 
-                // เราจะทำการ mark message ให้เป็นสีแดง ทุก message ที่ user get จาก message thread ทุก message จะถูก mark ว่าอ่านแล้ว
-
-            // หา message ที่ current user ยังไม่ได้อ่าน
             var unreadMessages = messages.Where(m => m.DateRead == null 
                 && m.Recipient.UserName == currentUsername).ToList();
 
-            // mark message ให้เป็นสีแดง
             if (unreadMessages.Any())
             {
                 foreach (var message in unreadMessages)
@@ -94,7 +88,6 @@ namespace API.Data
                 await _context.SaveChangesAsync();
             }
             
-            // แล้ว return ส่งไปให้ user
             return _mapper.Map<IEnumerable<MessageDto>>(messages);
         }
 
