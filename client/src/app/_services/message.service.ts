@@ -26,4 +26,8 @@ export class MessageService {
     return this.http.post<Message>(this.baseUrl + 'messages', {recipientUsername: username, content}) 
     // content ใส่แบบนี้มีค่าเท่ากับ content: content
   }
+
+  deleteMessage(id: number) {
+    return this.http.delete(this.baseUrl + 'messages/' + id);
+  }
 }
