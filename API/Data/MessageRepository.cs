@@ -45,10 +45,12 @@ namespace API.Data
 
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(u => u.Recipient.UserName == messageParams.Username),
-                "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username),
+                "Inbox" => query.Where(u => u.Recipient.UserName == messageParams.Username 
+                    && u.RecipientDeleted == false),
+                "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username
+                    && u.SenderDeleted == false),
                 _ => query.Where(u => u.Recipient.UserName == 
-                    messageParams.Username && u.DateRead == null) // default message ก็คือ message ที่ยังไม่ได้อ่าน
+                    messageParams.Username && u.RecipientDeleted == false && u.DateRead == null) // default message ก็คือ message ที่ยังไม่ได้อ่าน
             };
 
             var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider); // ProjectTo สามารถใช้ตอนที่มันเป็น query (IQueryable) ได้ แต่ _mapper.Map ใช้ได้แค่ตอนที่มี data แล้ว
@@ -63,10 +65,10 @@ namespace API.Data
             var messages = await _context.Messages
                 .Include(u => u.Sender).ThenInclude(p => p.Photos) // ไปที่ Sender แล้วเอา Photos ของ Sender มาด้วย
                 .Include(u => u.Recipient).ThenInclude(p => p.Photos)
-                .Where(m => m.Recipient.UserName == currentUsername
+                .Where(m => m.Recipient.UserName == currentUsername && m.RecipientDeleted == false
                         && m.Sender.UserName == recipientUsername
                         || m.Recipient.UserName == recipientUsername
-                        && m.Sender.UserName == currentUsername
+                        && m.Sender.UserName == currentUsername && m.SenderDeleted == false
                 )
                 .OrderBy(m => m.MessageSent)
                 .ToListAsync();
