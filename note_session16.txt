@@ -17,4 +17,10 @@ ASP.NET Identity เป็น topic ที่ใหญ่ เราไม่ส�
     4. Provides an Entity Framework schema to create the needed tables
     5. Highly customisable
 
-[Setting up the entities]
+[Configuring the DbContext]
+
+IdentityDbContext ไม่ได้มีมาพร้อม project ดังนั้นคุณต้อง install มันผ่าน nuget
+- ไปที่ NuGet: Open NuGet Gallery
+- หา microsoft.aspnetcore.identity
+- เลือก Microsoft.AspNetCore.Identity.EntityFrameworkCore
+- กดติ้ก API.csproj แล้ว กด install
