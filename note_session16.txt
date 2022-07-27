@@ -1,0 +1,18 @@
+[Introduction]
+    1. Using .Net Identity ***
+    2. Role management
+    3. Policy based authorisation
+    4. UserManager<T>
+    5. SignInManager<T>
+    6. RoleManager<T>
+
+ASP.NET Identity เป็น topic ที่ใหญ่ เราไม่สามารถสอนได้หมดใน course นี้ได้
+ซึ่งหลังจากนี้เราจะ refactor code ของเราให้ใช้ ASP.NET Identity แทน custom authentication ที่เราทำเอาไว้
+
+[ทำไมเราต้องเปลี่ยนแปลง code มาใช้ ASP.NET Identity หรือ ASP.NET Core Identity]
+    1. Battle hardened, written and tested by Microsoft
+    2. Comes with a password hasher with 10,000 salt iterations => ซึ่งนี้ทำให้ password เราแข็งแกร่งขึ้น
+    ตอนที่เราทำ password hashing and password salting เราทำแต่ 1 salt iterations
+    3. Full framework for managing members and roles
+    4. Provides an Entity Framework schema to create the needed tables
+    5. Highly customisable
