@@ -16,3 +16,5 @@ ASP.NET Identity เป็น topic ที่ใหญ่ เราไม่ส�
     3. Full framework for managing members and roles
     4. Provides an Entity Framework schema to create the needed tables
     5. Highly customisable
+
+[Setting up the entities]
