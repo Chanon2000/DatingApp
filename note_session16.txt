@@ -53,3 +53,7 @@ IdentityDbContext ไม่ได้มีมาพร้อม project ดั�
 - dotnet watch run
 
 ก็จะเห็นข้อมูลใน AspNetRoles และข้อมูลใน AspNetUserRoles เพิ่มเข้ามาด้วย
+
+
+[Adding an admin component]
+"ng g c admin-panel --skip-tests"
