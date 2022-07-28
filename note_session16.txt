@@ -66,3 +66,15 @@ IdentityDbContext ไม่ได้มีมาพร้อม project ดั�
 
 [Adding a custom directive]
 "ng g d has-role --skip-tests"
+
+
+[Adding the edit roles component]
+    "ng g c user-management --skip-tests"
+
+    "ng g c photo-management --skip-tests"
+
+    "ng g s admin --skip-tests"
+
+[แก้ไข bootstarp คนละ version กับ ผู้สอน]
+    "npm uninstall bootswatch"
+    "npm install bootswatch@4.5.2"
