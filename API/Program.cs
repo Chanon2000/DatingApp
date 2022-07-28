@@ -23,7 +23,7 @@ namespace API
            {
                 var context = services.GetRequiredService<DataContext>();
                 await context.Database.MigrateAsync();
-                await Seed.SeedUsers(context);
+                // await Seed.SeedUsers(context); // เรายังไม่ได้แก้ใข seeed class อะไร เลย comment ไปก่อน (เพราะเราเปลี่ยน stuct ข้อมูล ในครั้งนี้ อาจทำให้เกิด error ได้)
            }
            catch (Exception ex)
            {
