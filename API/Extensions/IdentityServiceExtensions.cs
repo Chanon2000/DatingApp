@@ -40,6 +40,13 @@ namespace API.Extensions
                     };
                 });
 
+            services.AddAuthorization(opt => 
+            {
+                // RequireAdminRole คือ policy name
+                opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                opt.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+            });
+
             return services;
         }
     }
