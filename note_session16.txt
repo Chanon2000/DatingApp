@@ -62,3 +62,7 @@ IdentityDbContext ไม่ได้มีมาพร้อม project ดั�
 [Adding an admin guard]
 "ng g guard admin --skip-tests"
 แล้วเลือก CanActivate แค่นั้น
+
+
+[Adding a custom directive]
+"ng g d has-role --skip-tests"
