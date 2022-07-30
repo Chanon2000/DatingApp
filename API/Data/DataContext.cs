@@ -5,36 +5,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
-    // ใส่ parameter ให้ IdentityDbContext
     public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
-    // TUser is AppUser
-    // TRole is AppRole => ไม่ต้องใส่ <int> เป็น AppRole<int> เพราะเรากำหนดที่ class มันแล้ว
-    // TKey is int
-    // ...
     {
 
         public DataContext(DbContextOptions options) : base(options)
         {
         }
-        // เนื่อจจาก IdentityDbContext เตรียม table ที่เราต้องใช้ให้ด้วย
-        // public DbSet<AppUser> Users { get; set; } // คุณจะเห็น warning เพราะ IdentityDbContext เตรียม Users table ให้เราแล้ว การที่คุณกำหนดมันตรงนี้จะเป็นการ override
         public DbSet<UserLike> Likes { get; set; }
         public DbSet<Message> Messages { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            // config AppUser กับ AppRole
-
             builder.Entity<AppUser>()
                 .HasMany(ur => ur.UserRoles)
-                .WithOne(u => u.User) // 1 User มีได้หลาย UserRoles
+                .WithOne(u => u.User)
                 .HasForeignKey(ur => ur.UserId)
                 .IsRequired();
 
             builder.Entity<AppRole>()
                 .HasMany(ur => ur.UserRoles)
-                .WithOne(u => u.Role) // 1 Role มีได้หลาย UserRoles
+                .WithOne(u => u.Role)
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
 

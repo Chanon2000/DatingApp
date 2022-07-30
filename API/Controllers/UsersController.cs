@@ -29,8 +29,6 @@ namespace API.Controllers
             _userRepository = userRepository;
         }
 
-        // [Authorize(Roles = "Admin")] // แค่ Admin ที่ยิงเข้าเส้นนี้ได้ // ถ้าเป็น role อื่นแล้วยิงเข้ามาจะได้ 403 Forbidden (หมายถึง user นั้นถูกต้อง แต่ไม่อนุญาตให้ทำสิ่งนี้)
-        // ซึ่งส่วนใหญ่ไม่มีใครกำหนดแบบนี้ เขาจะใช้วิธีอื่นกันนั้นก็คือ policy
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
@@ -47,7 +45,6 @@ namespace API.Controllers
             return Ok(users);
         }
     
-        // [Authorize(Roles = "Member")]
         [HttpGet("{username}", Name = "GetUser")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {

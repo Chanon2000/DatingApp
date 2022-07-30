@@ -7,9 +7,7 @@ namespace API.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // ถ้าไปดูที่ Limitations Doc จะเห็นว่า operation บางอันไม่สามารถใช้ได้ ถ้า ไม่ใช่ .net 5
-            // https://docs.microsoft.com/en-us/ef/core/providers/sqlite/limitations
-            // ซึ่งถ้าคุณไม่ใช่ version 5 คุณต้อง delete migrations ก่อนหน้าทั้งหมด แล้ว start ใหม่อีกครั้ง (ก็คือเริ่มทำ migration ใหม่) เพื่อให้ใช้ DropForeignKey operation ได้เป็นต้น
+
             migrationBuilder.DropForeignKey( 
                 name: "FK_Likes_Users_LikedUserId",
                 table: "Likes");

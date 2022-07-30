@@ -18,7 +18,7 @@ namespace API.Controllers
             _userManager = userManager;
         }
 
-        [Authorize(Policy = "RequireAdminRole")] // Policy กำหนดว่า มีแค่ admin ที่ใช้เส้นนี้ได้
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpGet("users-with-roles")]
         public async Task<ActionResult> GetUsersWithRoles()
         {
@@ -26,7 +26,7 @@ namespace API.Controllers
                 .Include(r => r.UserRoles)
                 .ThenInclude(r => r.Role)
                 .OrderBy(u => u.UserName)
-                .Select(u => new // ก็คือทำการ project
+                .Select(u => new
                 {
                     u.Id,
                     Username = u.UserName,
@@ -42,24 +42,24 @@ namespace API.Controllers
         {
             var selectedRoles = roles.Split(",").ToArray();
 
-            var user = await _userManager.FindByNameAsync(username); // ได้ user ที่จะ edit
+            var user = await _userManager.FindByNameAsync(username);
 
             if (user == null) return NotFound("Could not find user");
 
-            var userRoles = await _userManager.GetRolesAsync(user); // userRoles คือ role ของ username
+            var userRoles = await _userManager.GetRolesAsync(user);
 
-            var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles)); // ทำการ add role ที่ส่งเข้ามา ให้กับ user คนนี้ (ยกเว้น role เดิมที่ user มีอยู่แล้ว)
+            var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles));
 
             if (!result.Succeeded) return BadRequest("Failed to add to roles");
 
-            result = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles)); // ลบทุก role ของ user ที่ไม่ได้อยู่ใน selectedRoles
+            result = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles));
 
             if (!result.Succeeded) return BadRequest("Failed to remove from roles");
 
             return Ok(await _userManager.GetRolesAsync(user));
         }
 
-        [Authorize(Policy = "ModeratePhotoRole")] // Policy กำหนดว่า มีแค่ Admins กับ moderators ที่ใช้เส้นนี้ได้
+        [Authorize(Policy = "ModeratePhotoRole")]
         [HttpGet("photos-to-moderate")]
         public ActionResult GetPhotosForModeration()
         {

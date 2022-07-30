@@ -35,7 +35,6 @@ namespace API.Controllers
             var user = _mapper.Map<AppUser>(registerDto);
 
             user.UserName = registerDto.Username.ToLower();
-            // ลบทุกอย่างที่เกี่ยวข้องกับการสร้าง PasswordHash PasswordSalt เพราะเราไม่ใช้แล้ว
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
@@ -58,14 +57,14 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _userManager.Users
-                .Include(p => p.Photos) // สามารถใช้ Include ดึง Photos ได้อยู่เช่นเดิม
+                .Include(p => p.Photos)
                 .SingleOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
 
 
             if (user == null) return Unauthorized("Invalid username");
 
             var result = await _signInManager
-                .CheckPasswordSignInAsync(user, loginDto.Password, false); // false คือเราจะไม่ logout user เมื่อ check แล้ว user,password ผิด
+                .CheckPasswordSignInAsync(user, loginDto.Password, false);
 
             if (!result.Succeeded) return Unauthorized();
 

@@ -28,7 +28,7 @@ const routes: Routes = [
       {path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
       {path: 'lists', component: ListsComponent},
       {path: 'messages', component: MessagesComponent},
-      {path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard]}, // สังเกต จะเข้า admin ได้ ต้องผ่าน AuthGuard ก่อนจาก parent แล้วค่อยไป AdminGuard
+      {path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard]},
     ]
   },
   {path: 'errors', component: TestErrorsComponent},

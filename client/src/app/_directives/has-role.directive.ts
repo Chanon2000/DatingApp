@@ -4,16 +4,15 @@ import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 
 @Directive({
-  selector: '[appHasRole]' // *ngIf, *ngFor, bsRadio => คือ derective ที่เราเคยใช้
-  //  directive นี้จะถูกเรียกใช้โดยการ *appHasRole='["Admin"]' // คือใส่ parameter คือ Admin เข้าไป
+  selector: '[appHasRole]'
 })
-export class HasRoleDirective implements OnInit { // เราจะใช้ directive นี้ในการซ้อน dom ตามเงือนไขที่กำหนด
+export class HasRoleDirective implements OnInit {
   @Input() appHasRole: string[];
   user: User;
   
   constructor(
     private viewContainerRef: ViewContainerRef, 
-    private templateRef: TemplateRef<any>, // TemplateRef ก็กำหนด type ไม่งั้นมัน error เลยใส่ <any> ไป
+    private templateRef: TemplateRef<any>,
     private accountService: AccountService
   ) {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
@@ -22,9 +21,8 @@ export class HasRoleDirective implements OnInit { // เราจะใช้ di
   }
 
   ngOnInit(): void {
-    // clear view if no roles
     if (!this.user?.roles || this.user == null) {
-      this.viewContainerRef.clear(); // clear() => Destroys all views in this container.
+      this.viewContainerRef.clear();
       return;
     }
 

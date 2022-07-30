@@ -24,9 +24,8 @@ namespace API.Services
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
         }
 
-        public async Task<string> CreateToken(AppUser user) // Task<string> อ่านว่า Task ที่ return string (Task of string)
+        public async Task<string> CreateToken(AppUser user)
         {
-            // token คือที่ที่ดีในการเก็บ roles
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
@@ -35,7 +34,7 @@ namespace API.Services
 
             var roles = await _userManager.GetRolesAsync(user);
 
-            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role))); // ใช้ ClaimTypes เพราะ JwtRegisteredClaimNames ไม่มี property role ให้ใช้ เลยใส่ ClaimTypes เหมาะกว่า
+            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
             
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 

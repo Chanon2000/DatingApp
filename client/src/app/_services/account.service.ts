@@ -38,8 +38,8 @@ export class AccountService {
 
   setCurrentUser(user: User) {
     user.roles = [];
-    const roles = this.getDecodedToken(user.token).role; // เพราะเมื่อ decode ออกมาจะได้ property หนึ่งในนั้นคือ role (คุณเลยสามารถ .role หลัง getDecodedToken ได้)
-    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles); // คือ if-else check ว่า roles มันเป็น array หรือป่าว
+    const roles = this.getDecodedToken(user.token).role;
+    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }
@@ -50,7 +50,6 @@ export class AccountService {
   }
 
   getDecodedToken(token) {
-    // atob ทำการ decode information ใน token แล้ว return // token ไม่ได้ encrypted ที่ encrypted ในส่วนของ signature ที่อยู่ใน token
-    return JSON.parse(atob(token.split('.')[1])); // แต่ละส่วนของ token มันแยกกันด้วย . โดยส่วนแรกคือ payload
+    return JSON.parse(atob(token.split('.')[1]));
   }
 }

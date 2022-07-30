@@ -14,13 +14,13 @@ namespace API.Data
     public class Seed
     {
         public static async Task SeedUsers(UserManager<AppUser> userManager, 
-            RoleManager<AppRole> roleManager) // ใช้ userManager เพื่อสร้าง user แทน
+            RoleManager<AppRole> roleManager)
         {
-            if (await userManager.Users.AnyAsync()) return; // userManager มันก็มี Users เหมือนกัน // Users ให้เราสามารถเข้าถึง user table ได้
+            if (await userManager.Users.AnyAsync()) return;
 
             var userData = await System.IO.File.ReadAllTextAsync("Data/UserSeedData.json");
             var users = JsonSerializer.Deserialize<List<AppUser>>(userData);
-            if (users == null) return; // คุณลืมเขียน if นี้ใน session เก่าๆ
+            if (users == null) return;
 
             var roles = new List<AppRole>
             {
@@ -38,11 +38,9 @@ namespace API.Data
             {
                 user.UserName = user.UserName.ToLower();
                 await userManager.CreateAsync(user, "Pa$$w0rd");
-                // "Pa$$w0rd" เราทำการ hardcode password // และเนื่องจากคุณปิด RequireNonAlphanumeric ของ password ไปแล้ว ทำให้เราสามารถใส่ password แบบนี้ไม่ซับซ้อนแบบนี้ได้
                 await userManager.AddToRoleAsync(user, "Member");
             }
 
-            // สร้าง admin
             var admin = new AppUser
             {
                 UserName = "admin"
@@ -50,8 +48,6 @@ namespace API.Data
 
             await userManager.CreateAsync(admin, "Pa$$w0rd");
             await userManager.AddToRolesAsync(admin, new[] {"Admin", "Moderator"});
-
-            // await context.SaveChangesAsync(); // เนื่องจาก userManager จัดการเรื่อง SaveChangesAsync ให้แล้ว
         }
     }
 }
