@@ -28,3 +28,10 @@ Supports: (สิ่งที่มันจะใช้)
     1. Bob connects to SignalR Hub
     2. Hub notifies all connected users that Bob has connected
     3. Presence updated on all connected browsers
+
+
+[Client side SignalR]
+"npm install @microsoft/signalr" ที่ client
+
+สร้าง service เพื่อ track user ที่ online
+"ng g s presence --skip-tests"
