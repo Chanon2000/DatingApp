@@ -24,7 +24,7 @@ namespace API.SignalR
         public override async Task OnConnectedAsync()
         {
             await _tracker.UserConnected(Context.User.GetUsername(), Context.ConnectionId);
-            await Clients.Others.SendAsync("userIsOnline", Context.User.GetUsername());
+            await Clients.Others.SendAsync("UserIsOnline", Context.User.GetUsername());
             // ใน Hub เราสามารถเข้าถึงตัวแปร Clients ได้
             // Clients.Others คือทุกคนยกเว้นคนที่ connection ที่ triggered การทำงานครั้งนี้
             // "userIsOnline" จะเป็นชื่อ method ที่เราจะใช้ที่ client แล้วก็ส่ง Username ไปด้วย
