@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 // เริ่มจากสร้าง folder เอง แล้วก็สร้าง class นี้เองเลย
 // SignalR มาพร้อม project ตอน new อยู่แล้ว
 namespace API.SignalR
 {
+    // เราจะจัดการ signalR (หรือ web sockets) แตกต่างจาก api controller ตรงที่ว่า web sockets ไม่ส่ง authentication header
+    // ดังนั้นสิ่งที่เราจะใช้คือ query string ของ signal
+    [Authorize] // ทำให้ anonymous users เข้ามาไม่ได้
     public class PresenceHub : Hub // คือ Hub class จาก SignalR
     // คลิกที่ Hub เข้าไปดูใน meta คุณจะเห็น method ที่คุณสามารถเขียน override ได้
     {
