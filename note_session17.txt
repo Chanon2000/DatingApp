@@ -1,0 +1,30 @@
+[Introduction]
+    1. Use and set up SignalR on both the API and thw client
+    2. Implement online presence
+    3. Implement live chat between users
+
+[What is SignalR?]
+    Open source library that provides real-time web functionality to apps
+    Good for
+        - Dashboards and monitoring apps
+        - Collaborative apps
+        - Apps that require notifications
+        - Chat apps
+
+[Features]
+- Handles connection management automatically
+- Sends messages to all connected clients simultaneously
+- Sends messages to specific clients or groups of clients
+Supports: (สิ่งที่มันจะใช้)
+    - WebSocket => คือ protocol (เมื่อใช้ websocket มันจะไปจาก protocal นึง แล้วไป http protocol ซึ่งนี้จะทำให้เราสามารถ สื่อสาร 2 ทางได้ระหว่าง client กับ server)
+    - Server-Sent events => ใช้ http และ browser จะ subscribe ที่ HTTP stream ที่ที่ server สามารถส่ง events ที่ระบุ
+    - Long polling => คือที่ที่ client จะไปดูว่า server มีอะไรใหม่ๆ ที่ server ควรจะส่งมั้ย
+เป็น 3 สิ่งที่ SignalR จะเลือก ว่า client ควรจะใช้อะไร
+- Offers client side npm package => มี npm package มาให้
+
+
+[What it gives us]
+การทำงานของ SignalR Hub
+    1. Bob connects to SignalR Hub
+    2. Hub notifies all connected users that Bob has connected
+    3. Presence updated on all connected browsers
