@@ -46,6 +46,7 @@ namespace API.SignalR
             await base.OnDisconnectedAsync(exception); // ลบ ออกจาก group นั้นๆ ที่ user คนนั้นกำลังอยู่โดยที่ไม่ต้องบอกมันว่า group อะไร
         }
 
+        // ส่ง message กันใน hub (ซึ่งคุณไปเรียกใช้มันที่ service ของ angular นั้นเอง ด้วยคำสั่ง invoke)
         public async Task SendMessage(CreateMessageDto createMessageDto)
         {
             var username = Context.User.GetUsername();
