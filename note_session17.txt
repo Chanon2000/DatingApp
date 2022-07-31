@@ -35,3 +35,14 @@ Supports: (สิ่งที่มันจะใช้)
 
 สร้าง service เพื่อ track user ที่ online
 "ng g s presence --skip-tests"
+
+
+[Tracking the message groups]
+    เราจะใช้ database ในการดูว่าใครกำลัง connect ใน group การสนทนาบ้าง 
+    ซึ่งถือว่ายังไม่ใช่วิธีที่ optimal พอ
+    เพราะ database เป็น persistent storage
+    แต่ถ้าใช้อย่าง Radis จะดำเนินการใน memory ที่อยู่ใน servers อื่น ซึ่งเป็น distributed servers แบบนี้จะเป็นวิธีที่ optimal solution ที่สุด
+
+    หลังจาก update entity เสร็จ
+    "dotnet ef migrations add GroupsAdded"
+    จากนั้นก็ "dotnet watch run" ต่อได้เลย
