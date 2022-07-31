@@ -52,3 +52,7 @@ Supports: (สิ่งที่มันจะใช้)
 ควรจะให้แสดงเป็น local time ที่ client อยู่เสมอ
 
 เราต้องการให้ date ของเรามี Z ลงท้าย เพื่อให้ client ดึงเวลา local time ของตัวเองมา
+
+[Fix popup not show when new message send from other]
+คุณทำการ "dotnet ef database drop" จากนั้นลองไปเล่นใหม่ก็ได้เลย
+หน้าจะเห็นเพราะเรื่องของข้อมูลเก่า ในส่วนของการเก็บเวลาที่ไม่เป็น Utc
