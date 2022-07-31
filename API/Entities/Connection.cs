@@ -7,7 +7,7 @@ namespace API.Entities
         {
         }
 
-        public Connection(string connectionId, string username) // การสร้าง construtor มาทำแบบนี้ ทำให้เราสามารถ new แล้วใส่ตัวแปรลง {} ได้ง่ายๆ ง่ายกว่าใส่ค่าลงตัวแปรที่ละตัว
+        public Connection(string connectionId, string username) // การสร้าง construtor มาทำแบบนี้ ทำให้เราสามารถ new แล้วใส่ตัวแปรลง () ได้ง่ายๆ ง่ายกว่าใส่ค่าลงตัวแปรที่ละตัว
         {
             ConnectionId = connectionId;
             Username = username;
