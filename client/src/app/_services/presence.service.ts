@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 
@@ -14,7 +16,7 @@ export class PresenceService {
   private onlineUsersSource = new BehaviorSubject<string[]>([]);
   onlineUsers$ = this.onlineUsersSource.asObservable();
 
-  constructor(private toastr: ToastrService) { }
+  constructor(private toastr: ToastrService, private router: Router) { }
 
   createHubConnection(user: User) { // ใช้เมื่อ user login
     // เพราะเราต้องส่ง JWT token เมื่อเราสร้าง connection
@@ -41,6 +43,13 @@ export class PresenceService {
 
     this.hubConnection.on('GetOnlineUsers', (usernames: string[]) => {
       this.onlineUsersSource.next(usernames);
+    })
+
+    this.hubConnection.on('NewMessageReceived', ({username, knownAs}) => {
+      this.toastr.info(knownAs + ' has sent you a new message!')
+        .onTap // เพื่อที่เราจะสามารถทำการ click แล้วทำบางอย่างได้ (ในที่นี้คือเราต้องการให้มันย้ายไปที่หน้า message)
+        .pipe(take(1))
+        .subscribe(() => this.router.navigateByUrl('/members/' + username + '?tab=3'))
     })
   }
 

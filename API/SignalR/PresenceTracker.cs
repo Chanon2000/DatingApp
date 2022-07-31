@@ -60,5 +60,16 @@ namespace API.SignalR
 
             return Task.FromResult(onlineUsers);
         }
+
+        public Task<List<string>> GetConnectionsForUser(string username)
+        {
+            List<string> connectionIds;
+            lock(OnlineUsers)
+            {
+                connectionIds = OnlineUsers.GetValueOrDefault(username); // จะ return null ถ้าไม่มี username ใน connection
+            }
+
+            return Task.FromResult(connectionIds);
+        }
     }
 }

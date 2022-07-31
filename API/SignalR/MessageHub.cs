@@ -16,9 +16,13 @@ namespace API.SignalR
         private readonly IMessageRepository _messageRepository;
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
+        private readonly IHubContext<PresenceHub> _presenceHub; // เราสามารถใช้ hub อื่น ในที่ใหนก็ได้ โดยการ inject มันเข้ามาแล้วหุ้มด้วย IHubContext
+        private readonly PresenceTracker _tracker;
         public MessageHub(IMessageRepository messageRepository, IMapper mapper, 
-            IUserRepository userRepository)
+            IUserRepository userRepository, IHubContext<PresenceHub> presenceHub, PresenceTracker tracker)
         {
+            _tracker = tracker;
+            _presenceHub = presenceHub;
             _userRepository = userRepository;
             _mapper = mapper;
             _messageRepository = messageRepository;
@@ -80,6 +84,17 @@ namespace API.SignalR
             if (group.Connections.Any(x => x.Username == recipient.UserName))
             {
                 message.DateRead = DateTime.UtcNow; // UtcNow => time on this computer
+            }
+            else
+            {
+                var connections = await _tracker.GetConnectionsForUser(recipient.UserName);
+                if (connections != null) // ทำเมื่อ user online แต่ไม่ได้ connect ใน group นั้นๆ
+                {
+                    await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived", 
+                        new {username = sender.UserName, knownAs = sender.KnownAs });
+                    // new{} คือ anonymous object ขึ้นมา
+                    // .Clients(connections) คือเราจะทำการ invoke method NewMessageReceived ไปที่ connections ที่ระบุใน Clients()
+                }
             }
 
             _messageRepository.AddMessage(message);
