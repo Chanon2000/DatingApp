@@ -36,19 +36,23 @@ namespace API.SignalR
             var otherUser = httpContext.Request.Query["user"].ToString();
             var groupName = GetGroupName(Context.User.GetUsername(), otherUser);
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);  // เพิ่ม user เข้า group
-            await AddToGroup(Context, groupName);
+            var group = await AddToGroup(groupName);
             // Context.ConnectionId คือ เอา ConnectionId จาก context มา
+            await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
 
             var messages = await _messageRepository.
                 GetMessageThread(Context.User.GetUsername(), otherUser);
 
-            await Clients.Group(groupName).SendAsync("ReceiveMessageThread", messages); // Clients.Group(groupName) ส่ง เฉพาะใน groupName เท่านั้น
-            // สังเกตว่าแบบนี้จะยังไม่ optimization เพราะว่า message เก่าที่ user มี อยู่แล้วคุณก็ยังส่งไปอยู่ โดยไม่จำเป็น
+            await Clients.Caller.SendAsync("ReceiveMessageThread", messages); // Clients.Group(groupName) ส่ง เฉพาะใน groupName เท่านั้น
+            // Caller หรือก็คือคนที่เข้ามาในห้องแชด
+            // ตัวอย่างการ optimization เช่น เมื่อ Todd เข้ามา มันจะส่ง UpdatedGroup ไปให้ทั้งคู่แต่หลักๆคือเพื่อทำการ mark message ของ lisa ว่า todd อ่านแล้วที่ clientของ lisaเลย จากนั้นก็ทำการส่ง messages ทั้งหมด เฉพาะ Todd (Caller) เท่านั้น 
+            // (optimization ครั้งนี้ทำให้คุณไม่ต้องส่ง message ทั้งหมด ให้ lisa เมื่อ Todd เข้ามาอ่าน message ไงละ)
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            await RemoveFromMessageGroup(Context.ConnectionId);
+            var group = await RemoveFromMessageGroup();
+            await Clients.Group(group.Name).SendAsync("UpdatedGroup", group);
             await base.OnDisconnectedAsync(exception); // ลบ ออกจาก group นั้นๆ ที่ user คนนั้นกำลังอยู่โดยที่ไม่ต้องบอกมันว่า group อะไร
         }
 
@@ -105,7 +109,8 @@ namespace API.SignalR
             }
         }
 
-        private async Task<bool> AddToGroup(HubCallerContext context, string groupName)
+        private async Task<Group> AddToGroup(string groupName)
+        // HubCallerContext context ไม่จำเป็นเพราะเราอยู่ใน Hub file (แต่ถ้าไม่ได้อยู่ใน hub ถึงจะควรใส่)
         // HubCallerContext ซึ่งจะทำให้เราเข้าถึง current username และ connectionId
         {
             var group = await _messageRepository.GetMessageGroup(groupName);
@@ -119,14 +124,20 @@ namespace API.SignalR
 
             group.Connections.Add(connection);
 
-            return await _messageRepository.SaveAllAsync(); // SaveAllAsync return boolean
+            if (await _messageRepository.SaveAllAsync()) return group; // SaveAllAsync return boolean
+
+            throw new HubException("Failed to join group");
         }
 
-        private async Task RemoveFromMessageGroup(string connectionId)
+        private async Task<Group> RemoveFromMessageGroup()
         {
-            var connection = await _messageRepository.GetConnection(connectionId);
+            var group = await _messageRepository.GetGroupForConnection(Context.ConnectionId);
+            // อยู่ใน hub เอา ConnectionId จะ Context ได้เลย
+            var connection = group.Connections.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
             _messageRepository.RemoveConnection(connection);
-            await _messageRepository.SaveAllAsync();
+            if (await _messageRepository.SaveAllAsync()) return group;
+
+            throw new HubException("Failed to remove from group");
         }
 
         private string GetGroupName(string caller, string other)
