@@ -14,7 +14,9 @@ export class MemberMessagesComponent implements OnInit {
   @Input() username: string;
   messageContent: string;
 
-  constructor(private messageService: MessageService) { }
+  constructor(public messageService: MessageService) { // เปลี่ยนเป็น public เพื่อให้ใช้ที่ template ได้
+
+  }
 
   ngOnInit(): void {
   }
