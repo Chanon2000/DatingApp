@@ -59,3 +59,6 @@ Supports: (สิ่งที่มันจะใช้)
 
 [Optimizing the presence]
 เรา Optimizing โดยการ return แค่ single user ให้กับทุกคน ที่ connect อยู่
+
+[Fix พอส่ง message แล้ว มันโดน mark ว่า read เลย ทั้งๆที่อีกคนยังไม่ได้อ่าน]
+แก้ด้วยการ "dotnet ef database drop" แล้วลองใหม่เหมือนเดิม
