@@ -56,3 +56,6 @@ Supports: (สิ่งที่มันจะใช้)
 [Fix popup not show when new message send from other]
 คุณทำการ "dotnet ef database drop" จากนั้นลองไปเล่นใหม่ก็ได้เลย
 หน้าจะเห็นเพราะเรื่องของข้อมูลเก่า ในส่วนของการเก็บเวลาที่ไม่เป็น Utc
+
+[Optimizing the presence]
+เรา Optimizing โดยการ return แค่ single user ให้กับทุกคน ที่ connect อยู่

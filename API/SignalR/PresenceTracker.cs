@@ -15,10 +15,11 @@ namespace API.SignalR
             // ทุกครั้งที่มีการ connection เขาจะให้ connection ID มาด้วย
 
         
-        public Task UserConnected(string username, string connectionId)
+        public Task<bool> UserConnected(string username, string connectionId)
         {
             // เนื่องจากdictionary ไม่ใช่ที่เก็บข้อมูลที่ดี ดังนั้น
             // ถ้าเรามี หลาย user ต้องการจะเข้ามา update ข้อมูล พร้อมกันนั้นจะทำให้มันเกิด error ขึ้น ดังนั้นจึงต้องทำการ lock ด้วย
+            bool isOnline = false; // ค่าเริ่มต้น
             lock (OnlineUsers) // lock ตัวแปรนี้ จนกว่าจะทำใน {} เสร็จ
             {
                 if (OnlineUsers.ContainsKey(username))
@@ -28,26 +29,30 @@ namespace API.SignalR
                 else
                 {
                     OnlineUsers.Add(username, new List<string>{connectionId}); // new key ใหม่พร้อมกับ connectionId เลย
+                    isOnline = true;
                 }
             }
 
-            return Task.CompletedTask;
+            return Task.FromResult(isOnline);
         }
 
-        public Task UserDisconnected(string username, string connectionId)
+        public Task<bool> UserDisconnected(string username, string connectionId)
         {
+            bool isOffline = false;
             lock(OnlineUsers)
             {
-                if (!OnlineUsers.ContainsKey(username)) return Task.CompletedTask;
+                // ถ้าไม่มี key ใน dictionary แสดงว่า offline อยู่
+                if (!OnlineUsers.ContainsKey(username)) return Task.FromResult(isOffline);
 
                 OnlineUsers[username].Remove(connectionId);
                 if (OnlineUsers[username].Count == 0)
                 {
                     OnlineUsers.Remove(username);
+                    isOffline = true;
                 }
             }
 
-            return Task.CompletedTask;
+            return Task.FromResult(isOffline);
         }
 
         public Task<string[]> GetOnlineUsers()

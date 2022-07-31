@@ -34,11 +34,15 @@ export class PresenceService {
       .catch(error => console.log(error)); // ถ้ามี error ก็จะ console ออกมา
 
     this.hubConnection.on('UserIsOnline', username => { // UserIsOnline ชื่อตรงนี้จะต้องตรงกับใน method ที่เขียนใน api
-      this.toastr.info(username + ' has connected');
+      this.onlineUsers$.pipe(take(1)).subscribe(usernames => {
+        this.onlineUsersSource.next([...usernames, username]); // username คือ user ที่พึงเข้ามา online ใหม่
+      })
     })
 
-    this.hubConnection.on('UserIsOffline', username => {
-      this.toastr.warning(username + ' has disconnected');
+    this.hubConnection.on('UserIsOffline', username => { // username คือ user ที่พึง offline ไป
+      this.onlineUsers$.pipe(take(1)).subscribe(usernames => {
+        this.onlineUsersSource.next([...usernames.filter(x => x != username)])
+      })
     })
 
     this.hubConnection.on('GetOnlineUsers', (usernames: string[]) => {
