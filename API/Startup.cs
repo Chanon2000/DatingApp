@@ -73,7 +73,7 @@ namespace API
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<PresenceHub>("hubs/presence"); // บอก routing เกี่ยวกับ hub endpoints
-                endpoints.MapHub<MessageHub>("hubs/presence");
+                endpoints.MapHub<MessageHub>("hubs/message");
             });
         }
     }
