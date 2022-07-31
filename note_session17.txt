@@ -46,3 +46,9 @@ Supports: (สิ่งที่มันจะใช้)
     หลังจาก update entity เสร็จ
     "dotnet ef migrations add GroupsAdded"
     จากนั้นก็ "dotnet watch run" ต่อได้เลย
+
+[Dealing with UTC date formats]
+
+ควรจะให้แสดงเป็น local time ที่ client อยู่เสมอ
+
+เราต้องการให้ date ของเรามี Z ลงท้าย เพื่อให้ client ดึงเวลา local time ของตัวเองมา
