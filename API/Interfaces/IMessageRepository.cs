@@ -10,7 +10,6 @@ namespace API.Interfaces
 {
     public interface IMessageRepository
     {
-        // สร้าง method เพิ่มเพื่อจัดการเกี่ยวกับ connections กับ signalR
         void AddGroup(Group group);
         void RemoveConnection(Connection connection);
         Task<Connection> GetConnection(string connectionId);

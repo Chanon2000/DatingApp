@@ -16,7 +16,7 @@ export class MessageService {
   baseUrl = environment.apiUrl;
   hubUrl = environment.hubUrl;
   private hubConnection: HubConnection;
-  private messageThreadSource = new BehaviorSubject<Message[]>([]); // เนื่องจาก BehaviorSubject มันจะจำค่าล่าสุดเสมอ ถึงแม้จะ emit ไปแล้ว
+  private messageThreadSource = new BehaviorSubject<Message[]>([]);
   messageThread$ = this.messageThreadSource.asObservable();
 
   constructor(private http: HttpClient) { }
@@ -35,10 +35,9 @@ export class MessageService {
       this.messageThreadSource.next(messages);
     })
 
-    // Update messageThreadSource ด้วย NewMessage
     this.hubConnection.on('NewMessage', message => {
-      this.messageThread$.pipe(take(1)).subscribe(messages => { // เอา message เก่าต่างๆ มา
-        this.messageThreadSource.next([...messages, message]) // เพิ่ม message ใหม่เข้า messageThreadSource
+      this.messageThread$.pipe(take(1)).subscribe(messages => {
+        this.messageThreadSource.next([...messages, message])
       })
     })
 
@@ -57,7 +56,7 @@ export class MessageService {
   }
 
   stopHubConnection() {
-    if (this.hubConnection) { // ถ้ามี Connection ถึงจะ stop
+    if (this.hubConnection) {
       this.hubConnection.stop();
     }
   }
@@ -72,11 +71,9 @@ export class MessageService {
     return this.http.get<Message[]>(this.baseUrl + 'messages/thread/' + username);
   }
 
-  // ใส่ async จะทำให้ method นี้ return promise
   async sendMessage(username: string, content: string) {
-    // ใช้ hub แทน
     return this.hubConnection.invoke('SendMessage', {recipientUsername: username, content})
-      .catch(error => console.log(error)); // เรียกใช้ SendMessage method ที่ hub ตรงนี้
+      .catch(error => console.log(error));
   }
 
   deleteMessage(id: number) {

@@ -27,7 +27,6 @@ namespace API.Extensions
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    // ถ้าเป็น api controller จะใช้ authentication header โดยแล้ว config ตรงนี้ไปใช้
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
@@ -36,13 +35,11 @@ namespace API.Extensions
                         ValidateAudience = false,
                     };
 
-                    // ส่วน signalr จะใช้ options ตรงนี้ ในการเอา token จาก query มาใส่ลง context.Token
                     options.Events = new JwtBearerEvents
                     {
-                        // ทำให้ client สามารถส่ง token เป็น query string ได้
                         OnMessageReceived = context =>
                         {
-                            var accessToken = context.Request.Query["access_token"]; // signalr มักส่ง token ผ่าน query string โดยใช้ชื่อ access_token เสมอ
+                            var accessToken = context.Request.Query["access_token"];
 
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrEmpty(accessToken) 

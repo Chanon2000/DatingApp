@@ -41,13 +41,8 @@ namespace API
             services.AddCors();
     
             services.AddIdentityServices(_config);
-            services.AddSignalR(); // เพิ่ม SignalR ลง application ของเรา
+            services.AddSignalR();
 
-            // คุณลืมลบ ???
-            // services.AddSwaggerGen(c =>
-            // {
-            //     c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-            // });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +57,7 @@ namespace API
 
             app.UseCors(x => x.AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials() // Allow credentials เมื่อใช้ signalR
+            .AllowCredentials()
             .WithOrigins("https://localhost:4200"));
 
             app.UseAuthentication();
@@ -72,7 +67,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<PresenceHub>("hubs/presence"); // บอก routing เกี่ยวกับ hub endpoints
+                endpoints.MapHub<PresenceHub>("hubs/presence");
                 endpoints.MapHub<MessageHub>("hubs/message");
             });
         }

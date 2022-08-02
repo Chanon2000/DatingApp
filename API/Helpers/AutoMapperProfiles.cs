@@ -25,9 +25,7 @@ namespace API.Helpers
                     src.Sender.Photos.FirstOrDefault(x => x.IsMain).Url))
                 .ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(src => 
                     src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url));
-            CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc)); // ทำเราได้ Z ลงท้ายแต่ละ date
-            // เช่น 2022-07-31T11:49:31.70042Z ซึ่งก็คือ utc time (เมื่อเอาไปให้ client ก็จะแปลงเป็นเวลา local อีกที)
-            // SpecifyKind กำหนดชนิดของ date
+            CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
         }
     }
 }

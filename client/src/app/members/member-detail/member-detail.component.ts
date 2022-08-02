@@ -35,8 +35,6 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
-    // เนื่องจาก ถ้าเราอยู่ที่ ?tab=3 อยู่แล้วแต่เป็นแชตกับ user คนอื่น พอมี user อีกคน แชตมาแล้วคุณไปคลิกที่ popup เพื่อย้ายหน้าไปที่แชตเขา มันจะเกิดปัญหาขึ้นนั้นคือข้อมูล message จะไม่ถูก load ขึ้นมา (เนื่องจาก angular เห็นว่าคุณเข้า route เดิมมันเลย reuse นั้นเอง)
-    // เรา update route ไปเป็น route เดียวกับที่เราอยู่ในปัจจุบัน นั้นทำให้ angular มันทำการ trigger route เดิม แต่ไปอีก user นึ่ง (ซึ่งเราจะแก้ปัญหาโดยการ set การ reuse ให้เป็น false ตรงนี้)
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
@@ -88,14 +86,14 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   onTabActivated(data: TabDirective) {
     this.activeTab = data;
     if (this.activeTab.heading === 'Messages' && this.messages.length === 0) {
-      this.messageService.createHubConnection(this.user, this.member.username); // สร้าง connection เมื่อมาที่ tab นี้
+      this.messageService.createHubConnection(this.user, this.member.username);
     } else {
-      this.messageService.stopHubConnection(); // เมื่อย้ายไปที่ tab อื่นก็ให้ disconnection ด้วย
+      this.messageService.stopHubConnection();
     }
   }
 
   ngOnDestroy(): void {
-    this.messageService.stopHubConnection(); // เมื่อย้ายไป component อื่น ก็ให้ disconnection ด้วย
+    this.messageService.stopHubConnection();
   }
 
 }

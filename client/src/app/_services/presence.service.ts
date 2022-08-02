@@ -18,28 +18,25 @@ export class PresenceService {
 
   constructor(private toastr: ToastrService, private router: Router) { }
 
-  createHubConnection(user: User) { // ใช้เมื่อ user login
-    // เพราะเราต้องส่ง JWT token เมื่อเราสร้าง connection
-    // เราไม่ใช้ interceptor เพราะนี้ไม่ใช่ Http request
-    // นั้นคือเราใช้ web sockets ซึ่งไม่ support เรื่อง authentication header ด้วย
+  createHubConnection(user: User) {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(this.hubUrl + 'presence', {
         accessTokenFactory: () => user.token
       })
-      .withAutomaticReconnect() // เพื่อแก้ปัญหา network client เราควรจะ auto try and reconnect to our hub
+      .withAutomaticReconnect()
       .build();
 
     this.hubConnection
-      .start() // start hub connection จริงๆ ตรงนี้
-      .catch(error => console.log(error)); // ถ้ามี error ก็จะ console ออกมา
+      .start()
+      .catch(error => console.log(error));
 
-    this.hubConnection.on('UserIsOnline', username => { // UserIsOnline ชื่อตรงนี้จะต้องตรงกับใน method ที่เขียนใน api
+    this.hubConnection.on('UserIsOnline', username => {
       this.onlineUsers$.pipe(take(1)).subscribe(usernames => {
-        this.onlineUsersSource.next([...usernames, username]); // username คือ user ที่พึงเข้ามา online ใหม่
+        this.onlineUsersSource.next([...usernames, username]);
       })
     })
 
-    this.hubConnection.on('UserIsOffline', username => { // username คือ user ที่พึง offline ไป
+    this.hubConnection.on('UserIsOffline', username => {
       this.onlineUsers$.pipe(take(1)).subscribe(usernames => {
         this.onlineUsersSource.next([...usernames.filter(x => x != username)])
       })
@@ -51,13 +48,13 @@ export class PresenceService {
 
     this.hubConnection.on('NewMessageReceived', ({username, knownAs}) => {
       this.toastr.info(knownAs + ' has sent you a new message!')
-        .onTap // เพื่อที่เราจะสามารถทำการ click แล้วทำบางอย่างได้ (ในที่นี้คือเราต้องการให้มันย้ายไปที่หน้า message)
+        .onTap
         .pipe(take(1))
         .subscribe(() => this.router.navigateByUrl('/members/' + username + '?tab=3'))
     })
   }
 
-  stopHubConnection() { // ใช้เมื่อ user logout
-    this.hubConnection.stop().catch(error => console.log(error)); // stop แล้วก็แค่ catch error เฉยๆ
+  stopHubConnection() {
+    this.hubConnection.stop().catch(error => console.log(error));
   }
 }

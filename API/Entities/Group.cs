@@ -8,7 +8,7 @@ namespace API.Entities
 {
     public class Group
     {
-        public Group() // เนื่องจากตอนสร้าง table มันจะต้องการ empty constructor
+        public Group()
         {
         }
 
@@ -17,8 +17,8 @@ namespace API.Entities
             Name = name;
         }
 
-        [Key]// ซึ่งให้ Name เป็น primary key
+        [Key]
         public string Name { get; set; } 
-        public ICollection<Connection> Connections { get; set; } = new List<Connection>(); // new เลยเพราะว่าเมื่อเราสร้าง Group ใหม่ เราแน่นอนต้องการ Connections list ใน group นั้น
+        public ICollection<Connection> Connections { get; set; } = new List<Connection>();
     }
 }
