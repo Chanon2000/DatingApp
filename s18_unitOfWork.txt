@@ -1,0 +1,17 @@
+[Introduction]
+    1. The Unit of Work pattern
+    2. Optimising queries dialog service
+    3. Adding a confirm dialog service
+    4. Finishing touches
+
+[Unit of Work]
+    - Maintaining a list of objects affected by a business transaction and coordinates the writing of changes.
+    - เราต้องการ SaveChanges หลังจากที่ Entity framework track โดยไม่สนว่ามันจะเป็น repository อันไหน ครั้งเดียวต่อ 1 request เลย
+    - เพื่อที่เราจะได้ saveChanges แค่ 1 ครั้งใน 1 transaction นั้นก็คือทำให้ 1 request ก็จะไปเขียนลง database แค่ 1 ครั้งเท่านั้น (1 request คือ 1 transaction)
+
+ปัญหาที่เราต้องการแก้
+    - แต่ละ repo ก็จะมีหลาย method เพื่อ get data ของตัวเอง
+    - ต้อง save changes ของใครของมัน
+    - และต้อง inject แต่ละ repo คนละ instance ลง controllers
+
+สิ่งที่เราจะทำการคือเราจะ inject แต่ unit of work แทนที่จะเป็น repo ต่างๆ ลง controllers แล้วเราก็จะเข้าถึงมันผ่าน uow
