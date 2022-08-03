@@ -15,3 +15,9 @@
     - และต้อง inject แต่ละ repo คนละ instance ลง controllers
 
 สิ่งที่เราจะทำการคือเราจะ inject แต่ unit of work แทนที่จะเป็น repo ต่างๆ ลง controllers แล้วเราก็จะเข้าถึงมันผ่าน uow
+
+[เจอ defact]
+ที่เวลา lisa ส่งข้อความแล้วมันขึ้นว่า todd อ่านแล้วเลยทั้งๆที่ todd ไม่ได้อยู่ในแชตเป็นเพราะว่า ที่ Group มันเก็บ Connections ของ todd อยู่ ไม่พอเก็บซำ้ด้วย
+
+[Optimizing queries part one]
+เมื่อคุณลองยิง api บางเส้น และเมื่อเข้าไปดูที่ terminal จะเห็น sql ซึ่งนั้นจะทำให้คุณเห็นว่ามันยัง query ในสิ่งที่ไม่จำเป็นต้อง query นี้คือสิ่งที่เราจะมาแก้ใน commit นี้
