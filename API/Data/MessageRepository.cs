@@ -110,7 +110,7 @@ namespace API.Data
                     message.DateRead = DateTime.UtcNow;
                 }
 
-                await _context.SaveChangesAsync();
+                // await _context.SaveChangesAsync(); // เราจะไป saveChange ที่ messageHubแทน และใช้ uow แทน เพราะตอนนี้หน้าที่ในการ saveChange เป็นของ uow ไม่ใช่ dataContext
             }
             
             return _mapper.Map<IEnumerable<MessageDto>>(messages);
