@@ -106,7 +106,7 @@ namespace API.Data
             {
                 foreach (var message in unreadMessages)
                 {
-                    message.DateRead = DateTime.UtcNow;
+                    message.DateRead = DateTime.UtcNow; // เนื่องจาก เรา set UtcNow หลังจาก ProjectTo โดยใช้ AutoMapper
                 }
 
                 // await _context.SaveChangesAsync(); // เราจะไป saveChange ที่ messageHubแทน และใช้ uow แทน เพราะตอนนี้หน้าที่ในการ saveChange เป็นของ uow ไม่ใช่ dataContext

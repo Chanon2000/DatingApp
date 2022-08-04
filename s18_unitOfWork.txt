@@ -21,3 +21,11 @@
 
 [Optimizing queries part one]
 เมื่อคุณลองยิง api บางเส้น และเมื่อเข้าไปดูที่ terminal จะเห็น sql ซึ่งนั้นจะทำให้คุณเห็นว่ามันยัง query ในสิ่งที่ไม่จำเป็นต้อง query นี้คือสิ่งที่เราจะมาแก้ใน commit นี้
+
+[Fixing UTC dates again]
+dateRead ไม่ถูก เปลี่ยนเป็น utc หลังจาก Optimizing ก่อนหน้านี้ไป
+
+วีธีแก้ปัญหานี้
+# https://github.com/dotnet/efcore/issues/4711
+
+date ทุก field เก็บแบบ unspecified นั้นก็คือไม่ใช่ utc
