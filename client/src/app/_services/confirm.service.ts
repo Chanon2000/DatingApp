@@ -26,19 +26,19 @@ export class ConfirmService {
 
     this.bsModelRef = this.modelService.show(ConfirmDialogComponent, config);
 
-    return new Observable<boolean>(this.getResult()); // เหมือนใส่ callback เข้าไป
+    return new Observable<boolean>(this.getResult());
   }
 
   private getResult() {
-    return (observer) => { // callback ที่ใส่ใน Observable() จะทำให้คุณเข้าถึง observer ของ obv ได้
+    return (observer) => {
       const subscription = this.bsModelRef.onHidden.subscribe(() => {
-        observer.next(this.bsModelRef.content.result); // เอา observer ของ Observable มา next เพื่อ emit ค่าที่ได้จาก bsModelRef
+        observer.next(this.bsModelRef.content.result);
         observer.complete();
       });
 
       return {
         unsubscribe() {
-          subscription.unsubscribe(); // ทำการ unsubscribe ไปที่ subscription
+          subscription.unsubscribe();
         }
       }
     }

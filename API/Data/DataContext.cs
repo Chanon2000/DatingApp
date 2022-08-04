@@ -60,11 +60,10 @@ namespace API.Data
                 .WithMany(m => m.MessagesSent)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.ApplyUtcDateTimeConverter(); // ต้องอยู่หลัง entity configuration ทั้งหมด
+            builder.ApplyUtcDateTimeConverter();
         }
     } 
 
-    // เพื่อ convert dateTime เป็น dateTimeUtc // เรา convert date ตั้งแต่ DataContext level เลย (คือตั้งแต่ออกมาจาก database นั้นทำให้เราไม่ต้องไม่ convert มันที่ไหนใน code อีก)
     public static class UtcDateAnnotation
     {
         private const String IsUtcAnnotation = "IsUtc";

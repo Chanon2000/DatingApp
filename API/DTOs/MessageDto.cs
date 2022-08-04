@@ -19,7 +19,7 @@ namespace API.DTOs
         public DateTime? DateRead { get; set; }
         public DateTime MessageSent { get; set; }
 
-        [JsonIgnore] // เพื่อให้คุณยังใช้ที่ backend ได้ แต่มันจะไม่แปลงเป็น json เพื่อส่งไปที่ frontend
+        [JsonIgnore]
         public bool SenderDeleted { get; set; }
 
         [JsonIgnore]

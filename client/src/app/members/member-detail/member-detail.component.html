@@ -51,7 +51,6 @@
             </tab>
             <tab heading='Messages' (selectTab)="onTabActivated($event)">
                 <app-member-messages [username]="member.username"></app-member-messages>
-                <!-- [messages]="messages" เอาออก เพราะว่าเราสามารถเข้าถึง message ผ่าน serviceแล้ว -->
             </tab>
         </tabset>
     </div>

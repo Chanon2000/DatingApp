@@ -62,14 +62,14 @@ namespace API.Data
         {
             return await _context.Groups
                 .Include(x => x.Connections)
-                .FirstOrDefaultAsync(x => x.Name == groupName); // 
+                .FirstOrDefaultAsync(x => x.Name == groupName);
         }
 
         public async Task<PagedList<MessageDto>> GetMessagesForUser(MessageParams messageParams)
         {
             var query = _context.Messages
                 .OrderByDescending(m => m.MessageSent)
-                .ProjectTo<MessageDto>(_mapper.ConfigurationProvider) // ProjectTo ตั้งแต่ตรงนี้เลยเพื่อไม่ให้มัน select หลาย field เยอะ
+                .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
                 .AsQueryable();
 
             query = messageParams.Container switch
@@ -89,7 +89,6 @@ namespace API.Data
             string recipientUsername)
         {
             var messages = await _context.Messages
-                // ไม่ต้องใช้ include แล้วถ้าเราทำการ Projection (เนื่องจากที่ AutoMapper ที่ MessageDto มันไป ForMember อยู่แล้ว)
                 .Where(m => m.Recipient.UserName == currentUsername && m.RecipientDeleted == false
                         && m.Sender.UserName == recipientUsername
                         || m.Recipient.UserName == recipientUsername
@@ -106,10 +105,8 @@ namespace API.Data
             {
                 foreach (var message in unreadMessages)
                 {
-                    message.DateRead = DateTime.UtcNow; // เนื่องจาก เรา set UtcNow หลังจาก ProjectTo โดยใช้ AutoMapper
+                    message.DateRead = DateTime.UtcNow;
                 }
-
-                // await _context.SaveChangesAsync(); // เราจะไป saveChange ที่ messageHubแทน และใช้ uow แทน เพราะตอนนี้หน้าที่ในการ saveChange เป็นของ uow ไม่ใช่ dataContext
             }
             
             return messages;

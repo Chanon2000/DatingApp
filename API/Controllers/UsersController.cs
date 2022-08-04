@@ -32,7 +32,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
-            var gender = await _unitOfWork.UserRepository.GetUserGender(User.GetUsername()); // สร้าง method เพื่อดึง gender โดยเฉพาะ เลย
+            var gender = await _unitOfWork.UserRepository.GetUserGender(User.GetUsername());
             userParams.CurrentUsername = User.GetUsername();
 
             if (string.IsNullOrEmpty(userParams.Gender))
