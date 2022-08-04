@@ -22,3 +22,12 @@
 - "ng build"
 - เมื่อ build เสร็จลองแค่ "dotnet watch run" แล้วลองเข้า https://localhost:5001/ คุณก็จะเห็นหน้าเว็ปเลย โดยที่ไม่ได้ run "ng s" 
 - ปัญหาตอนนี้ก็คือเมื่อยิง https://localhost:5001/members api มันจะไม่รู้จัก route นี้
+
+[Creating an angular production build]
+เราจะมาจัดการเรื่อง file size พวก vendor.js, styles.js (ดูได้ตรงส่วนของ network)
+
+link การ deploy ของ angular
+https://angular.io/guide/deployment#production-optimizations ที่ Production optimizations
+
+- "ng build --prod" => "--prod" จะทำการ run ทุก optimizations ที่เราอ่านตาม link ซึ่งทำให้ file ต่างๆซึ่งอาจไม่ได้ชื่อเดิมเล็กลง
+- เมื่อดูที่ console เราจะไม่เห็นอะไรใน development mode เลย 
