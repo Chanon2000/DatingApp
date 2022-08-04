@@ -64,6 +64,10 @@ namespace API
 
             app.UseAuthorization();
 
+            app.UseDefaultFiles(); // บอก API server to use static files // ซึ่งมันจะ load index.html ในนั้น แล้วก็ทำการ serve
+            // DefaultFiles ในที่นี้หมายถึง index file นี้แหละ
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
