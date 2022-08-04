@@ -1,0 +1,19 @@
+[Introduction]
+    1. Prepare he app for publication
+    2. What to consider before publishing
+    3. Switching DBs
+    4. Serving static content from the API server.
+    5. Publishing to Heroku (Free!)
+    6. Integrating Heroku to GitHub
+    7. Using git branches
+
+[What to consider when publishing]
+    1. Environment variables
+    2. Localhost
+    3. CORS - if hosting the client app in different domain => ต้องคำนึงเมื่อคุณ host client กับ api คนละ domain
+    4. Database => เนื่องจากเราใช้ entity framework นั้นทำให้สิ่งที่เราต้องคิดมีแค่เรื่องเดียวคือ entity framework support database server ที่เราจะใช้หรือป่าว
+    เช่น คุณไม่ควรใช้ NoSql database (เช่น MongoDB) เพราะมันไม่ใช่ relational ซึ่ง entity framework คือ object relational mapper
+    5. Cost
+    6. Capacity / scalability
+    7. Seed data
+    8. Fake delays! => คนต้องลบมันด้วย
