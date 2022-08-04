@@ -1,6 +1,6 @@
 [Introduction]
-    1. The Unit of Work pattern
-    2. Optimising queries dialog service
+    1. The Unit of Work pattern => ใช้ uow ทำให้เราสร้าง datacontext instance แค่อันเดียวในการใช้งาน
+    2. Optimising queries to the DB
     3. Adding a confirm dialog service
     4. Finishing touches
 
