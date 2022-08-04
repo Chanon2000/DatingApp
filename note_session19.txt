@@ -21,4 +21,4 @@
 [Preparing the angular app and serving this from the API server]
 - "ng build"
 - เมื่อ build เสร็จลองแค่ "dotnet watch run" แล้วลองเข้า https://localhost:5001/ คุณก็จะเห็นหน้าเว็ปเลย โดยที่ไม่ได้ run "ng s" 
-- ปัญหาตอนนี้ก็คือเมื่อยิง https://localhost:5001/members dotnet มันจะไม่รู้จัก route นี้
+- ปัญหาตอนนี้ก็คือเมื่อยิง https://localhost:5001/members api มันจะไม่รู้จัก route นี้

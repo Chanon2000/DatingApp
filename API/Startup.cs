@@ -73,6 +73,9 @@ namespace API
                 endpoints.MapControllers();
                 endpoints.MapHub<PresenceHub>("hubs/presence");
                 endpoints.MapHub<MessageHub>("hubs/message");
+                endpoints.MapFallbackToController("Index", "Fallback");
+                // Index คือชื่อ action
+                // Fallback คือชื่อ controller
             });
         }
     }
