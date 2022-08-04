@@ -29,3 +29,8 @@ dateRead ไม่ถูก เปลี่ยนเป็น utc หลัง�
 # https://github.com/dotnet/efcore/issues/4711
 
 date ทุก field เก็บแบบ unspecified นั้นก็คือไม่ใช่ utc
+
+[Adding a confirmation service to the angular app]
+"ng g s confirm --skip-tests"
+
+"ng g c confirm-dialog --skip-tests"
