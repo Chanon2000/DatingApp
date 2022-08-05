@@ -83,3 +83,18 @@ https://www.pgadmin.org/
     - CloudinarySettings:ApiKey => 537949517993566
     - CloudinarySettings:ApiSecret => c70GtjUgLqu1Ou25suOd9DqN1Nw
     copy มาจาก appsetting
+
+[Deploying the app to Heroku]
+
+"heroku config:set ASPNETCORE_ENVIRONMENT=Production" => เพื่อเมื่อเรา run app บน Production มันจะได้ใช้ configuration แบบ Production ของเรา
+
+"git push heroku master" => มันจะทำการ deploy app ของเราจาก master ของ remote ที่เรา set ไปก่อนหน้านี้
+และใช้ build pack เพื่อ install dotnet ดึง sbk (คือ command ในการ deploy)
+ซึ่งคุณจะได้ https://datingappcoursemick.herokuapp.com/
+
+แล้วเข้าเว็ปคุณจะเห็นว่ามัน error เพราะคุณไม่ได้กำหนด TokenKey ดังนั้นจึง
+"heroku config:set TokenKey=6XLXyPEuVHMaVuveCqfv7LtP7fIBdKDw" => โดย password นั้น custom มาจาก https://delinea.com/resources/password-generator-it-tool
+
+จากนั้นก็ไปยิง url ของเว็ปเราอีกครั้ง คุณก็จะเห็นหน้าเว็ปเลย !!!!
+
+*** commit แล้ว push ขึ้น origin ก่อนด้วย ก่อนจะ "git push heroku master" เมื่อจะทำการแก้ไขอะไร ***
