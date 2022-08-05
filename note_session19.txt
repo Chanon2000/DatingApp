@@ -103,3 +103,9 @@ https://www.pgadmin.org/
     1. ที่ Deploy tab ให้ไปทำการ connect กับ github แล้วก็เลือก repo DatingApp
     2. จากนั้นเลือก branch
     3. เลือก Enable Automatic Deploys (ทำให้ทุกครั้งที่ push ไปที่ master มันจะ deploy version ใหม่ให้เลย)
+
+[Merging changes and redeploying]
+
+"ng build --prod" => แก้ ที่ front ก็ควรจะ build ก่อนเพราะ dotnet มัน serve file ที่ wwwroot
+
+คุณสามารถเห็นการ build code ของ heroku ได้ที่ Activity tab
