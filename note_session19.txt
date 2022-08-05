@@ -46,3 +46,12 @@ https://hub.docker.com/_/postgres
 
 ตัว GUI ของ PostgreSQL
 https://www.pgadmin.org/
+
+[Changing the DB Server in our app]
+เราจะไม่ใช้ sqlite เราจะเปลี่ยนมาใช้ PostgreSQL
+
+- เราจะลบทุกอย่างใน Migrations (history Migrations ต่างๆ)
+- "dotnet ef database drop"
+- install Npgsql.EntityFrameworkCore.PostgreSQL (copy มาจาก doc ของ ms) โดย NuGet
+- แล้วทำการ dotnet ef migrations add PostgresInitial -o Data/Migrations นั้นคือ init Migrations
+- "dotnet watch run"
