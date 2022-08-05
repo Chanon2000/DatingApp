@@ -17,10 +17,10 @@
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
-        "build": { // build session
+        "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "../API/wwwroot", //  เราต้องการ publish files ไปที่ api service (Kestrel server) // wwwroot คือ default content folder ที่ Kestrel server จะใช้ สำหรับ static files
+            "outputPath": "../API/wwwroot",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

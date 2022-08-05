@@ -34,12 +34,12 @@ namespace API.Extensions
                 if (env == "Development")
                 {
                     // Use connection string from file.
-                    connStr = config.GetConnectionString("DefaultConnection"); // ทำให้เรายังสามารถใช้ PostgreSQL instance ใน development ได้
+                    connStr = config.GetConnectionString("DefaultConnection");
                 }
                 else
                 {
                     // Use connection string provided at runtime by Heroku.
-                    var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL"); // DATABASE_URL จาก heroku
+                    var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
                     // Parse connection URL to connection string for Npgsql
                     connUrl = connUrl.Replace("postgres://", string.Empty);
@@ -52,7 +52,7 @@ namespace API.Extensions
                     var pgHost = pgHostPort.Split(":")[0];
                     var pgPort = pgHostPort.Split(":")[1];
 
-                    connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};SSL Mode=Require;TrustServerCertificate=True"; // แปลง string ให้ถูก format ก่อนเอาใส่ UseNpgsql
+                    connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};SSL Mode=Require;TrustServerCertificate=True";
                 }
 
                 // Whether the connection string came from the local development configuration file

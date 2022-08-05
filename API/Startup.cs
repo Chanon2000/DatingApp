@@ -64,8 +64,7 @@ namespace API
 
             app.UseAuthorization();
 
-            app.UseDefaultFiles(); // บอก API server to use static files // ซึ่งมันจะ load index.html ในนั้น แล้วก็ทำการ serve
-            // DefaultFiles ในที่นี้หมายถึง index file นี้แหละ
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
@@ -74,8 +73,6 @@ namespace API
                 endpoints.MapHub<PresenceHub>("hubs/presence");
                 endpoints.MapHub<MessageHub>("hubs/message");
                 endpoints.MapFallbackToController("Index", "Fallback");
-                // Index คือชื่อ action
-                // Fallback คือชื่อ controller
             });
         }
     }
