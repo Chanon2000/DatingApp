@@ -98,3 +98,8 @@ https://www.pgadmin.org/
 จากนั้นก็ไปยิง url ของเว็ปเราอีกครั้ง คุณก็จะเห็นหน้าเว็ปเลย !!!!
 
 *** commit แล้ว push ขึ้น origin ก่อนด้วย ก่อนจะ "git push heroku master" เมื่อจะทำการแก้ไขอะไร ***
+
+[Using branches in git and connecting Heroku to GitHub]
+    1. ที่ Deploy tab ให้ไปทำการ connect กับ github แล้วก็เลือก repo DatingApp
+    2. จากนั้นเลือก branch
+    3. เลือก Enable Automatic Deploys (ทำให้ทุกครั้งที่ push ไปที่ master มันจะ deploy version ใหม่ให้เลย)
