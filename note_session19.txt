@@ -31,3 +31,18 @@ https://angular.io/guide/deployment#production-optimizations ที่ Productio
 
 - "ng build --prod" => "--prod" จะทำการ run ทุก optimizations ที่เราอ่านตาม link ซึ่งทำให้ file ต่างๆซึ่งอาจไม่ได้ชื่อเดิมเล็กลง
 - เมื่อดูที่ console เราจะไม่เห็นอะไรใน development mode เลย 
+
+
+[Switching the DB Server to PostGres]
+list ของ database ที่ใช้งานได้ใน entity framework
+https://docs.microsoft.com/en-us/ef/core/providers/?tabs=dotnet-core-cli
+
+เดี๋ยวเราจะเปลี่ยนมาใช้ PostgreSQL เพราะ heroku ให้มา
+
+และเราจะrun PostgreSQL บน docker โดยการ load image มาจาก docker hub
+https://hub.docker.com/_/postgres
+
+"docker run --name dev -e POSTGRES_USER=appuser -e POSTGRES_PASSWORD=Pa$$w0rd -p 5432:5432 -d postgres:latest"
+
+ตัว GUI ของ PostgreSQL
+https://www.pgadmin.org/
