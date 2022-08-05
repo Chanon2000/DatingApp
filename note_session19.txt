@@ -55,3 +55,31 @@ https://www.pgadmin.org/
 - install Npgsql.EntityFrameworkCore.PostgreSQL (copy มาจาก doc ของ ms) โดย NuGet
 - แล้วทำการ dotnet ef migrations add PostgresInitial -o Data/Migrations นั้นคือ init Migrations
 - "dotnet watch run"
+
+[Setting up Heroku]
+- https://dashboard.heroku.com/apps/datingappcoursemick/deploy/heroku-git => มี command ตัวอย่างอยู่ในนี้
+
+(1) install heroku cli ลง localhost "brew tap heroku/brew && brew install heroku"
+
+(2) ทำการ new app บน heroku => ชื่อ datingappcoursemick
+
+(3) "heroku login"
+
+(4) "heroku git:remote -a datingappcoursemick" => ทำการ add git remote ปัจจุบันของคุณ
+
+(5)
+จากนั้นใช้ .NET Core edge command
+"heroku buildpacks:set https://github.com/jincod/dotnetcore-buildpack" => เพื่อทำการกำหนด build pack ให้กับ project
+    - จริงๆ แล้ว Heroku ไม่ได้ support dotnet นัก จึงใช้ heroku dotnet buildpack
+
+    - heroku dotnet buildpack
+    https://elements.heroku.com/buildpacks/jincod/dotnetcore-buildpack
+
+(6)
+เพิ่ม Add-ons ชื่อ Heroku Postgres โดยใช้ Free version (Hobby Dev - Free) => มี limitations คือ data ต้องไม่เกิน 10,000 rows ใน database ซึ่งก็พอต่อการ development and testing
+
+(7) กำหนด Config Vars ใน Settings ใส่ 
+    - CloudinarySettings:CloudName => chanon
+    - CloudinarySettings:ApiKey => 537949517993566
+    - CloudinarySettings:ApiSecret => c70GtjUgLqu1Ou25suOd9DqN1Nw
+    copy มาจาก appsetting
