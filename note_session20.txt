@@ -12,3 +12,9 @@ doc ในการย้ายจาก dotnet 5 -> 6
 
 จากนั้น run "dotnet restore" เพื่อ check ว่า project เรา up-to-date หรือยัง
     มี hot reload ให้ด้วย นั้นคือเมื่อมีการ change อะไรบางส่วน คุณไม่จำเป็นต้อง rebuilding and re compiling คุณแค่ reload ส่วนเล็กๆใน project
+
+[.Net 6 new features and how to update the project to use them]
+    New hosting model
+    https://docs.microsoft.com/en-us/aspnet/core/migration/50-to-60?view=aspnetcore-6.0&tabs=visual-studio#new-hosting-model
+
+    /obj มันใช้เฉพาะที่ compiler แต่ developer ไม่ได้ใช้อยู่แล้ว เราเลยควรซ้อนเอาไว้

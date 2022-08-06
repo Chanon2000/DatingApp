@@ -7,7 +7,7 @@ namespace API.Entities
     public class AppUser : IdentityUser<int>
     {
         public DateTime DateOfBirth { get; set; }
-        public string KnownAs { get; set; }
+        public string KnownAs { get; set; } // ถ้าเป็น <Nullable>enable</Nullable> มันจะแจ้ง warning ตัวแปรนี้ว่า คุณควรจะใส่ ? ()
         public DateTime Created { get; set; } = DateTime.Now;
         public DateTime LastActive { get; set; } = DateTime.Now;
         public string Gender { get; set; }

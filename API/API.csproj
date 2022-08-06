@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <!-- <Nullable>enable</Nullable> -->
+    <!-- ถ้าเป็น project ให้ของ donet 6 นั้น default มันจะเป็น enable ซึ่งถือว่าไม่จำเป็นต้องเปลี่ยน แต่ครั้งนี้เรา migrate จาก 5 มา 6 นั้นทำให้มันจะขึ้น warning ทั้ง project ซึ่งนั้นทำให้เราต้องไปนั้งใส่ ? ในตัวแปรต่างๆ ซึ่งคุณไม่อยากทำแน่ๆ ก็ไม่จำเป็นต้อง enable -->
   </PropertyGroup>
 
   <ItemGroup>
